@@ -12,31 +12,58 @@
     <a href="cal-simulator.html">CAL Simulator</a>
     <a href="poleand_game.html">Poleand Game</a>
   </div>
+
   <div class="container">
     <h1>Poleand Game</h1>
     <p>Play the game below (may take a moment to load).</p>
-    <div class="widget">
-      <iframe src="poleand_game/index.html" width="800" height="600" frameborder="0" allowfullscreen></iframe>
+    <div class="widget iframe-wrapper">
+      <iframe
+              src="poleand_game/index.html"
+              frameborder="0"
+              allowfullscreen
+      ></iframe>
     </div>
+
   </div>
-  <div class="container">
-    Welcome to Poleand The goal is to eliminate all enemies (purple healthbars)!
 
-    To do this, you have atomic troops, of either positive or negative polarity. Opposite polarities attract, and kill each other. Same polarities ignore each other. You can change polarities of your OWN troops at any time. Each wave increases in difficulty.
+  <div class="poleand-section">
+    <h1>Welcome to <span class="highlight">Poleand</span></h1>
 
-    There are 5 units to pick from, each with its strengths and weaknesses. Some shoot base neutrons which only deal damage, others shoot electrons which also change the polarity of the unit they hit to be the same polarity as them.
+    <p>
+      The goal is to <strong>eliminate all enemies</strong> <em>(purple healthbars)</em>!
+    </p>
 
-    If you run out of money and troops - goodbye, the atoms took over the page and now you have to refresh! See how long you can survive in the gruesome and brutal world of Poleand.
+    <p>
+      You control <strong>atomic troops</strong> with <strong>positive or negative polarity</strong>.
+      <br>Opposites <strong>attract and destroy</strong> each other. Same polarities ignore each other.
+      You can change your troops' polarity <em>anytime</em>. Each wave increases in difficulty.
+    </p>
 
-    Notes: click top-left in the stats screen to close
+    <p>
+      Choose from <strong>5 units</strong>, each with unique strengths.
+      <br>Some shoot <strong>neutrons</strong> (damage only), others fire <strong>electrons</strong>
+      (which also convert enemy polarity to match).
+    </p>
 
-    ====== CREDITS =======
+    <p>
+      If you're out of money and troops… <strong>you're toast</strong>. The atoms take over the page!
+      <br><em>Refresh</em> to restart. How long can you survive in the <strong>brutal world of Poleand</strong>?
+    </p>
 
-    Olgierd Matusiewicz: Lead developer, unit manager, provider of residences, and POLISH PERSON
-    Rohan Nadkarni: UI / frontend designer, codeveloper, consumer of gdscript documentation
-    Qinzhao Li: Lead Artist, codeveloper/backend debugger, Github merge conflict resolver
+    <p class="note">
+      Click the top-left of the stats screen to close it.
+    </p>
 
-    Stepalange font source: https://www.fontspace.com/stepalange-font-f104612
+    <h2 class="credits-title">Credits</h2>
+    <ul class="credits-list">
+      <li><strong>Olgierd Matusiewicz</strong>: Lead developer, unit manager, residence provider, and <em>Polish Person</em></li>
+      <li><strong>Rohan Nadkarni</strong>: UI/frontend designer, co-developer, <em>GDScript doc enjoyer</em></li>
+      <li><strong>Qinzhao Li</strong>: Lead artist, backend debugger, <em>merge conflict resolver</em></li>
+    </ul>
+
+    <p class="credits-font">
+      Font source: <a href="https://www.fontspace.com/stepalange-font-f104612" target="_blank">Stepalange</a>
+    </p>
   </div>
 </body>
 </html>
