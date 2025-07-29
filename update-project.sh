@@ -19,7 +19,7 @@ timestamp() {
   npm install
 
   echo "[$(timestamp)] Building TypeScript..."
-  npx tsc
+  "$BACKEND_DIR/node_modules/.bin/tsc"
 
   echo "[$(timestamp)] Restarting backend with pm2..."
   pm2 restart dist/server.js --name dungewar-backend || pm2 start dist/server.js --name dungewar-backend
