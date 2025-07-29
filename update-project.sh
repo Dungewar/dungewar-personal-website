@@ -1,0 +1,28 @@
+#!/bin/bash
+
+LOG_DIR="/srv/dungewar-personal-website/logs"
+LOG_FILE="$LOG_DIR/pull.log"
+BACKEND_DIR="/srv/dungewar-personal-website/backend"
+
+mkdir -p "$LOG_DIR"
+
+timestamp() {
+  date +"%Y-%m-%d %H:%M:%S"
+}
+
+{
+  echo "[$(timestamp)] Pulling latest changes..."
+  git -C /srv/dungewar-personal-website pull
+
+  echo "[$(timestamp)] Installing backend dependencies..."
+  cd "$BACKEND_DIR" || exit
+  npm install
+
+  echo "[$(timestamp)] Building TypeScript..."
+  npx tsc
+
+  echo "[$(timestamp)] Restarting backend with pm2..."
+  pm2 restart dist/server.js --name dungewar-backend || pm2 start dist/server.js --name dungewar-backend
+
+  echo "[$(timestamp)] Update complete."
+} >> "$LOG_FILE" 2>&1
