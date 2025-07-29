@@ -5,32 +5,28 @@ import { exec } from 'child_process';
 
 const LOG_FILE = path.join(__dirname, '../../logs/webhook.log');
 
-export const webhookHandler = (req: Request, res: Response): void => {
-    const event = req.body?.event;
+export const webhookHandler = (req: Request, res: Response) => {
+    const ref = req.body.ref;
 
-    if (event === 'update_from_git') {
+    if (ref === "refs/heads/website") {
         const timestamp = new Date().toISOString();
         const logPrefix = `[${timestamp}] `;
 
         exec('/srv/dungewar-personal-website/update-project.sh', (err, stdout, stderr) => {
-            const output = logPrefix + (err ? stderr : stdout);
+            const fullOutput = logPrefix + (err ? stderr : stdout);
 
-            try {
-                fs.appendFileSync(LOG_FILE, output + '\n');
-            } catch (logErr) {
-                console.error(`${logPrefix}Failed to write to log:`, logErr);
-            }
+            fs.appendFileSync(LOG_FILE, fullOutput + '\n');
 
             if (err) {
-                console.error(output);
-                res.status(500).send('Webhook failed:\n' + stderr);
-            } else {
-                console.log(output);
-                res.send('Webhook succeeded:\n' + stdout);
+                console.error(fullOutput);
+                return res.status(500).send('Webhook failed:\n' + stderr);
             }
-        });
 
+            console.log(fullOutput);
+            res.send('Webhook succeeded:\n' + stdout);
+        });
     } else {
-        res.status(400).send('Unknown request');
+        console.warn(`[${new Date().toISOString()}] Ignored push to ${ref}`);
+        res.status(200).send("Ignored: not website branch.");
     }
 };
