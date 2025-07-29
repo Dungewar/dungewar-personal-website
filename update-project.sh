@@ -25,4 +25,4 @@ timestamp() {
   pm2 restart dist/server.js --name dungewar-backend || pm2 start dist/server.js --name dungewar-backend
 
   echo "[$(timestamp)] Update complete."
-} >> "$LOG_FILE" 2>&1
+} 2>&1 | tee -a "$LOG_FILE"
