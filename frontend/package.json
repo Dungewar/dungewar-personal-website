@@ -1,0 +1,12 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && npx tsc && rsync -a --exclude='dist/' --exclude='node_modules/' --exclude='tsconfig.json' --exclude='package.json' --exclude='package-lock.json' --exclude='*.ts' ./ ./dist/"
+  },
+  "dependencies": {
+    "tsx": "^4.20.3"
+  },
+  "private": true
+}
