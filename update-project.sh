@@ -11,6 +11,9 @@ timestamp() {
 }
 
 {
+  echo "[$(timestamp)] Stashing changes..."
+  git stash
+
   echo "[$(timestamp)] Pulling latest changes..."
   git -C /srv/dungewar-personal-website pull
 
@@ -18,7 +21,7 @@ timestamp() {
   cd "$BACKEND_DIR" || exit
   npm install
 
-  echo "[$(timestamp)] Building TypeScript..."
+  echo "[$(timestamp)] Building TypeScript (may take a while)..."
   "$BACKEND_DIR/node_modules/.bin/tsc"
 
   echo "[$(timestamp)] Restarting backend with pm2..."

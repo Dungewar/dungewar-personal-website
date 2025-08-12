@@ -1,1 +1,4 @@
-git commit -am "Do something" ; git pull ; git push ; git checkout website && git merge main && git push && git checkout main
+git commit -am "Do something"
+git pull
+git push
+git checkout website && git merge main && git push && git checkout main
