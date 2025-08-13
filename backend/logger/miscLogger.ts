@@ -5,6 +5,7 @@ import os from 'os';
 
 export const miscLogger = (req: Request, res: Response): void => {
     logMessage(`${req.method} ${req.url}`);
+    res.status(200).send('Logged!');
 }
 
 const logDir = path.join(os.homedir(), 'logs');
