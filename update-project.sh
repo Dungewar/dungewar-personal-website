@@ -11,6 +11,8 @@ timestamp() {
 }
 
 {
+  echo "[$(timestamp)] Received request to update website."
+
   echo "[$(timestamp)] Stashing changes..."
   git stash
 
