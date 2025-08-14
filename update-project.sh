@@ -67,6 +67,7 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
 #  echo -e "Subject: Website update!\n\nThe website has been updated, new changes include $(echo "cheese (placeholder)")\nHope to see you while you're sleeping soon!" | msmtp dungewar@gmail.com
   cd "$START_DIR"
   ./send-update-email.sh dungewar@gmail.com "Just testing..."
+  ./send-update-email.sh rohan.nadkarni123@gmail.com "Just testing..."
 
   echo "[$(timestamp)] Update complete."
 }
