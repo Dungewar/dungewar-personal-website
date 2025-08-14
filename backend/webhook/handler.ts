@@ -12,7 +12,7 @@ export const webhookHandler = (req: Request, res: Response) => {
         const timestamp = new Date().toISOString();
         const logPrefix = `[${timestamp}] `;
 
-        exec('/srv/dungewar-personal-website/update-project.sh', (err, stdout, stderr) => {
+        exec('../../update-project.sh', (err, stdout, stderr) => {
             const fullOutput = logPrefix + (err ? stderr : stdout);
 
             try {
