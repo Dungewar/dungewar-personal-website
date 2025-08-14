@@ -31,7 +31,7 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
   echo "[$(timestamp)] Received request to update website."
 
   echo "[$(timestamp)] Stashing changes..."
-  git -C "$REPO" stash push -u -m "auto-update $(date +'%F %T')"
+  git -C "$REPO" stash #push -u -m "auto-update $(date +'%F %T')"
 
   echo "[$(timestamp)] Pulling latest changes..."
   git -C "$REPO" pull --ff-only
