@@ -2,9 +2,11 @@
 # To have it throw errors for undefined variables
 set -u
 
-LOG_DIR="/srv/dungewar-personal-website/logs"
+LOG_DIR="../dungewar-personal-website-data/logs"
 LOG_FILE="$LOG_DIR/pull.log"
-BACKEND_DIR="/srv/dungewar-personal-website/backend"
+BACKEND_DIR="./backend"
+REPO="/srv/dungewar-personal-website"
+START_DIR="$(pwd -P)"
 
 mkdir -p "$LOG_DIR"
 
@@ -12,14 +14,18 @@ timestamp() {
   date +"%Y-%m-%d %H:%M:%S"
 }
 
+failure() {
+  echo -e "Subject: Website ERROR\n\nSomething went wrong while updating the website, check logs bro" | msmtp dungewar@gmail.com
+}
+
 {
   echo "[$(timestamp)] Received request to update website."
 
   echo "[$(timestamp)] Stashing changes..."
-  git stash
+  git -C "$REPO" stash
 
   echo "[$(timestamp)] Pulling latest changes..."
-  git -C /srv/dungewar-personal-website pull
+  git -C "$REPO" pull
 
   echo "[$(timestamp)] Installing backend dependencies..."
   cd "$BACKEND_DIR" || exit
@@ -48,6 +54,11 @@ timestamp() {
       break
     fi
   done
+
+
+#  echo -e "Subject: Website update!\n\nThe website has been updated, new changes include $(echo "cheese (placeholder)")\nHope to see you while you're sleeping soon!" | msmtp dungewar@gmail.com
+  cd "$START_DIR" || exit
+  ./send-update-email.sh dungewar@gmail.com "Just testing..."
 
   echo "[$(timestamp)] Update complete."
 } 2>&1 | tee -a "$LOG_FILE"

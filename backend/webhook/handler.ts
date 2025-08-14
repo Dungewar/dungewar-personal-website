@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { exec } from 'child_process';
 
-const LOG_FILE = path.join(__dirname, '../../logs/webhook.log');
+const LOG_FILE = path.join(__dirname, '../../../dungewar-personal-website-data/logs/webhook.log');
 
 export const webhookHandler = (req: Request, res: Response) => {
     const ref = req.body?.ref;

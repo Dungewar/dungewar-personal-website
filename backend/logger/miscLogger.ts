@@ -8,7 +8,7 @@ export const miscLogger = (req: Request, res: Response): void => {
     res.status(200).send('Logged!');
 }
 
-const logDir = "/srv/dungewar-personal-website/logs";
+const logDir = "../../../dungewar-personal-website-data/logs/";
 const logFile = path.join(logDir, 'logsRoute.log');
 
 // Make sure the logs directory exists
