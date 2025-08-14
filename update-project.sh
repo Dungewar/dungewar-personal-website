@@ -41,7 +41,7 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
   npm install
 
   echo "[$(timestamp)] Building TypeScript (may take a while)..."
-  "$BACKEND_DIR/node_modules/.bin/tsc"
+  "./node_modules/.bin/tsc"
 
   echo "[$(timestamp)] Restarting backend with pm2..."
   APP_NAME="dungewar-backend"
