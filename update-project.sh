@@ -57,8 +57,8 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
     cd "$BACKEND_DIR"
     npm install
 
-    echo "[$(timestamp)] Building TypeScript (may take a while)..."
-    "./node_modules/.bin/tsc"
+#    echo "[$(timestamp)] Building TypeScript (may take a while)..."
+#    "./node_modules/.bin/tsc"
   else
     echo "Skipping backend dependencies and TS building because -l was passed."
   fi
@@ -66,11 +66,15 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
 
   echo "[$(timestamp)] Restarting backend with pm2..."
   APP_NAME="dungewar-backend"
-  SCRIPT_PATH="$BACKEND_DIR/dist/server.js"
+  SCRIPT_PATH="$BACKEND_DIR/dist/server.ts"
 
 
   pm2 restart "$APP_NAME" --update-env >/dev/null 2>&1 \
-    || pm2 start "$SCRIPT_PATH" --name "$APP_NAME" --update-env >/dev/null
+    || pm2 start "$SCRIPT_PATH" \
+      --name "$APP_NAME" \
+      --interpreter ./node_modules/.bin/ts-node \
+      --update-env \
+      >/dev/null
 
   echo "[$(timestamp)] Backend restarted..."
 
