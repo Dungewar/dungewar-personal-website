@@ -20,6 +20,7 @@ REPO="/srv/dungewar-personal-website"
 LOG_DIR="$REPO/../dungewar-personal-website-data/logs"
 LOG_FILE="$LOG_DIR/pull.log"
 BACKEND_DIR="$REPO/backend"
+FRONTEND_DIR="$REPO/frontend"
 START_DIR="$(pwd -P)"
 
 mkdir -p "$LOG_DIR"
@@ -57,8 +58,6 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
     cd "$BACKEND_DIR"
     npm install
 
-#    echo "[$(timestamp)] Building TypeScript (may take a while)..."
-#    "./node_modules/.bin/tsc"
   else
     echo "Skipping backend dependencies and TS building because -l was passed."
   fi
@@ -80,35 +79,7 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
 
   echo "[$(timestamp)] Backend restarted..."
 
-#  # After pm2 (re)start
-#  PORT=3000
-#  MAX_WAIT=120
-#  START=$(date +%s)
-#  NEXT=12  # print every 12s
-#
-#  check_ready() {
-#    curl -fsS --connect-timeout 1 --max-time 2 "http://127.0.0.1:$PORT/health" >/dev/null 2>&1
-#  }
-#
-#  while ! check_ready; do
-#    sleep 1
-#    now=$(date +%s); elapsed=$(( now - START ))
-#
-#    # print catch-up updates at 12s, 24s, 36s, ...
-#    while (( elapsed >= NEXT )); do
-#      echo "[$(timestamp)] waited ${NEXT}s..."
-#      NEXT=$(( NEXT + 12 ))
-#    done
-#
-#    if (( elapsed >= MAX_WAIT )); then
-#      echo "[$(timestamp)] Backend not healthy within ${MAX_WAIT}s."
-#      break
-#    fi
-#  done
 
-
-
-#  echo -e "Subject: Website update!\n\nThe website has been updated, new changes include $(echo "cheese (placeholder)")\nHope to see you while you're sleeping soon!" | msmtp dungewar@gmail.com
   echo "[$(timestamp)] Sending emails..."
   cd "$START_DIR"
   ./send-update-email.sh dungewar@gmail.com "Just testing..."
