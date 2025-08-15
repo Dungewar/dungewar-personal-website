@@ -34,8 +34,9 @@ timestamp() {
 failure() {
   local status="$1" cmd="$2"
   echo "[$(timestamp)] ERROR $status while running: $cmd"
+  echo "Current directory: $(pwd -P)"
   # send alert email (add proper headers if you like)
-  printf 'Subject: Website ERROR\n\nSomething failed: %s (exit %s)\n' "$cmd" "$status" | msmtp dungewar@gmail.com || true
+  printf 'Subject: Website ERROR\n\nSomething failed: %s \n\n(exit %s)' "$cmd" "$status" | msmtp dungewar@gmail.com || true
   exit "$status"
 }
 # Pass failing status + command into failure()
@@ -73,35 +74,36 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
 
   echo "[$(timestamp)] Backend restarted..."
 
-  # After pm2 (re)start
-  PORT=3000
-  MAX_WAIT=120
-  START=$(date +%s)
-  NEXT=12  # print every 12s
-
-  check_ready() {
-    curl -fsS --connect-timeout 1 --max-time 2 "http://127.0.0.1:$PORT/health" >/dev/null 2>&1
-  }
-
-  while ! check_ready; do
-    sleep 1
-    now=$(date +%s); elapsed=$(( now - START ))
-
-    # print catch-up updates at 12s, 24s, 36s, ...
-    while (( elapsed >= NEXT )); do
-      echo "[$(timestamp)] waited ${NEXT}s..."
-      NEXT=$(( NEXT + 12 ))
-    done
-
-    if (( elapsed >= MAX_WAIT )); then
-      echo "[$(timestamp)] Backend not healthy within ${MAX_WAIT}s."
-      break
-    fi
-  done
+#  # After pm2 (re)start
+#  PORT=3000
+#  MAX_WAIT=120
+#  START=$(date +%s)
+#  NEXT=12  # print every 12s
+#
+#  check_ready() {
+#    curl -fsS --connect-timeout 1 --max-time 2 "http://127.0.0.1:$PORT/health" >/dev/null 2>&1
+#  }
+#
+#  while ! check_ready; do
+#    sleep 1
+#    now=$(date +%s); elapsed=$(( now - START ))
+#
+#    # print catch-up updates at 12s, 24s, 36s, ...
+#    while (( elapsed >= NEXT )); do
+#      echo "[$(timestamp)] waited ${NEXT}s..."
+#      NEXT=$(( NEXT + 12 ))
+#    done
+#
+#    if (( elapsed >= MAX_WAIT )); then
+#      echo "[$(timestamp)] Backend not healthy within ${MAX_WAIT}s."
+#      break
+#    fi
+#  done
 
 
 
 #  echo -e "Subject: Website update!\n\nThe website has been updated, new changes include $(echo "cheese (placeholder)")\nHope to see you while you're sleeping soon!" | msmtp dungewar@gmail.com
+  echo "[$(timestamp)] Sending emails..."
   cd "$START_DIR"
   ./send-update-email.sh dungewar@gmail.com "Just testing..."
   ./send-update-email.sh rohan.nadkarni123@gmail.com "Just testing..."
