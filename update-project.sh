@@ -58,6 +58,7 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
     cd "$BACKEND_DIR"
     npm install
 
+    cd "$BACKEND_DIR" && npm i -D ts-node typescript
   else
     echo "Skipping backend dependencies and TS building because -l was passed."
   fi
@@ -70,12 +71,15 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
 
   PM2_BIN="$(command -v pm2)" || { echo "pm2 not found"; exit 1; }
 
-  "$PM2_BIN" restart "$APP_NAME" --update-env >/dev/null 2>&1 \
-    || "$PM2_BIN" start "$SCRIPT_PATH" \
-         --name "$APP_NAME" \
-         --interpreter "$INTERPRETER" \
-         --cwd "$BACKEND_DIR" \
-         --update-env
+#  "$PM2_BIN" restart "$APP_NAME" --update-env >/dev/null 2>&1 || \
+  pm2 delete dungewar-backend
+  "$PM2_BIN" start "$SCRIPT_PATH" \
+       --name "$APP_NAME" \
+       --interpreter "$INTERPRETER" \
+       --cwd "$BACKEND_DIR" \
+       --interpreter-args="--transpile-only --project $BACKEND_DIR/tsconfig.json" \
+       --update-env --time
+  pm2 save
 
   echo "[$(timestamp)] Backend restarted..."
 

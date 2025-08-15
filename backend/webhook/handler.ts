@@ -23,7 +23,7 @@ export const webhookHandler = (req: Request, res: Response) => {
             return res.status(500).send('Webhook failed: Failed to write to log file, but update-website.sh may have still executed');
         }
 
-        exec('../update-project.sh', (err, stdout, stderr) => {
+        exec('/srv/dungewar-personal-website/update-project.sh', (err, stdout, stderr) => {
             if(!err) {
                 fs.appendFileSync(LOG_FILE, logPrefix + "Webhook executed without error");
             }
