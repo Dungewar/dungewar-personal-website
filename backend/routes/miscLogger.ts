@@ -9,7 +9,7 @@ export const miscLogger = (req: Request, res: Response): void => {
 }
 
 const logDir = "/srv/dungewar-personal-website-data/logs/";
-const logFile = path.join(logDir, 'logsRoute.log');
+const logFile = path.join(logDir, 'logs-route.log');
 
 // Make sure the logs directory exists
 if (!fs.existsSync(logDir)) {

@@ -1,5 +1,5 @@
 import express from 'express';
-import { webhookHandler } from './routes/handler';
+import { webhookHandler } from './routes/pullWebhook';
 import {miscLogger} from "./routes/miscLogger";
 
 const app = express();

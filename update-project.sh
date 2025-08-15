@@ -69,11 +69,13 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
   SCRIPT_PATH="$BACKEND_DIR/server.ts"
   INTERPRETER="$BACKEND_DIR/node_modules/.bin/ts-node"
 
-  PM2_BIN="$(command -v pm2)" || { echo "pm2 not found"; exit 1; }
+#  PM2_BIN="$(command -v pm2)" || { echo "pm2 not found"; exit 1; }
 
 #  "$PM2_BIN" restart "$APP_NAME" --update-env >/dev/null 2>&1 || \
+
+
   pm2 delete dungewar-backend || true
-  "$PM2_BIN" start "$SCRIPT_PATH" \
+  pm2 start "$SCRIPT_PATH" \
        --name "$APP_NAME" \
        --interpreter "$INTERPRETER" \
        --cwd "$BACKEND_DIR" \

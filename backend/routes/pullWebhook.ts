@@ -4,7 +4,7 @@ import * as path from 'path';
 import {exec} from 'child_process';
 
 
-const LOG_FILE = path.join(__dirname, '/srv/dungewar-personal-website-data/logs/routes.log');
+const LOG_FILE = '/srv/dungewar-personal-website-data/logs/pull-webhook.log';
 fs.mkdirSync(path.dirname(LOG_FILE), {recursive: true}); // ensure dir exists
 
 export const webhookHandler = (req: Request, res: Response) => {
@@ -29,7 +29,7 @@ export const webhookHandler = (req: Request, res: Response) => {
             }
         });
 
-        return res.status(200).send('Webhook succeeded');
+        return res.status(200).send('Webhook succeeded, website should update in a few minutes');
     } else {
         const warnMsg = `[${new Date().toISOString()}] Ignored push to ${ref}`;
         console.warn(warnMsg);
