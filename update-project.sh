@@ -66,15 +66,14 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
 
   echo "[$(timestamp)] Restarting backend with pm2..."
   APP_NAME="dungewar-backend"
-  SCRIPT_PATH="$BACKEND_DIR/dist/server.ts"
+  SCRIPT_PATH="$BACKEND_DIR/server.ts"
+  INTERPRETER="$BACKEND_DIR/node_modules/.bin/ts-node"
 
-
-  pm2 restart "$APP_NAME" --update-env >/dev/null 2>&1 \
+  pm2 restart "$APP_NAME" --update-env \
     || pm2 start "$SCRIPT_PATH" \
       --name "$APP_NAME" \
-      --interpreter ./node_modules/.bin/ts-node \
-      --update-env \
-      >/dev/null
+      --interpreter "$INTERPRETER" \
+      --update-env
 
   echo "[$(timestamp)] Backend restarted..."
 
