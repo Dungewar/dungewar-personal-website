@@ -1,5 +1,20 @@
 #!/bin/bash
 # To have it throw errors for undefined variables
+SKIP_STUFF=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -l|--light)  # the flag you want
+      SKIP_STUFF=true
+      shift
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+
+
 
 REPO="/srv/dungewar-personal-website"
 LOG_DIR="$REPO/../dungewar-personal-website-data/logs"
@@ -36,12 +51,17 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
   echo "[$(timestamp)] Pulling latest changes..."
   git -C "$REPO" pull --ff-only
 
-  echo "[$(timestamp)] Installing backend dependencies..."
-  cd "$BACKEND_DIR"
-  npm install
+  if ! $SKIP_STUFF; then
+    echo "[$(timestamp)] Installing backend dependencies..."
+    cd "$BACKEND_DIR"
+    npm install
 
-  echo "[$(timestamp)] Building TypeScript (may take a while)..."
-  "./node_modules/.bin/tsc"
+    echo "[$(timestamp)] Building TypeScript (may take a while)..."
+    "./node_modules/.bin/tsc"
+  else
+    echo "Skipping backend dependencies and TS building because -l was passed."
+  fi
+
 
   echo "[$(timestamp)] Restarting backend with pm2..."
   APP_NAME="dungewar-backend"
@@ -57,9 +77,9 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
   STEPS=10       # number of progress updates
   REACHED=1      # next step to announce (1..STEPS)
 
-  while ! pm2 info "$APP_NAME" | grep -qE 'status\s*online'; do
+  while ! pm2 info "$APP_NAME" 2>/dev/null | grep -qE 'status[[:space:]]*online'; do
     sleep 1
-    ((WAITED++))
+    ((WAITED+=1))
 
     # announce when WAITED/MAX_WAIT >= REACHED/STEPS  ->  WAITED*STEPS >= MAX_WAIT*REACHED
     if (( REACHED <= STEPS && WAITED * STEPS >= MAX_WAIT * REACHED )); then
