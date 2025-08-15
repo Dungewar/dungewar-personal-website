@@ -70,6 +70,7 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
   pm2 restart "$APP_NAME" --update-env >/dev/null 2>&1 \
     || pm2 start "$SCRIPT_PATH" --name "$APP_NAME" --update-env >/dev/null
 
+  echo "[$(timestamp)] Backend restarted..."
 
   # Wait until PM2 reports the app as online (with a timeout so we don't hang forever)
   MAX_WAIT=120   # seconds
@@ -80,6 +81,7 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
   while ! pm2 info "$APP_NAME" 2>/dev/null | grep -qE 'status[[:space:]]*online'; do
     sleep 1
     ((WAITED+=1))
+    echo "Waiting... $WAITED"
 
     # announce when WAITED/MAX_WAIT >= REACHED/STEPS  ->  WAITED*STEPS >= MAX_WAIT*REACHED
     if (( REACHED <= STEPS && WAITED >= (MAX_WAIT / STEPS) * REACHED )); then
