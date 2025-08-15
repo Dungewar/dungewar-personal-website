@@ -65,35 +65,40 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
 
   echo "[$(timestamp)] Restarting backend with pm2..."
   APP_NAME="dungewar-backend"
-  SCRIPT_PATH="dist/server.js"
+  SCRIPT_PATH="$BACKEND_DIR/dist/server.js"
+
 
   pm2 restart "$APP_NAME" --update-env >/dev/null 2>&1 \
     || pm2 start "$SCRIPT_PATH" --name "$APP_NAME" --update-env >/dev/null
 
   echo "[$(timestamp)] Backend restarted..."
 
-  # Wait until PM2 reports the app as online (with a timeout so we don't hang forever)
-  MAX_WAIT=120   # seconds
-  WAITED=0
-  STEPS=10       # number of progress updates
-  REACHED=1      # next step to announce (1..STEPS)
+  # After pm2 (re)start
+  PORT=3000
+  MAX_WAIT=120
+  START=$(date +%s)
+  NEXT=12  # print every 12s
 
-  while ! pm2 info "$APP_NAME" 2>/dev/null | grep -qE 'status[[:space:]]*online'; do
+  check_ready() {
+    curl -fsS --connect-timeout 1 --max-time 2 "http://127.0.0.1:$PORT/health" >/dev/null 2>&1
+  }
+
+  while ! check_ready; do
     sleep 1
-    ((WAITED+=1))
-    echo "Waiting... $WAITED"
+    now=$(date +%s); elapsed=$(( now - START ))
 
-    # announce when WAITED/MAX_WAIT >= REACHED/STEPS  ->  WAITED*STEPS >= MAX_WAIT*REACHED
-    if (( REACHED <= STEPS && WAITED >= (MAX_WAIT / STEPS) * REACHED )); then
-      echo "[$(timestamp)] Reached [$REACHED/$STEPS] of max wait"
-      ((REACHED+=1))
-    fi
+    # print catch-up updates at 12s, 24s, 36s, ...
+    while (( elapsed >= NEXT )); do
+      echo "[$(timestamp)] waited ${NEXT}s..."
+      NEXT=$(( NEXT + 12 ))
+    done
 
-    if (( WAITED >= MAX_WAIT )); then
-      echo "[$(timestamp)] PM2 did not report '$APP_NAME' online within ${MAX_WAIT}s."
+    if (( elapsed >= MAX_WAIT )); then
+      echo "[$(timestamp)] Backend not healthy within ${MAX_WAIT}s."
       break
     fi
   done
+
 
 
 #  echo -e "Subject: Website update!\n\nThe website has been updated, new changes include $(echo "cheese (placeholder)")\nHope to see you while you're sleeping soon!" | msmtp dungewar@gmail.com
