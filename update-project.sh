@@ -82,9 +82,9 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
     ((WAITED+=1))
 
     # announce when WAITED/MAX_WAIT >= REACHED/STEPS  ->  WAITED*STEPS >= MAX_WAIT*REACHED
-    if (( REACHED <= STEPS && WAITED * STEPS >= MAX_WAIT * REACHED )); then
+    if (( REACHED <= STEPS && WAITED >= (MAX_WAIT / STEPS) * REACHED )); then
       echo "[$(timestamp)] Reached [$REACHED/$STEPS] of max wait"
-      ((REACHED++))
+      ((REACHED+=1))
     fi
 
     if (( WAITED >= MAX_WAIT )); then
