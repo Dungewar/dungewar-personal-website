@@ -1,6 +1,6 @@
 import express from 'express';
-import { webhookHandler } from './webhook/handler';
-import {miscLogger} from "./logger/miscLogger";
+import { webhookHandler } from './routes/handler';
+import {miscLogger} from "./routes/miscLogger";
 
 const app = express();
 const PORT = 4000;

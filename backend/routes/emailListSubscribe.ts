@@ -4,12 +4,12 @@ import path from 'path';
 import os from 'os';
 
 export const miscLogger = (req: Request, res: Response): void => {
-    logMessage(`${req.method} ${req.url}`);
-    res.status(200).send('Logged!');
+    logMessage(`${req.body}`);
+    res.status(200).send('Added to email list!');
 }
 
-const logDir = "/srv/dungewar-personal-website-data/logs/";
-const logFile = path.join(logDir, 'logsRoute.log');
+const logDir = "/srv/dungewar-personal-website-data/data/";
+const logFile = path.join(logDir, 'updateEmailSubscription.txt');
 
 // Make sure the logs directory exists
 if (!fs.existsSync(logDir)) {
@@ -17,8 +17,8 @@ if (!fs.existsSync(logDir)) {
 }
 
 // Append a log line
-export function logMessage(message: string) {
+function logMessage(message: string) {
     const timestamp = new Date().toISOString();
-    const logLine = `[${timestamp}] ${message}\n`;
+    const logLine = `${timestamp} ${message}\n`;
     fs.appendFileSync(logFile, logLine, 'utf8');
 }

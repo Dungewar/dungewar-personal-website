@@ -60,7 +60,7 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
 
     cd "$BACKEND_DIR" && npm i -D ts-node typescript
   else
-    echo "Skipping backend dependencies and TS building because -l was passed."
+    echo "[$(timestamp)] Skipping backend dependencies and TS building because -l was passed."
   fi
 
 
