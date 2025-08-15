@@ -2,9 +2,9 @@
 # To have it throw errors for undefined variables
 
 REPO="/srv/dungewar-personal-website"
-LOG_DIR=REPO+"../dungewar-personal-website-data/logs"
+LOG_DIR="$REPO/../dungewar-personal-website-data/logs"
 LOG_FILE="$LOG_DIR/pull.log"
-BACKEND_DIR=REPO+"/backend"
+BACKEND_DIR="$REPO/backend"
 START_DIR="$(pwd -P)"
 
 mkdir -p "$LOG_DIR"
