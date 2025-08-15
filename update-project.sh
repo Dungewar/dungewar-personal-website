@@ -52,12 +52,22 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
 
 
   # Wait until PM2 reports the app as online (with a timeout so we don't hang forever)
-  MAX_WAIT=120  # seconds
+  MAX_WAIT=120   # seconds
   WAITED=0
+  STEPS=10       # number of progress updates
+  REACHED=1      # next step to announce (1..STEPS)
+
   while ! pm2 info "$APP_NAME" | grep -qE 'status\s*online'; do
     sleep 1
-    WAITED=$((WAITED+1))
-    if [ "$WAITED" -ge "$MAX_WAIT" ]; then
+    ((WAITED++))
+
+    # announce when WAITED/MAX_WAIT >= REACHED/STEPS  ->  WAITED*STEPS >= MAX_WAIT*REACHED
+    if (( REACHED <= STEPS && WAITED * STEPS >= MAX_WAIT * REACHED )); then
+      echo "[$(timestamp)] Reached [$REACHED/$STEPS] of max wait"
+      ((REACHED++))
+    fi
+
+    if (( WAITED >= MAX_WAIT )); then
       echo "[$(timestamp)] PM2 did not report '$APP_NAME' online within ${MAX_WAIT}s."
       break
     fi
