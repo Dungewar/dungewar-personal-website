@@ -47,13 +47,13 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
 {
   echo "[$(timestamp)] Received request to update website."
 
-  echo "[$(timestamp)] Stashing changes..."
-  git -C "$REPO" stash #push -u -m "auto-update $(date +'%F %T')"
-
-  echo "[$(timestamp)] Pulling latest changes..."
-  git -C "$REPO" pull --ff-only
-
   if ! $SKIP_STUFF; then
+    echo "[$(timestamp)] Stashing changes..."
+    git -C "$REPO" stash #push -u -m "auto-update $(date +'%F %T')"
+
+    echo "[$(timestamp)] Pulling latest changes..."
+    git -C "$REPO" pull --ff-only
+
     echo "[$(timestamp)] Installing backend dependencies..."
     cd "$BACKEND_DIR"
     npm install
@@ -72,7 +72,7 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
   PM2_BIN="$(command -v pm2)" || { echo "pm2 not found"; exit 1; }
 
 #  "$PM2_BIN" restart "$APP_NAME" --update-env >/dev/null 2>&1 || \
-  pm2 delete dungewar-backend
+  pm2 delete dungewar-backend || true
   "$PM2_BIN" start "$SCRIPT_PATH" \
        --name "$APP_NAME" \
        --interpreter "$INTERPRETER" \
@@ -87,7 +87,6 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
   echo "[$(timestamp)] Sending emails..."
   cd "$START_DIR"
   ./send-update-email.sh dungewar@gmail.com "Just testing..."
-  ./send-update-email.sh rohan.nadkarni123@gmail.com "Just testing..."
 
   echo "[$(timestamp)] Update complete."
 }
