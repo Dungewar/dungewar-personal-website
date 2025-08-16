@@ -57,8 +57,11 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
     echo "[$(timestamp)] Installing backend dependencies..."
     cd "$BACKEND_DIR"
     npm install
-
     cd "$BACKEND_DIR" && npm i -D ts-node typescript
+
+    echo "[$(timestamp)] Installing frontend dependencies..."
+    cd "$FRONTEND_DIR"
+    npm install
   else
     echo "[$(timestamp)] Skipping backend dependencies and TS building because -l was passed."
   fi
@@ -74,7 +77,11 @@ trap 'failure "$?" "$BASH_COMMAND"' ERR
 #  "$PM2_BIN" restart "$APP_NAME" --update-env >/dev/null 2>&1 || \
 
 
-  pm2 delete dungewar-backend || true
+  if (pm2 list | grep "$APP_NAME"); then
+    echo "[$(timestamp)] Backend exists, deleting it (to restart - don't worry) Oh and by the way this is almost certainly now how you're meant to do it but like yeah :) ..."
+    pm2 delete "$APP_NAME" || echo "[$(timestamp)] Failed to delete, something terrible happened" && 0
+  fi
+
   pm2 start "$SCRIPT_PATH" \
        --name "$APP_NAME" \
        --interpreter "$INTERPRETER" \

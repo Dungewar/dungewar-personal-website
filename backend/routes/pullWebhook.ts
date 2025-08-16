@@ -17,7 +17,7 @@ export const webhookHandler = (req: Request, res: Response) => {
     if (ref === "refs/heads/website") {
 
         try {
-            fs.appendFileSync(LOG_FILE, logPrefix + "Received routes, running update-website.sh");
+            fs.appendFileSync(LOG_FILE, logPrefix + "Received routes, running update-website.sh\n");
         } catch (writeErr) {
             console.error(`${logPrefix} Failed to write to log file:\n`, writeErr);
             return res.status(500).send('Webhook failed: Failed to write to log file, but update-website.sh may have still executed');
