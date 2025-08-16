@@ -1,6 +1,7 @@
 import express from 'express';
-import { webhookHandler } from './routes/pullWebhook';
+import {webhookHandler} from './routes/pullWebhook';
 import {miscLogger} from "./routes/miscLogger";
+import {emailListSubscribe} from "./routes/emailListSubscribe";
 
 const app = express();
 const PORT = 4000;
@@ -8,6 +9,7 @@ const PORT = 4000;
 app.use(express.json());
 app.post('/api/webhook', webhookHandler);
 app.post('/api/log', miscLogger);
+app.post('/api/email-list-subscribe', emailListSubscribe);
 app.get('/health', (_req, res) => res.send('ok'));
 
 

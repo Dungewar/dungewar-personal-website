@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 
-export const miscLogger = (req: Request, res: Response): void => {
+export const emailListSubscribe = (req: Request, res: Response): void => {
     logMessage(`${req.body}`);
     res.status(200).send('Added to email list!');
 }
