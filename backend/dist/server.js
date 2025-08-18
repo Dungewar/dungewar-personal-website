@@ -16,5 +16,6 @@ app.post('/api/email-list-subscribe', emailListSubscribe_1.emailListSubscribe);
 app.get('/health', (_req, res) => res.send('ok'));
 app.listen(PORT, () => {
     console.log(`Backend listening on http://localhost:${PORT}`);
+    console.log(`Also hello, this is nothing you should worry about :)`);
 });
 //# sourceMappingURL=server.js.map
