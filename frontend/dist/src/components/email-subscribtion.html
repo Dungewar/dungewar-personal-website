@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<!-- Axios + the component script (can be at the end of <body>) -->
+<script src="https://cdn.jsdelivr.net/npm/axios@1/dist/axios.min.js"></script>
+<script>
+  class EmailSubscribe extends HTMLElement {
+    connectedCallback() {
+      const endpoint = this.getAttribute('endpoint') || '/api/email-list-subscribe';
+      this.innerHTML = `
+        <form style="display:flex;gap:.5rem;align-items:start;max-width:420px">
+          <input type="email" name="email" placeholder="you@example.com" required
+                 style="flex:1;padding:.5rem;border:1px solid #ccc;border-radius:.375rem" />
+          <button type="submit" style="padding:.5rem .8rem;border:0;border-radius:.375rem;cursor:pointer">
+            Subscribe
+          </button>
+        </form>
+        <div data-msg style="margin-top:.4rem;font-size:.9rem;"></div>
+      `;
+
+      const form = this.querySelector('form');
+      const input = this.querySelector('input[type="email"]');
+      const btn = this.querySelector('button[type="submit"]');
+      const msg = this.querySelector('[data-msg]');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        // HTML5 validity check (ensures it looks like an email)
+        if (!input.checkValidity()) {
+          input.reportValidity();
+          return;
+        }
+
+        const email = input.value.trim();
+        btn.disabled = true;
+        msg.textContent = 'Submitting…';
+
+        try {
+          const res = await axios.post(endpoint, {email}); // <- sends { email: "..." }
+          msg.textContent = (res.data?.message) || 'Thanks! Check your inbox.';
+          form.reset();
+        } catch (err) {
+          const apiErr = err?.response?.data?.error || err?.message || 'Something went wrong.';
+          msg.textContent = `Error: ${apiErr}`;
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    }
+  }
+
+  customElements.define('email-subscribe', EmailSubscribe);
+</script>
+</body>
+</html>

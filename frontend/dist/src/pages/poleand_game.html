@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Poleand Game</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="icon" type="image/png" href="../favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="../favicon/favicon.svg" />
+  <link rel="shortcut icon" href="../favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+  <link rel="manifest" href="../favicon/site.webmanifest" />
+</head>
+<body>
+  <div class="navbar">
+    <a href="../index.html">Home</a>
+    <a href="minesweeper/minesweeper.html">Minesweeper</a>
+    <a href="cal-simulator.html">CAL Simulator</a>
+    <a href="poleand_game.html">Poleand Game</a>
+  </div>
+
+  <div class="container">
+    <h1>Poleand Game</h1>
+    <p>Play the game below (may take a moment to load).</p>
+    <div class="widget iframe-wrapper">
+      <iframe
+        src="poleand_game/index.html"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+  </div>
+
+  <div class="poleand-section">
+    <h1>Welcome to <span class="highlight">Poleand</span></h1>
+
+    <p>
+      The goal is to <strong>eliminate all enemies</strong> <em>(purple healthbars)</em>!
+    </p>
+
+    <p>
+      You control <strong>atomic troops</strong> with <strong>positive or negative polarity</strong>.
+      <br>Opposites <strong>attract and destroy</strong> each other. Same polarities ignore each other.
+      You can change your troops' polarity <em>anytime</em>. Each wave increases in difficulty.
+    </p>
+
+    <p>
+      Choose from <strong>5 units</strong>, each with unique strengths.
+      <br>Some shoot <strong>neutrons</strong> (damage only), others fire <strong>electrons</strong>
+      (which also convert enemy polarity to match).
+    </p>
+
+    <p>
+      If you're out of money and troops… <strong>you're toast</strong>. The atoms take over the page!
+      <br><em>Refresh</em> to restart. How long can you survive in the <strong>brutal world of Poleand</strong>?
+    </p>
+
+    <p class="note">
+      Click the top-left of the stats screen to close it.
+    </p>
+
+    <h2 class="credits-title">Credits</h2>
+    <ul class="credits-list">
+      <li><strong>Olgierd Matusiewicz</strong>: Lead developer, unit manager, residence provider, and <em>Polish Person</em></li>
+      <li><strong>Rohan Nadkarni</strong>: UI/frontend designer, co-developer, <em>GDScript doc enjoyer</em></li>
+      <li><strong>Qinzhao Li</strong>: Lead artist, backend debugger, <em>merge conflict resolver</em></li>
+    </ul>
+
+    <p class="credits-font">
+      Font source: <a href="https://www.fontspace.com/stepalange-font-f104612" target="_blank">Stepalange</a>
+    </p>
+  </div>
+</body>
+</html>
