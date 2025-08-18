@@ -1,0 +1,5 @@
+{
+  "name": "dungewar-personal-website",
+  "private": true,
+  "workspaces": ["frontend", "backend"]
+}

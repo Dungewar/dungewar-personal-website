@@ -44,58 +44,52 @@ failure() {
 trap 'failure "$?" "$BASH_COMMAND"' ERR
 
 
-{
-  echo "[$(timestamp)] Received request to update website."
 
-  if ! $SKIP_STUFF; then
-    echo "[$(timestamp)] Stashing changes..."
-    git -C "$REPO" stash #push -u -m "auto-update $(date +'%F %T')"
+echo "[$(timestamp)] Received request to update website."
 
-    echo "[$(timestamp)] Pulling latest changes..."
-    git -C "$REPO" pull --ff-only
+if ! $SKIP_STUFF; then
+#    echo "[$(timestamp)] Stashing changes..."
+#    git -C "$REPO" stash #push -u -m "auto-update $(date +'%F %T')"
+#
+#    echo "[$(timestamp)] Pulling latest changes..."
+#    git -C "$REPO" pull --ff-only
 
-    echo "[$(timestamp)] Installing backend dependencies..."
-    cd "$BACKEND_DIR"
-    npm install
-    cd "$BACKEND_DIR" && npm i -D ts-node typescript
+  echo "[$(timestamp)] Installing backend dependencies..."
+  cd "$BACKEND_DIR"
+  npm ci --omit=src
+  # cd "$BACKEND_DIR" && npm i -D ts-node typescript
 
-    echo "[$(timestamp)] Installing frontend dependencies..."
-    cd "$FRONTEND_DIR"
-    npm install
-  else
-    echo "[$(timestamp)] Skipping backend dependencies and TS building because -l was passed."
-  fi
-
-
-  echo "[$(timestamp)] Restarting backend with pm2..."
-  APP_NAME="dungewar-backend"
-  SCRIPT_PATH="$BACKEND_DIR/server.ts"
-  INTERPRETER="$BACKEND_DIR/node_modules/.bin/ts-node"
-
-#  PM2_BIN="$(command -v pm2)" || { echo "pm2 not found"; exit 1; }
-
-#  "$PM2_BIN" restart "$APP_NAME" --update-env >/dev/null 2>&1 || \
+  echo "[$(timestamp)] Skipping frontend install (serving built assets)..."
+#    cd "$FRONTEND_DIR"
+#    npm ci --omit=src
+else
+  echo "[$(timestamp)] Skipping backend dependencies and TS building because -l was passed."
+fi
 
 
-  if (pm2 list | grep "$APP_NAME"); then
-    echo "[$(timestamp)] Backend exists, deleting it (to restart - don't worry) Oh and by the way this is almost certainly now how you're meant to do it but like yeah :) ..."
-    pm2 delete "$APP_NAME" || echo "[$(timestamp)] Failed to delete, something terrible happened" && 1
-  fi
+echo "[$(timestamp)] Restarting backend with pm2..."
+APP_NAME="dungewar-backend"
+SCRIPT_PATH="$BACKEND_DIR/dist/server.js"
 
-  pm2 start "$SCRIPT_PATH" \
-       --name "$APP_NAME" \
-       --interpreter "$INTERPRETER" \
-       --cwd "$BACKEND_DIR" \
-       --interpreter-args="--transpile-only --project $BACKEND_DIR/tsconfig.json" \
-       --update-env --time
-  pm2 save
+# Safer existence check
+if pm2 describe "$APP_NAME" >/dev/null 2>&1; then
+  echo "[$(timestamp)] Backend exists, deleting it to restart…"
+  pm2 delete "$APP_NAME" || true
+fi
 
-  echo "[$(timestamp)] Backend restarted..."
+# Run compiled JS with Node (no ts-node flags)
+pm2 start node --name "$APP_NAME" \
+  --cwd "$BACKEND_DIR" \
+  -- "$SCRIPT_PATH"
+
+pm2 save
 
 
-  echo "[$(timestamp)] Sending emails..."
-  cd "$START_DIR"
-  ./send-update-email.sh dungewar@gmail.com "Just testing..."
+echo "[$(timestamp)] Backend restarted..."
 
-  echo "[$(timestamp)] Update complete."
-}
+
+echo "[$(timestamp)] Sending emails..."
+cd "$START_DIR"
+./send-update-email.sh dungewar@gmail.com "Just testing..."
+
+echo "[$(timestamp)] Update complete."

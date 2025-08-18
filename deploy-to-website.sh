@@ -1,10 +1,32 @@
-echo "Commiting..."
-git commit -am "Do something"
-echo "Pulling from remote..."
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Pulling changes..."
 git pull
-echo "Pushing local changes..."
-git push || (echo "Need to merge" && exit)
-echo "Merging onto website branch..."
-git checkout website && (git merge main || (echo "Website has changes that aren't on main" && exit))
-git push && git checkout main
+
+echo "Installing root deps (workspaces)…"
+npm ci
+
+echo "Building frontend and backend…"
+npm run -w frontend build
+npm run -w backend build   # make sure backend has a build script: "tsc -p backend/tsconfig.json"
+
+echo "Staging build artifacts…"
+git add -A frontend/dist backend/dist
+
+# Avoid failing if no changes
+if ! git diff --cached --quiet; then
+  echo "Committing…"
+  git commit -m "build: update dist"
+  echo "Pushing main…"
+  git push
+else
+  echo "No build changes to commit."
+fi
+
+echo "Sync website branch…"
+git checkout website
+git merge --ff-only main || { echo "Website has changes that aren't on main"; exit 1; }
+git push
+git checkout main
 echo "Done!"
