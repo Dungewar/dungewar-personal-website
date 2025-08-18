@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist",
     "build": "npm run clean && tsc -p . && rsync -a --exclude='node_modules/' --exclude='*.ts' --exclude='*.tsx' ./ ./dist/"
   },

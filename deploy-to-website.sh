@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+echo "Committing everything..."
+git commit -am "Do something" # This is a 1-person project so this is ok
+
 echo "Pulling changes..."
 git pull
 
