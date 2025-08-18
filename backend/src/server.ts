@@ -15,4 +15,5 @@ app.get('/health', (_req, res) => res.send('ok'));
 
 app.listen(PORT, () => {
     console.log(`Backend listening on http://localhost:${PORT}`);
+    console.log(`Also hello, this is nothing you should worry about :)`);
 });
