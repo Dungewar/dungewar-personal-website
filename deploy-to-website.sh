@@ -18,14 +18,14 @@ echo "Staging build artifacts…"
 git add -A frontend/dist backend/dist
 
 # Avoid failing if no changes
-if ! git diff --cached --quiet; then
+#if ! git diff --cached --quiet; then
   echo "Committing…"
   git commit -m "build: update dist"
   echo "Pushing main…"
   git push
-else
-  echo "No build changes to commit."
-fi
+#else
+#  echo "No build changes to commit."
+#fi
 
 echo "Sync website branch…"
 git checkout website
