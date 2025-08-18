@@ -156,7 +156,7 @@ tilemap.onload = () => {
     });
     function drawSprite(sprite, x, y) {
         // console.log("Drawing sprite")
-        ctx === null || ctx === void 0 ? void 0 : ctx.drawImage(sprite.source, sprite.sx * tilemapTileSize, sprite.sy * tilemapTileSize, tilemapTileSize, tilemapTileSize, // source rect
+        ctx?.drawImage(sprite.source, sprite.sx * tilemapTileSize, sprite.sy * tilemapTileSize, tilemapTileSize, tilemapTileSize, // source rect
         x * displayedTileSize + xOffset, y * displayedTileSize + yOffset, displayedTileSize, displayedTileSize // destination rect
         );
     }
@@ -213,3 +213,4 @@ tilemap.onload = () => {
     reloadLevel(20);
     drawBoard();
 };
+//# sourceMappingURL=minesweeper-driver.js.map
