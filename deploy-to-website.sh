@@ -19,15 +19,15 @@ git add -A frontend/dist backend/dist
 
 # Avoid failing if no changes
 #if ! git diff --cached --quiet; then
-  echo "Committing…"
-  git commit -m "build: update dist"
-  echo "Pushing main…"
-  git push
+echo "Committing…"
+git commit -m "build: update dist"
+echo "Pushing main…"
+git push
 #else
 #  echo "No build changes to commit."
 #fi
 
-echo "Sync website branch…"
+echo "Reset remote 'website' to main…"
 #git checkout website
 #git merge --ff-only main || { echo "Website has changes that aren't on main"; exit 1; }
 #git push
