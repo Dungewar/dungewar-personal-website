@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist",
-    "build": "npm run clean && tsc -p . && rsync -a --exclude='node_modules/' --exclude='*.ts' --exclude='*.tsx' ./ ./dist/"
+    "build": "npm run clean && tsc -p ./src && rsync -a --exclude='node_modules/' --exclude='*.ts' --exclude='*.tsx' ./src/ ./dist/"
   },
   "dependencies": {
     "axios": "^1.11.0"
