@@ -71,14 +71,15 @@ echo "[$(timestamp)] Restarting backend with pm2..."
 APP_NAME="dungewar-backend"
 SCRIPT_PATH="$BACKEND_DIR/dist/server.js"
 
+## TODO: have it restart instead of delete srsly
 # Safer existence check
-if pm2 describe "$APP_NAME" >/dev/null 2>&1; then
-  echo "[$(timestamp)] Backend exists, deleting it to restart…"
-  pm2 delete "$APP_NAME" || true
-fi
+#if pm2 describe "$APP_NAME" >/dev/null 2>&1; then
+#  echo "[$(timestamp)] Backend exists, deleting it to restart…"
+#  pm2 delete "$APP_NAME" || true
+#fi
 
 # Run compiled JS with Node (no ts-node flags)
-pm2 start node --name "$APP_NAME" \
+pm2 restart "$APP_NAME" || pm2 start node --name "$APP_NAME" \
   --cwd "$BACKEND_DIR" \
   -- "$SCRIPT_PATH"
 
