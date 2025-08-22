@@ -1,5 +1,5 @@
 const form = document.querySelector<HTMLFormElement>('#email-submit-form');
-import { CONFIG } from "../config/config.ts";
+import { CONFIG } from "../config/config.js";
 
 if (!form) {
   throw new Error("Missing required form.");
