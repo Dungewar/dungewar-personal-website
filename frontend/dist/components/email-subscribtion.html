@@ -1,60 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<!-- Modal -->
+<div class="modal fade" id="emailSubscribeModal" tabindex="-1" aria-labelledby="emailSubscribeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="emailSubscribeLabel" class="modal-title">Sign up for updates</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="emailSubForm">
+                <div class="modal-body">
+                    <input class="form-control" type="email" name="email" placeholder="you@example.com" required>
+                    <div class="form-text">We’ll send occasional updates.</div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+                    <button class="btn btn-primary" type="submit">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-</head>
-<body>
-<!-- Axios + the component script (can be at the end of <body>) -->
-<script src="https://cdn.jsdelivr.net/npm/axios@1/dist/axios.min.js"></script>
 <script>
-  class EmailSubscribe extends HTMLElement {
-    connectedCallback() {
-      const endpoint = this.getAttribute('endpoint') || '/api/email-list-subscribe';
-      this.innerHTML = `
-        <form style="display:flex;gap:.5rem;align-items:start;max-width:420px">
-          <input type="email" name="email" placeholder="you@example.com" required
-                 style="flex:1;padding:.5rem;border:1px solid #ccc;border-radius:.375rem" />
-          <button type="submit" style="padding:.5rem .8rem;border:0;border-radius:.375rem;cursor:pointer">
-            Subscribe
-          </button>
-        </form>
-        <div data-msg style="margin-top:.4rem;font-size:.9rem;"></div>
-      `;
-
-      const form = this.querySelector('form');
-      const input = this.querySelector('input[type="email"]');
-      const btn = this.querySelector('button[type="submit"]');
-      const msg = this.querySelector('[data-msg]');
-
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        // HTML5 validity check (ensures it looks like an email)
-        if (!input.checkValidity()) {
-          input.reportValidity();
-          return;
-        }
-
-        const email = input.value.trim();
-        btn.disabled = true;
-        msg.textContent = 'Submitting…';
-
-        try {
-          const res = await axios.post(endpoint, {email}); // <- sends { email: "..." }
-          msg.textContent = (res.data?.message) || 'Thanks! Check your inbox.';
-          form.reset();
-        } catch (err) {
-          const apiErr = err?.response?.data?.error || err?.message || 'Something went wrong.';
-          msg.textContent = `Error: ${apiErr}`;
-        } finally {
-          btn.disabled = false;
-        }
+  document.addEventListener('submit', async (e) => {
+    if (e.target.id !== 'emailSubForm') return;
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const email = fd.get('email');
+    try {
+      const res = await fetch('/api/email-list-subscribe', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ email })
       });
+      if (!res.ok) throw new Error('Request failed');
+      // Close modal on success
+      const modalEl = document.getElementById('emailSubscribeModal');
+      bootstrap.Modal.getOrCreateInstance(modalEl).hide();
+      alert('Subscribed!'); // swap for a prettier toast later
+    } catch (err) {
+      alert('Sorry, failed to subscribe.');
+      console.error(err);
     }
-  }
-
-  customElements.define('email-subscribe', EmailSubscribe);
+  });
 </script>
-</body>
-</html>

@@ -4,7 +4,7 @@ import path from 'path';
 import os from 'os';
 
 export const emailListSubscribe = (req: Request, res: Response): void => {
-    logMessage(`${req.body}`);
+    logMessage(`${req.body.email}`);
     res.status(200).send('Added to email list!');
 }
 

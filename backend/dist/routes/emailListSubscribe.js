@@ -7,7 +7,8 @@ exports.emailListSubscribe = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const emailListSubscribe = (req, res) => {
-    logMessage(`${req.body}`);
+    res.header('access-control-allow-origin', '*');
+    logMessage(`${req.body.email}`);
     res.status(200).send('Added to email list!');
 };
 exports.emailListSubscribe = emailListSubscribe;
