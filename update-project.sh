@@ -83,6 +83,7 @@ pm2 restart "$APP_NAME" || pm2 start node --name "$APP_NAME" \
   --cwd "$BACKEND_DIR" \
   -- "$SCRIPT_PATH"
 
+echo "Saving server, but this is like idk what this does so delete probably..."
 pm2 save
 
 
