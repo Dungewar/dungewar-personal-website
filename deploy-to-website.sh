@@ -22,7 +22,7 @@ git add -A frontend/dist backend/dist
 echo "Committing…"
 git commit -m "build: update dist" || 0
 echo "Pushing main…"
-git push
+git push || 0
 #else
 #  echo "No build changes to commit."
 #fi
