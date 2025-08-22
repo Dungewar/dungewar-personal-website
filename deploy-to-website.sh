@@ -8,7 +8,7 @@ echo "Pulling changes..."
 git pull
 
 echo "Installing root deps (workspaces)…"
-npm ci
+npm install
 
 echo "Building frontend and backend…"
 npm run -w frontend build
