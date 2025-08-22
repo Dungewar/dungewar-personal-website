@@ -20,7 +20,7 @@ git add -A frontend/dist backend/dist
 # Avoid failing if no changes
 #if ! git diff --cached --quiet; then
 echo "Committing…"
-git commit -m "build: update dist" || 1
+git commit -m "build: update dist" || 0
 echo "Pushing main…"
 git push
 #else
