@@ -7,8 +7,8 @@ git commit -am "Do something" # This is a 1-person project so this is ok
 echo "Pulling changes..."
 git pull
 
-#echo "Installing root deps (workspaces)…"
-#npm ci
+echo "Installing root deps (workspaces)…"
+npm ci
 
 echo "Building frontend and backend…"
 npm run -w frontend build
