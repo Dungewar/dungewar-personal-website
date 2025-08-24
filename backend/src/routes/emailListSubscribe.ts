@@ -13,7 +13,7 @@ if (!fs.existsSync(logDir)) {
 
 export const emailListSubscribe = (req: Request, res: Response): void => {
 
-    const existingEmails = fs.readFileSync(path.join(logDir, 'emailListSubscribe.json'), 'utf8');
+    const existingEmails = fs.readFileSync(path.join(logDir, logFile), 'utf8');
 
     const lines = existingEmails.split("\n");
     for (const line of lines) {
