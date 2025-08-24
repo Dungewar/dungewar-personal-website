@@ -6,13 +6,13 @@ import os from 'os';
 const logDir = "/srv/dungewar-personal-website-data/data/";
 const logFile = path.join(logDir, 'email-subscriptions-updates.txt');
 
-// Make sure the logs directory exists
-if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir, { recursive: true });
-}
 
 export const emailListSubscribe = (req: Request, res: Response): void => {
 
+    if(!fs.existsSync(logFile)) {
+        fs.mkdirSync(logDir, { recursive: true });
+        fs.writeFileSync(logFile, "");
+    }
     const existingEmails = fs.readFileSync(logFile, 'utf8');
 
     const lines = existingEmails.split("\n");
