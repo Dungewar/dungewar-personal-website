@@ -18,7 +18,7 @@ export const emailListSubscribe = (req: Request, res: Response): void => {
     const lines = existingEmails.split("\n");
     for (const line of lines) {
         const parts = line.trim().split(/\s+/);
-        if(parts[1].trim() === req.body.email.trim()) {
+        if(parts.length > 1 && parts[1].trim() === req.body.email.trim()) {
             res.status(201).send('Email address already exists');
             return;
         }
