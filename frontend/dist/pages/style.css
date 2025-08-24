@@ -171,7 +171,7 @@ body {
     font-family: inherit;
 }
 
-#email-submit-form input[type="text"]:focus {
+#email-submit-form input[type="email"]:focus {
     outline: none;
     border-color: #ffb700;
     box-shadow: 0 0 5px rgba(255,183,0,0.6);
@@ -209,7 +209,7 @@ body {
     color: #332200;
 }
 
-button[onclick] {
+.mail-trigger {
     background: #ffb700;
     border: none;
     border-radius: 6px;
@@ -218,7 +218,13 @@ button[onclick] {
     cursor: pointer;
     transition: background 0.2s ease;
 }
-
-button[onclick]:hover {
+.mail-trigger:hover {
     background: #ffd860;
+}
+
+.mail-widget-wrapper {
+    position: fixed;
+    bottom: 20px;   /* distance from bottom */
+    right: 20px;    /* distance from right */
+    z-index: 9999;  /* sit on top of other stuff */
 }

@@ -4,6 +4,7 @@ class MailSignupWidget extends HTMLElement {
     constructor() {
         super();
 
+
         // --- Dialog ---
         const emailSubmitDialog = document.createElement("dialog");
 
@@ -61,9 +62,27 @@ class MailSignupWidget extends HTMLElement {
         // -- Put all pieces inside dialog
         emailSubmitDialog.append(closeButton, emailDialogText, emailForm);
 
-        // -- Finally, put button + dialog in the DOM
-        this.append(mailButton, emailSubmitDialog);
+        // this.append(mailButton, emailSubmitDialog);
 
+        // FOR .CSS
+        emailSubmitDialog.id = "email-submit-dialog";
+
+        mailButton.className = "mail-trigger";
+
+        closeButton.id = "close_btn";
+
+        emailForm.id = "email-submit-form";
+
+        emailInput.id = "email_input"; // optional
+
+        submitButton.id = "submit_btn";
+
+
+        // -- Finally, put button + dialog in the DOM
+        const wrapper = document.createElement("div");
+        wrapper.className = "mail-widget-wrapper";
+        wrapper.append(mailButton, emailSubmitDialog);
+        this.append(wrapper);
     }
 }
 

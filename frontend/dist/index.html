@@ -32,27 +32,8 @@
     </ul>
 </div>
 
-<button onclick="
-
-const dialog = document.querySelector('#email-submit-dialog');
-if(dialog.hasAttribute('open')) dialog.close();
-else dialog.show();
-">
-    Mail
-</button>
-
-<dialog id="email-submit-dialog">
-    <button id="close_btn" onclick="document.querySelector('#email-submit-dialog').close()">X</button>
-    <p>Add your email to our mailing list to get FREE updates whenever the website changes!</p>
-    <form method="post" id="email-submit-form">
-        <label>
-            <input type="email" placeholder="youremail@gmail.com" name="email">
-        </label>
-        <button id="submit_btn" type="submit">OK</button>
-    </form>
-    <script type="module" src="./components/email-thingy.js"></script>
-</dialog>
-
+<script type="module" src="./components/mail-signup-widget.js"></script>
+<mail-signup-widget></mail-signup-widget>
 
 </body>
 </html>
