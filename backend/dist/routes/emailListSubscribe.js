@@ -13,7 +13,7 @@ if (!fs_1.default.existsSync(logDir)) {
     fs_1.default.mkdirSync(logDir, { recursive: true });
 }
 const emailListSubscribe = (req, res) => {
-    const existingEmails = fs_1.default.readFileSync(path_1.default.join(logDir, 'emailListSubscribe.json'), 'utf8');
+    const existingEmails = fs_1.default.readFileSync(path_1.default.join(logDir, logFile), 'utf8');
     const lines = existingEmails.split("\n");
     for (const line of lines) {
         const parts = line.trim().split(/\s+/);
