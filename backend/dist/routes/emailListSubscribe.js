@@ -8,11 +8,11 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const logDir = "/srv/dungewar-personal-website-data/data/";
 const logFile = path_1.default.join(logDir, 'email-subscriptions-updates.txt');
-// Make sure the logs directory exists
-if (!fs_1.default.existsSync(logDir)) {
-    fs_1.default.mkdirSync(logDir, { recursive: true });
-}
 const emailListSubscribe = (req, res) => {
+    if (!fs_1.default.existsSync(logFile)) {
+        fs_1.default.mkdirSync(logDir, { recursive: true });
+        fs_1.default.writeFileSync(logFile, "");
+    }
     const existingEmails = fs_1.default.readFileSync(logFile, 'utf8');
     const lines = existingEmails.split("\n");
     for (const line of lines) {
