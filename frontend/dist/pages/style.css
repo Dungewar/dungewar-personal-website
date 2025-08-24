@@ -134,3 +134,91 @@ body {
   height: 100%;
   border: none;
 }
+
+/* === Email Submit Dialog Styles === */
+#email-submit-dialog {
+    border: none;
+    border-radius: 10px;
+    padding: 20px 30px;
+    background: #fffef9;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    max-width: 400px;
+    width: 90%;
+}
+
+#email-submit-dialog::backdrop {
+    background: rgba(0,0,0,0.4);
+}
+
+#email-submit-dialog p {
+    margin-top: 0;
+    font-size: 1.1em;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+#email-submit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#email-submit-form input[type="text"] {
+    padding: 10px;
+    border: 2px solid #ffd860;
+    border-radius: 6px;
+    font-size: 1em;
+    font-family: inherit;
+}
+
+#email-submit-form input[type="text"]:focus {
+    outline: none;
+    border-color: #ffb700;
+    box-shadow: 0 0 5px rgba(255,183,0,0.6);
+}
+
+#submit_btn {
+    background: linear-gradient(90deg,#ffb700,#ffd860);
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 1em;
+    cursor: pointer;
+    color: #332200;
+    transition: background 0.2s ease;
+}
+
+#submit_btn:hover {
+    background: linear-gradient(90deg,#ffd860,#ffb700);
+}
+
+#close_btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: transparent;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #888;
+    cursor: pointer;
+}
+
+#close_btn:hover {
+    color: #332200;
+}
+
+button[onclick] {
+    background: #ffb700;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+button[onclick]:hover {
+    background: #ffd860;
+}

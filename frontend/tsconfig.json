@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
+    "module": "ES2020",
+    "moduleResolution": "Bundler",
     "outDir": "./dist",
     "rootDir": "./src",
     "esModuleInterop": true,
@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
 //    "allowImportingTsExtensions": true,
-//    "noEmit": true
+    "noEmit": false,
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "node_modules"]

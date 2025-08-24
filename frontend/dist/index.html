@@ -16,8 +16,8 @@
 <body>
 <div class="navbar">
     <a href="index.html">Home</a>
-    <a href="pages/minesweeper/minesweeper/minesweeper.html">NOT Minesweeper</a>
-    <a href="pages/cal-simulator.html">NOT CAL Simulator</a>
+    <a href="pages/minesweeper/minesweeper.html">BAD Minesweeper</a>
+    <a href="pages/cal-simulator.html">NOT CAL Simulator (ever)</a>
     <a href="pages/poleand_game.html">Poleand Game</a>
 </div>
 <div class="container">
@@ -32,28 +32,26 @@
     </ul>
 </div>
 
-<button onclick="document.querySelector('#dialogloll').open = 'open'">
-    Open!
+<button onclick="
+
+const dialog = document.querySelector('#email-submit-dialog');
+if(dialog.hasAttribute('open')) dialog.close();
+else dialog.show();
+">
+    Mail
 </button>
 
-
-<!--  <form action="//localhost:4000/api/email-list-subscribe" method="post" id="formlol">-->
-<!--    <input type="text" name="email" placeholder="example@example.com"></input>-->
-<!--    <button>OK</button>-->
-<!--  </form>-->
-
 <dialog id="email-submit-dialog">
-    <button id="close_btn" onclick="document.querySelector('#email-submit-dialog').open = null">X</button>
-    <p>Greetings, one and all!</p>
+    <button id="close_btn" onclick="document.querySelector('#email-submit-dialog').close()">X</button>
+    <p>Add your email to our mailing list to get FREE updates whenever the website changes!</p>
     <form method="post" id="email-submit-form">
         <label>
-            <input type="text" placeholder="youremail@gmail.com" name="email">
+            <input type="email" placeholder="youremail@gmail.com" name="email">
         </label>
         <button id="submit_btn" type="submit">OK</button>
     </form>
+    <script type="module" src="./components/email-thingy.js"></script>
 </dialog>
-
-<script type="module" src="components/email-thingy.js"></script>
 
 
 </body>
