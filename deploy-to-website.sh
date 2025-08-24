@@ -23,14 +23,8 @@ echo "Committing…"
 git commit -m "build: update dist" || true
 echo "Pushing main…"
 git push
-#else
-#  echo "No build changes to commit."
-#fi
 
 echo "Reset remote 'website' to main…"
-#git checkout website
-#git merge --ff-only main || { echo "Website has changes that aren't on main"; exit 1; }
-#git push
 
 # No need to be soft, there should be no changes on website branch
 git push -f origin main:website
