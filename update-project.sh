@@ -75,9 +75,7 @@ SCRIPT_PATH="$BACKEND_DIR/dist/server.js"
 
 # Run compiled JS with Node (no ts-node flags)
 pm2 restart "$APP_NAME" || (
-pm2 start node --name "$APP_NAME" \
-  --cwd "$BACKEND_DIR" \
-  -- "$SCRIPT_PATH" && \
+pm2 start "$SCRIPT_PATH" --name "$APP_NAME" --cwd "$BACKEND_DIR" && \
   echo "Saving server, but this is like idk what this does so delete probably..." && \
   pm2 save
 ) || (echo "Wasn't able to restart or start server" && false)
