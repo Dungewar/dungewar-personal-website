@@ -1,5 +1,11 @@
 {
   "name": "dungewar-personal-website",
   "private": true,
-  "workspaces": ["frontend", "backend"]
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "dependencies": {
+    "rm": "^0.1.8"
+  }
 }
