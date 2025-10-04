@@ -24,6 +24,7 @@ let xOffset = 0;
 let yOffset = 0;
 let displayedTileSize = 32;
 const canvas = document.getElementById('gameCanvas');
+console.log("Canvas is %d %d", canvas.width, canvas.height);
 let bombsSpawned = false;
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = false;
@@ -111,7 +112,8 @@ function randomInt(min, max) {
 function numNeighbors(x, y) {
     console.assert(inBounds(x, y));
     if (!inBounds(x, y)) {
-        console.log("Fuck assertions");
+        console.assert("I AM GOD!");
+        console.log("Fick assertions");
     }
     // let numNeighbors = board[x][y].bomb ? -1 : 0;
     let numNeighbors = 0;
@@ -124,6 +126,13 @@ function numNeighbors(x, y) {
     return numNeighbors;
 }
 // Important - wait for assets to load
+function lose() {
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[0].length; j++) {
+            board[i][j].revealed = true;
+        }
+    }
+}
 tilemap.onload = () => {
     canvas.addEventListener('click', (event) => {
         const rect = canvas.getBoundingClientRect();
@@ -137,7 +146,8 @@ tilemap.onload = () => {
                 spawnBombs(boardX, boardY, 100);
                 bombsSpawned = true;
             }
-            dig(boardX, boardY);
+            if (dig(boardX, boardY))
+                lose();
         }
         drawBoard();
     });
