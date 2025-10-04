@@ -19,8 +19,8 @@ done
 REPO="/srv/dungewar-personal-website"
 LOG_DIR="$REPO/../dungewar-personal-website-data/logs"
 LOG_FILE="$LOG_DIR/pull.log"
-BACKEND_DIR="$REPO/backend"
-FRONTEND_DIR="$REPO/frontend"
+BACKEND_DIR="$REPO/backend/dist"
+FRONTEND_DIR="$REPO/frontend/dist"
 START_DIR="$(pwd -P)"
 
 mkdir -p "$LOG_DIR"
@@ -68,6 +68,7 @@ fi
 
 
 echo "[$(timestamp)] Restarting backend with pm2..."
+pm2 --version
 APP_NAME="dungewar-backend"
 SCRIPT_PATH="$BACKEND_DIR/dist/server.js"
 
