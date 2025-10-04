@@ -37,7 +37,7 @@ failure() {
   echo "[$(timestamp)] ERROR $status while running: $cmd"
   echo "Current directory: $(pwd -P)"
   # send alert email (add proper headers if you like)
-  printf 'Subject: Website ERROR\n\nSomething failed: %s \n\n(exit %s)' "$cmd" "$status" | msmtp dungewar@gmail.com || true
+  # printf 'Subject: Website ERROR\n\nSomething failed: %s \n\n(exit %s)' "$cmd" "$status" | msmtp dungewar@gmail.com || true
   exit "$status"
 }
 # Pass failing status + command into failure()
