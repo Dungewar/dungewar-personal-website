@@ -70,7 +70,7 @@ fi
 echo "[$(timestamp)] Restarting backend with pm2..."
 pm2 --version
 APP_NAME="dungewar-backend"
-SCRIPT_PATH="$BACKEND_DIR/dist/server.js"
+SCRIPT_PATH="$BACKEND_DIR/server.js"
 
 ## TODO: have it restart instead of delete srsly
 
