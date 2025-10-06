@@ -4,6 +4,7 @@ import {miscLogger} from "./routes/miscLogger";
 import {emailListSubscribe} from "./routes/emailListSubscribe";
 import cors from "cors";
 import {buzzerRinger} from "./routes/ringBuzzer";
+import {logMessage, logMessageFile} from "./helpers/fileHandler";
 
 const app = express();
 const PORT = 4000;
@@ -21,6 +22,5 @@ app.get('/api/health', (_req, res) => {
 
 
 app.listen(PORT, () => {
-    console.log(`Backend listening on http://localhost:${PORT}`);
-    console.log(`Also hello, this is nothing you should worry about :)`);
+    logMessage(`Backend listening on http://localhost:${PORT}`);
 });
