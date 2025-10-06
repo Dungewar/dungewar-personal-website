@@ -15,7 +15,10 @@ app.use((0, cors_1.default)());
 app.post('/api/webhook', pullWebhook_1.webhookHandler);
 app.post('/api/log', miscLogger_1.miscLogger);
 app.post('/api/email-list-subscribe', emailListSubscribe_1.emailListSubscribe);
-app.get('/health', (_req, res) => res.send('ok'));
+app.get('/health', (_req, res) => {
+    console.log("Health check ok");
+    res.send('ok');
+});
 app.listen(PORT, () => {
     console.log(`Backend listening on http://localhost:${PORT}`);
     console.log(`Also hello, this is nothing you should worry about :)`);
