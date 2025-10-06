@@ -2,7 +2,7 @@
 set -euo pipefail
 
 DIST_DIR="dist"
-CSS="$DIST_DIR/pages/blog-files/blog-style.css"
+CSS="$DIST_DIR/styles/dark-style.css"
 NAV_BAR="$DIST_DIR/partials/navbar.html"
 
 # Convert every .md in DIST_DIR to .html (mirrors filename, same folder)
