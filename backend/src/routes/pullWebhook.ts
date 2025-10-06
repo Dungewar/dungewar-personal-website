@@ -12,7 +12,7 @@ export const webhookHandler = (req: Request, res: Response) => {
 
     const timestamp = () => {return new Date().toISOString()};
     const logPrefix = `[${timestamp}] `;
-
+    console.log(`${logPrefix} Received unverified (for now) request to update website`)
 
     if (ref === "refs/heads/website") {
 
