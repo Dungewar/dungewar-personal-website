@@ -8,12 +8,15 @@ const LOG_FILE = "buzzer-rings.log";
 export const buzzerRinger = (req: Request, res: Response): void => {
     logMessageFile(LOG_FILE, "Received request to ring buzzer")
 
-    let duration: number;
+    let duration: number = 25;
     if(!req || !req.body || !req.body.duration) {
         logMessageFile(LOG_FILE, "Request does not specify duration, using 25ms");
-        duration = 25;
     }
-    duration = clamp(req.body.duration, 1, 1000);
+    const hopefullyNumber = parseInt(req.body.duration);
+
+    if(!isNaN(hopefullyNumber)) {
+        duration = clamp(hopefullyNumber, 1, 1000);
+    }
 
     exec(`/srv/iocommands/buzzer.py ${duration}`, (err, stdout, stderr) => {
         if(!err) {
