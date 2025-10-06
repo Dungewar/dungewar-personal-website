@@ -1,20 +1,7 @@
 import { Request, Response } from 'express';
-import fs from 'fs';
-import path from 'path';
-import os from 'os';
+import {logMessageFile} from "../helpers/fileHandler";
 
-const logDir = "/srv/dungewar-personal-website-data/logs/";
-
-const logFile = path.join(logDir, 'logs-route.log');
-// Make sure the logs directory exists
-
-if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir, { recursive: true });
-}
 export const miscLogger = (req: Request, res: Response): void => {
-    const timestamp = new Date().toISOString();
-
-
     const message = JSON.stringify({
         method: req.method,
         url: req.originalUrl,
@@ -23,8 +10,6 @@ export const miscLogger = (req: Request, res: Response): void => {
         body: req.body,
     });
 
-
-    const logLine = `[${timestamp}] ${message}\n`;
-    fs.appendFileSync(logFile, logLine, 'utf8');
+    logMessageFile('logs-route.log', message);
     res.status(200).send('Logged!');
 }
