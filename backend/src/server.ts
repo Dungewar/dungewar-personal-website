@@ -12,7 +12,10 @@ app.use(cors());
 app.post('/api/webhook', webhookHandler);
 app.post('/api/log', miscLogger);
 app.post('/api/email-list-subscribe', emailListSubscribe);
-app.get('/health', (_req, res) => res.send('ok'));
+app.get('/health', (_req, res) => {
+    console.log("Health check ok");
+    res.send('ok');
+});
 
 
 app.listen(PORT, () => {
