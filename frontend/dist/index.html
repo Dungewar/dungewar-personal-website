@@ -22,11 +22,12 @@
     .then(html => document.getElementById('navbar').innerHTML = html);
 </script>
 <script>
-  fetch(`${BASE_URL}/api/ring-buzzer`, {
+  console.log("Trying to buzz...");
+  res = fetch(`https://dungewar.com/api/ring-buzzer`, {
     method: "POST",
     headers: {"content-type": "application/json"},
-    // body: JSON.stringify({email: emailInput.value}),
   });
+  console.log("response I got back: ", res);
 </script>
 <div class="container">
     <h1>Welcome!</h1>
