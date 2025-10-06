@@ -4,8 +4,7 @@ import * as path from 'path';
 import {exec} from 'child_process';
 
 
-const LOG_FILE = '/srv/dungewar-personal-website-data/logs/pull-webhook.log';
-fs.mkdirSync(path.dirname(LOG_FILE), {recursive: true}); // ensure dir exists
+const LOG_FILE = "pull-webhook.log";
 
 export const webhookHandler = (req: Request, res: Response) => {
     const ref = req.body?.ref;
