@@ -8,6 +8,7 @@ const pullWebhook_1 = require("./routes/pullWebhook");
 const miscLogger_1 = require("./routes/miscLogger");
 const emailListSubscribe_1 = require("./routes/emailListSubscribe");
 const cors_1 = __importDefault(require("cors"));
+const ringBuzzer_1 = require("./routes/ringBuzzer");
 const app = (0, express_1.default)();
 const PORT = 4000;
 app.use(express_1.default.json());
@@ -15,7 +16,8 @@ app.use((0, cors_1.default)());
 app.post('/api/webhook', pullWebhook_1.webhookHandler);
 app.post('/api/log', miscLogger_1.miscLogger);
 app.post('/api/email-list-subscribe', emailListSubscribe_1.emailListSubscribe);
-app.get('/health', (_req, res) => {
+app.post("/api/ring-buzzer", ringBuzzer_1.buzzerRinger);
+app.get('/api/health', (_req, res) => {
     console.log("Health check ok");
     res.send('ok');
 });
