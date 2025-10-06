@@ -4,7 +4,7 @@
   <title>Minesweeper</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../../styles/dark-style.css">
 
   <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg" />
@@ -14,12 +14,18 @@
   <link rel="manifest" href="../../favicon/site.webmanifest" />
 </head>
 <body>
-  <div class="navbar">
-    <a href="../../index.html">Home</a>
-    <a href="./minesweeper.html">Minesweeper</a>
-    <a href="../cal-simulator.html">CAL Simulator</a>
-    <a href="../poleand_game.html">Poleand Game</a>
-  </div>
+<!--  <div class="navbar">-->
+<!--    <a href="../../index.html">Home</a>-->
+<!--    <a href="./minesweeper.html">Minesweeper</a>-->
+<!--    <a href="../cal-simulator.html">CAL Simulator</a>-->
+<!--    <a href="../poleand_game.html">Poleand Game</a>-->
+<!--  </div>-->
+    <div id="navbar"></div>
+    <script>
+      fetch('/partials/navbar.html')
+        .then(res => res.text())
+        .then(html => document.getElementById('navbar').innerHTML = html);
+    </script>
   <div class="container">
     <h1>Minesweeper</h1>
     <p>Play the minesweeper game, the <a href="https://dungewar.com">BEST™</a> game on earth.</p>

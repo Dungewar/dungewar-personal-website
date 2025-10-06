@@ -43,6 +43,7 @@ const webhookHandler = (req, res) => {
     const ref = req.body?.ref;
     const timestamp = () => { return new Date().toISOString(); };
     const logPrefix = `[${timestamp}] `;
+    console.log(`${logPrefix} Received unverified (for now) request to update website`);
     if (ref === "refs/heads/website") {
         try {
             fs.appendFileSync(LOG_FILE, logPrefix + "Received routes, running update-website.sh\n");
