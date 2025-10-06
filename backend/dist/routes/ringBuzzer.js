@@ -11,9 +11,11 @@ const buzzerRinger = (req, res) => {
     if (!req || !req.body || !req.body.duration) {
         (0, fileHandler_1.logMessageFile)(LOG_FILE, "Request does not specify duration, using 25ms");
     }
-    const hopefullyNumber = parseInt(req.body.duration);
-    if (!isNaN(hopefullyNumber)) {
-        duration = (0, numberManipulation_1.clamp)(hopefullyNumber, 1, 1000);
+    else {
+        const hopefullyNumber = parseInt(req.body.duration);
+        if (!isNaN(hopefullyNumber)) {
+            duration = (0, numberManipulation_1.clamp)(hopefullyNumber, 1, 1000);
+        }
     }
     (0, child_process_1.exec)(`/srv/iocommands/buzzer.py ${duration}`, (err, stdout, stderr) => {
         if (!err) {

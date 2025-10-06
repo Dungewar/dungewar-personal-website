@@ -17,29 +17,29 @@ const timestamp = () => {
     return new Date().toISOString();
 };
 const logPrefix = () => {
-    `[MSG] [${timestamp}] `;
+    return `[MSG] [${timestamp()}] `;
 };
 const errorPrefix = () => {
-    `[ERR] [${timestamp}] `;
+    return `[ERR] [${timestamp()}] `;
 };
 function logMessageFile(file, msg) {
     const LOG_FILE = path_1.default.join(LOG_DIR, file);
-    msg = `${logPrefix}${msg}\n`;
+    msg = `${logPrefix()}${msg}\n`;
     console.log(msg);
     fs_1.default.appendFileSync(LOG_FILE, msg);
 }
 function logErrorFile(file, msg) {
     const LOG_FILE = path_1.default.join(LOG_DIR, file);
-    msg = `${errorPrefix}${msg}\n`;
+    msg = `${errorPrefix()}${msg}\n`;
     console.error(msg);
     fs_1.default.appendFileSync(LOG_FILE, msg);
 }
 function logMessage(msg) {
-    msg = `${logPrefix}${msg}`;
+    msg = `${logPrefix()}${msg}`;
     console.log(msg);
 }
 function logError(msg) {
-    msg = `${errorPrefix}${msg}`;
+    msg = `${errorPrefix()}${msg}`;
     console.error(msg);
 }
 /**
