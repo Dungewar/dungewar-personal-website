@@ -13,9 +13,15 @@ const path_1 = __importDefault(require("path"));
 const LOG_DIR = '/srv/dungewar-personal-website-data/website-data/logs/';
 const DATA_DIR = '/srv/dungewar-personal-website-data/website-data/data/';
 fs_1.default.mkdirSync(path_1.default.dirname(LOG_DIR), { recursive: true });
-const timestamp = () => { return new Date().toISOString(); };
-const logPrefix = `[MSG] [${timestamp}] `;
-const errorPrefix = `[ERR] [${timestamp}] `;
+const timestamp = () => {
+    return new Date().toISOString();
+};
+const logPrefix = () => {
+    `[MSG] [${timestamp}] `;
+};
+const errorPrefix = () => {
+    `[ERR] [${timestamp}] `;
+};
 function logMessageFile(file, msg) {
     const LOG_FILE = path_1.default.join(LOG_DIR, file);
     msg = `${logPrefix}${msg}\n`;
