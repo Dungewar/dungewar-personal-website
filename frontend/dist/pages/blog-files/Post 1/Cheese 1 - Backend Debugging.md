@@ -1,4 +1,4 @@
-# Post 2025-10-05 - Backend Debugging
+# Cheese 1 (2025-10-05) - Backend Debugging
 Hello there. I just had a very interesting session of ridding my backend of some nasty daemons, and learned quite a lot on the way, so I'll share it here, hopefully you'll find it to be useful or entertaining or smt.
 ## Premise
 I was setting up my backend for dungewar.com on my new Raspberry Pi 5 2GB (not sponsored (yet)) when I encountered an oh-so-familiar issue.

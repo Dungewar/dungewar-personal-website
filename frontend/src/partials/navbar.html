@@ -1,0 +1,49 @@
+<nav class="site-navbar">
+    <div class="site-navbar__inner">
+        <a class="site-navbar__brand" href="/index.html">Home</a>
+
+        <a href="/pages/minesweeper/minesweeper.html">Minesweeper</a>
+        <a href="/pages/cal-simulator.html">CAL Simulator</a>
+        <a href="/pages/poleand_game.html">Poleand Game</a>
+
+        <div class="menu menu--blog">
+            <button class="menu__toggle" aria-haspopup="true" aria-expanded="false">Blog ▾</button>
+            <div class="menu__dropdown" role="menu">
+                <!-- Add your posts here; root-relative paths -->
+                <a role="menuitem" href="/pages/blog-files/Post\ 1/Post\ 1.html">Post 1</a>
+<!--                <a role="menuitem" href="/pages/blog-files/Post\ 1/Post\ 1.html">Post 2</a>-->
+<!--                <a role="menuitem" href="/pages/blog-files/Post\ 1/Post\ 1.html">Post 3</a>-->
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Scoped so it plays nice with simple.css */
+        .site-navbar {
+            margin: 0 0 16px 0;
+            background: linear-gradient(90deg,#ffb700,#ffe066);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .site-navbar__inner{
+            max-width: 1040px; margin: 0 auto; padding: 10px 16px;
+            display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+        }
+        .site-navbar a, .site-navbar .menu__toggle{
+            appearance: none; border: 0; background: transparent; cursor: pointer;
+            color: #332200; font-weight: 700; text-decoration: none; padding: 10px 12px; border-radius: 6px;
+        }
+        .site-navbar a:hover, .site-navbar .menu__toggle:hover { background: rgba(255,255,255,.35); }
+        .menu { position: relative; }
+        .menu__toggle { display: inline-flex; align-items: center; }
+        .menu__dropdown{
+            position: absolute; top: 100%; left: 0; min-width: 220px; z-index: 10;
+            display: none; flex-direction: column; background: #fff; border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,.15); padding: 8px; margin-top: 4px;
+        }
+        .menu__dropdown a{ padding: 8px 10px; border-radius: 6px; }
+        .menu__dropdown a:hover{ background: #fff7cc; }
+        /* Open on hover or focus-within for keyboard users */
+        .menu:hover .menu__dropdown,
+        .menu:focus-within .menu__dropdown{ display: flex; }
+    </style>
+</nav>

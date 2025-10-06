@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Cheese 1 (2025-10-05) - Backend Debugging</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">
+:root {
+
+--sans-font: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir,
+"Nimbus Sans L", Roboto, "Noto Sans", "Segoe UI", Arial, Helvetica,
+"Helvetica Neue", sans-serif;
+--mono-font: Consolas, Menlo, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+--standard-border-radius: 5px;
+--border-width: 1px;
+
+--bg: #fff;
+--accent-bg: #f5f7ff;
+--text: #212121;
+--text-light: #585858;
+--border: #898EA4;
+--accent: #0d47a1;
+--accent-hover: #1266e2;
+--accent-text: var(--bg);
+--code: #d81b60;
+--preformatted: #444;
+--marked: #ffdd33;
+--disabled: #efefef;
+}
+
+@media (prefers-color-scheme: dark) {
+:root {
+color-scheme: dark;
+--bg: #212121;
+--accent-bg: #2b2b2b;
+--text: #dcdcdc;
+--text-light: #ababab;
+--accent: #ffb300;
+--accent-hover: #ffe099;
+--accent-text: var(--bg);
+--code: #f06292;
+--preformatted: #ccc;
+--disabled: #111;
+}
+
+img,
+video {
+opacity: 0.8;
+}
+}
+
+*, *::before, *::after {
+box-sizing: border-box;
+}
+
+textarea,
+select,
+input,
+progress {
+appearance: none;
+-webkit-appearance: none;
+-moz-appearance: none;
+}
+html {
+
+font-family: var(--sans-font);
+scroll-behavior: smooth;
+}
+
+body {
+color: var(--text);
+background-color: var(--bg);
+font-size: 1.15rem;
+line-height: 1.5;
+display: grid;
+grid-template-columns: 1fr min(45rem, 90%) 1fr;
+margin: 0;
+}
+body > * {
+grid-column: 2;
+}
+
+body > header {
+background-color: var(--accent-bg);
+border-bottom: var(--border-width) solid var(--border);
+text-align: center;
+padding: 0 0.5rem 2rem 0.5rem;
+grid-column: 1 / -1;
+}
+body > header > *:only-child {
+margin-block-start: 2rem;
+}
+body > header h1 {
+max-width: 1200px;
+margin: 1rem auto;
+}
+body > header p {
+max-width: 40rem;
+margin: 1rem auto;
+}
+
+main {
+padding-top: 1.5rem;
+}
+body > footer {
+margin-top: 4rem;
+padding: 2rem 1rem 1.5rem 1rem;
+color: var(--text-light);
+font-size: 0.9rem;
+text-align: center;
+border-top: var(--border-width) solid var(--border);
+}
+
+h1 {
+font-size: 3rem;
+}
+h2 {
+font-size: 2.6rem;
+margin-top: 3rem;
+}
+h3 {
+font-size: 2rem;
+margin-top: 3rem;
+}
+h4 {
+font-size: 1.44rem;
+}
+h5 {
+font-size: 1.15rem;
+}
+h6 {
+font-size: 0.96rem;
+}
+p {
+margin: 1.5rem 0;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3 {
+line-height: 1.1;
+}
+
+@media only screen and (max-width: 720px) {
+h1 {
+font-size: 2.5rem;
+}
+h2 {
+font-size: 2.1rem;
+}
+h3 {
+font-size: 1.75rem;
+}
+h4 {
+font-size: 1.25rem;
+}
+}
+
+a,
+a:visited {
+color: var(--accent);
+}
+a:hover {
+text-decoration: none;
+}
+button,
+.button,
+a.button, 
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+border: var(--border-width) solid var(--accent);
+background-color: var(--accent);
+color: var(--accent-text);
+padding: 0.5rem 0.9rem;
+text-decoration: none;
+line-height: normal;
+}
+.button[aria-disabled="true"],
+input:disabled,
+textarea:disabled,
+select:disabled,
+button[disabled] {
+cursor: not-allowed;
+background-color: var(--disabled);
+border-color: var(--disabled);
+color: var(--text-light);
+}
+input[type="range"] {
+padding: 0;
+}
+
+abbr[title] {
+cursor: help;
+text-decoration-line: underline;
+text-decoration-style: dotted;
+}
+button:enabled:hover,
+.button:not([aria-disabled="true"]):hover,
+input[type="submit"]:enabled:hover,
+input[type="reset"]:enabled:hover,
+input[type="button"]:enabled:hover {
+background-color: var(--accent-hover);
+border-color: var(--accent-hover);
+cursor: pointer;
+}
+.button:focus-visible,
+button:focus-visible:where(:enabled),
+input:enabled:focus-visible:where(
+[type="submit"],
+[type="reset"],
+[type="button"]
+) {
+outline: 2px solid var(--accent);
+outline-offset: 1px;
+}
+
+header nav {
+font-size: 1rem;
+line-height: 2;
+padding: 1rem 0 0 0;
+}
+
+header nav ul,
+header nav ol {
+align-content: space-around;
+align-items: center;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+
+header nav ul li,
+header nav ol li {
+display: inline-block;
+}
+header nav a,
+header nav a:visited {
+margin: 0 0.5rem 1rem 0.5rem;
+border: var(--border-width) solid var(--border);
+border-radius: var(--standard-border-radius);
+color: var(--text);
+display: inline-block;
+padding: 0.1rem 1rem;
+text-decoration: none;
+}
+header nav a:hover,
+header nav a.current,
+header nav a[aria-current="page"],
+header nav a[aria-current="true"] {
+background: var(--bg);
+border-color: var(--accent);
+color: var(--accent);
+cursor: pointer;
+}
+
+@media only screen and (max-width: 720px) {
+header nav a {
+border: none;
+padding: 0;
+text-decoration: underline;
+line-height: 1;
+}
+header nav a.current {
+background: none;
+}
+}
+
+aside, details, pre, progress {
+background-color: var(--accent-bg);
+border: var(--border-width) solid var(--border);
+border-radius: var(--standard-border-radius);
+margin-bottom: 1rem;
+}
+aside {
+font-size: 1rem;
+width: 30%;
+padding: 0 15px;
+margin-inline-start: 15px;
+float: right;
+}
+*[dir="rtl"] aside {
+float: left;
+}
+
+@media only screen and (max-width: 720px) {
+aside {
+width: 100%;
+float: none;
+margin-inline-start: 0;
+}
+}
+article, fieldset, dialog {
+border: var(--border-width) solid var(--border);
+padding: 1rem;
+border-radius: var(--standard-border-radius);
+margin-bottom: 1rem;
+}
+article h2:first-child,
+section h2:first-child,
+article h3:first-child,
+section h3:first-child {
+margin-top: 1rem;
+}
+section {
+border-top: var(--border-width) solid var(--border);
+border-bottom: var(--border-width) solid var(--border);
+padding: 2rem 1rem;
+margin: 3rem 0;
+}
+
+section + section,
+section:first-child {
+border-top: 0;
+padding-top: 0;
+}
+section + section {
+margin-top: 0;
+}
+section:last-child {
+border-bottom: 0;
+padding-bottom: 0;
+}
+details {
+padding: 0.7rem 1rem;
+}
+summary {
+cursor: pointer;
+font-weight: bold;
+padding: 0.7rem 1rem;
+margin: -0.7rem -1rem;
+word-break: break-all;
+}
+details[open] > summary + * {
+margin-top: 0;
+}
+details[open] > summary {
+margin-bottom: 0.5rem;
+}
+details[open] > :last-child {
+margin-bottom: 0;
+}
+
+table {
+border-collapse: collapse;
+margin: 1.5rem 0;
+}
+figure > table {
+width: max-content;
+margin: 0;
+}
+td,
+th {
+border: var(--border-width) solid var(--border);
+text-align: start;
+padding: 0.5rem;
+}
+th {
+background-color: var(--accent-bg);
+font-weight: bold;
+}
+tr:nth-child(even) {
+
+background-color: var(--accent-bg);
+}
+table caption {
+font-weight: bold;
+margin-bottom: 0.5rem;
+}
+
+textarea,
+select,
+input,
+button,
+.button {
+font-size: inherit;
+font-family: inherit;
+padding: 0.5em;
+margin-bottom: 0.5rem;
+border-radius: var(--standard-border-radius);
+box-shadow: none;
+max-width: 100%;
+display: inline-block;
+}
+textarea,
+select,
+input {
+color: var(--text);
+background-color: var(--bg);
+border: var(--border-width) solid var(--border);
+}
+label {
+display: block;
+}
+textarea:not([cols]) {
+width: 100%;
+}
+
+select:not([multiple]) {
+background-image: linear-gradient(45deg, transparent 49%, var(--text) 51%),
+linear-gradient(135deg, var(--text) 51%, transparent 49%);
+background-position: calc(100% - 15px), calc(100% - 10px);
+background-size: 5px 5px, 5px 5px;
+background-repeat: no-repeat;
+padding-inline-end: 25px;
+}
+*[dir="rtl"] select:not([multiple]) {
+background-position: 10px, 15px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+vertical-align: middle;
+position: relative;
+width: min-content;
+}
+input[type="checkbox"] + label,
+input[type="radio"] + label {
+display: inline-block;
+}
+input[type="radio"] {
+border-radius: 100%;
+}
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+background-color: var(--accent);
+}
+input[type="checkbox"]:checked::after {
+
+content: " ";
+width: 0.2em;
+height: 0.4em;
+border-radius: 0;
+position: absolute;
+top: 0.04em;
+left: 0.18em;
+background-color: transparent;
+border-right: solid var(--bg) 0.08em;
+border-bottom: solid var(--bg) 0.08em;
+font-size: 1.8em;
+transform: rotate(45deg);
+}
+input[type="radio"]:checked::after {
+
+content: " ";
+width: 0.3em;
+height: 0.3em;
+border-radius: 100%;
+position: absolute;
+top: 0.125em;
+background-color: var(--bg);
+left: 0.125em;
+font-size: 1.8em;
+}
+
+@media only screen and (max-width: 720px) {
+textarea,
+select,
+input {
+width: 100%;
+}
+}
+
+input[type="color"] {
+height: 2.5rem;
+padding: 0.2rem;
+}
+
+input[type="file"] {
+border: 0;
+}
+
+hr {
+border: none;
+height: var(--border-width);
+background: var(--border);
+margin: 1rem auto;
+}
+mark {
+padding: 2px 5px;
+border-radius: var(--standard-border-radius);
+background-color: var(--marked);
+color: black;
+}
+mark a {
+color: #0d47a1;
+}
+img,
+video {
+max-width: 100%;
+height: auto;
+border-radius: var(--standard-border-radius);
+}
+figure {
+margin: 0;
+display: block;
+overflow-x: auto;
+}
+figure > img,
+figure > picture > img {
+display: block;
+margin-inline: auto;
+}
+figcaption {
+position: sticky;
+left: 0;
+text-align: center;
+font-size: 0.9rem;
+color: var(--text-light);
+margin-block: 1rem;
+}
+blockquote {
+margin-inline-start: 2rem;
+margin-inline-end: 0;
+margin-block: 2rem;
+padding: 0.4rem 0.8rem;
+border-inline-start: 0.35rem solid var(--accent);
+color: var(--text-light);
+font-style: italic;
+}
+cite {
+font-size: 0.9rem;
+color: var(--text-light);
+font-style: normal;
+}
+dt {
+color: var(--text-light);
+}
+
+code,
+pre,
+pre span,
+kbd,
+samp {
+font-family: var(--mono-font);
+color: var(--code);
+}
+kbd {
+color: var(--preformatted);
+border: var(--border-width) solid var(--preformatted);
+border-bottom: 3px solid var(--preformatted);
+border-radius: var(--standard-border-radius);
+padding: 0.1rem 0.4rem;
+}
+pre {
+padding: 1rem 1.4rem;
+max-width: 100%;
+overflow: auto;
+color: var(--preformatted);
+}
+
+pre code {
+color: var(--preformatted);
+background: none;
+margin: 0;
+padding: 0;
+}
+
+
+
+progress {
+width: 100%;
+}
+progress:indeterminate {
+background-color: var(--accent-bg);
+}
+progress::-webkit-progress-bar {
+border-radius: var(--standard-border-radius);
+background-color: var(--accent-bg);
+}
+progress::-webkit-progress-value {
+border-radius: var(--standard-border-radius);
+background-color: var(--accent);
+}
+progress::-moz-progress-bar {
+border-radius: var(--standard-border-radius);
+background-color: var(--accent);
+transition-property: width;
+transition-duration: 0.3s;
+}
+progress:indeterminate::-moz-progress-bar {
+background-color: var(--accent-bg);
+}
+dialog {
+background-color: var(--bg);
+max-width: 40rem;
+margin: auto;
+}
+dialog::backdrop {
+background-color: var(--bg);
+opacity: 0.8;
+}
+@media only screen and (max-width: 720px) {
+dialog {
+max-width: calc(100vw - 2rem);
+}
+}
+
+
+sup, sub {
+vertical-align: baseline;
+position: relative;
+}
+sup {
+top: -0.4em;
+}
+sub {
+top: 0.3em;
+}
+
+.notice {
+background: var(--accent-bg);
+border: var(--border-width) solid var(--border);
+border-radius: var(--standard-border-radius);
+padding: 1.5rem;
+margin: 2rem 0;
+}
+div.notice p:first-of-type {
+margin-top: 0;
+}
+div.notice p:last-of-type {
+margin-bottom: 0;
+}
+
+@media print {
+@page {
+margin: 1cm;
+}
+body {
+display: block;
+}
+body > header {
+background-color: unset;
+}
+body > header nav,
+body > footer {
+display: none;
+}
+article {
+border: none;
+padding: 0;
+}
+a[href^="http"]::after {
+content: " <" attr(href) ">";
+}
+abbr[title]:after {
+content: " (" attr(title) ")";
+}
+a {
+text-decoration: none;
+}
+p {
+widows: 3;
+orphans: 3;
+}
+hr {
+border-top: var(--border-width) solid var(--border);
+}
+mark {
+border: var(--border-width) solid var(--border);
+}
+pre, table, figure, img, svg {
+break-inside: avoid;
+}
+pre code {
+white-space: pre-wrap;
+}
+}
+</style>
+</head>
+<body>
+<nav class="site-navbar">
+    <div class="site-navbar__inner">
+        <a class="site-navbar__brand" href="/index.html">Home</a>
+
+        <a href="/minesweeper/minesweeper.html">Minesweeper</a>
+        <a href="/cal-simulator.html">CAL Simulator</a>
+        <a href="/poleand_game.html">Poleand Game</a>
+
+        <div class="menu menu--blog">
+            <button class="menu__toggle" aria-haspopup="true" aria-expanded="false">Blog ▾</button>
+            <div class="menu__dropdown" role="menu">
+                <!-- Add your posts here; root-relative paths -->
+                <a role="menuitem" href="/blog/post-1.html">Post 1</a>
+                <a role="menuitem" href="/blog/post-2.html">Post 2</a>
+                <a role="menuitem" href="/blog/post-3.html">Post 3</a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+
+.site-navbar {
+margin: 0 0 16px 0;
+background: linear-gradient(90deg,#ffb700,#ffe066);
+box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.site-navbar__inner{
+max-width: 1040px; margin: 0 auto; padding: 10px 16px;
+display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+}
+.site-navbar a, .site-navbar .menu__toggle{
+appearance: none; border: 0; background: transparent; cursor: pointer;
+color: #332200; font-weight: 700; text-decoration: none; padding: 10px 12px; border-radius: 6px;
+}
+.site-navbar a:hover, .site-navbar .menu__toggle:hover { background: rgba(255,255,255,.35); }
+.menu { position: relative; }
+.menu__toggle { display: inline-flex; align-items: center; }
+.menu__dropdown{
+position: absolute; top: 100%; left: 0; min-width: 220px; z-index: 10;
+display: none; flex-direction: column; background: #fff; border-radius: 8px;
+box-shadow: 0 8px 24px rgba(0,0,0,.15); padding: 8px; margin-top: 4px;
+}
+.menu__dropdown a{ padding: 8px 10px; border-radius: 6px; }
+.menu__dropdown a:hover{ background: #fff7cc; }
+
+.menu:hover .menu__dropdown,
+.menu:focus-within .menu__dropdown{ display: flex; }
+</style>
+</nav>
+<h1 id="cheese-1-2025-10-05---backend-debugging">Cheese 1 (2025-10-05) -
+Backend Debugging</h1>
+<p>Hello there. I just had a very interesting session of ridding my
+backend of some nasty daemons, and learned quite a lot on the way, so
+I&#39;ll share it here, hopefully you&#39;ll find it to be useful or
+entertaining or smt.</p>
+<h2 id="premise">Premise</h2>
+<p>I was setting up my backend for dungewar.com on my new Raspberry Pi 5
+2GB (not sponsored (yet)) when I encountered an oh-so-familiar
+issue.</p>
+<p>The backend process manager I was running, that being PM2, was having
+a blast restarting my server over and over again. When it happened on my
+old Raspberry Pi V1.2 B+ 512MB from 2015 (&quot;not&quot; sponsored) it ate 100%
+of my CPU which is always fun to work in. Normally, programs crash
+because you did a silly with the code, and it gives an exception or
+error and then PM2 has to restart it. This time however, pm2 logs showed
+no errors! It was starting over and over again for no apparent reason.
+<img src="img.png" alt="img.png" /></p>
+<p>I went on a goose chase thinking something was killing it but no, it
+was just exiting cleanly by itself.</p>
+<p>My code was very barebones, all it did was listen to port 4000 and
+then trigger some handlers. <img src="img_1.png" alt="img_1.png" /></p>
+<p>ChatGPT was telling me to do all sorts of crazy debugging with
+checking individual kernel calls or something, but it was full of crap.
+Then I came up with a hypothesis: if port 4000 was taken by something
+else, then my program failed to listen to port 4000, and so not having
+anything to do, went to sleep like a peaceful baby that I want to
+shoot.</p>
+<p>Sure enough, <code>sudo ss -tupld</code> told me I was right, some
+node daemon was eating up port 4000. I needed to kill it. <img src="img_2.png" alt="img_2.png" /></p>
+<h2 id="daemon-hunting">Daemon Hunting</h2>
+<p>I had experience hunting daemons before. On my Ubuntu laptop, I&#39;ve
+had to kill the CUPS daemon for trying to steal my battery silently, and
+then the complimentary Avahi daemon that came for revenge. For those who
+are confused about what they are, here&#39;s a quick lesson in daemons:</p>
+<h3 id="daemon---your-best-enemy-or-worst-friend">Daemon - your best
+enemy or worst friend</h3>
+<p>Daemons are sneaky little boys. They are system processes that run in
+the background, doing stuff ranging from managing printer queues (CUPS
+daemon) and finding printers on the local network (Avahi) to managing my
+server (like the PM2 daemon). They are the backbone of any (good)
+processing system, without them your computer would only do things in
+the foreground, suffice to say that would be awful. However, sometimes
+they grow restless. They start doing evil things, such as failing to
+find printers over and over again (CUPSd &amp; Avahi daemons) and
+instead of telling you, they keep on doing it. Even worse, your very own
+systemd (system daemon (the biggest one of them all (may lord have mercy
+on us while this one&#39;s alive))) can keep on reviving it as the evil
+daemon is dying to its own unstability.</p>
+<p>How am I meant to kill this thing that keeps on reviving itself? It
+may seem hopeless, but there is a way through.</p>
+<h3 id="sudo---the-hidden-angel"><code>sudo</code> - the hidden
+angel</h3>
+<p><code>sudo</code> is your hidden power against daemons (sorry Windows
+users (it&#39;s difficult to do sudo on Windows)). Standing for
+&#39;<code>su</code>peruser <code>do</code> X&#39;, it&#39;s a call to the heavens,
+for the superuser - that being root (the guy in charge) - to execute any
+command you desire, such as executing a daemon. However, simply running
+<code>sudo systemctl kill 70294</code> (70294 being the process ID of
+the evil server) did not work, as it keeps on getting revived. The
+question now is: who&#39;s reviving it? Turns out there&#39;s an easy way to
+find out.</p>
+<h3 id="the-permament-execution">The permament execution</h3>
+<p><code>systemctl status 70294</code> gave us the culprit. All along,
+it was PM2. <img src="img_3.png" alt="img_3.png" /></p>
+<h2 id="the-betrayal">The betrayal</h2>
+<p>You might ask: how have I not noticed this sooner? Well in my
+defence, <code>pm2 status</code> gave me nothing, just my backend that
+was restarting over and over. This means one of two things:</p>
+<ol type="1">
+<li>PM2 is lying to me (possible, I don&#39;t trust it all that much)</li>
+<li>Another PM2 exists</li>
+</ol>
+<p><code>btop</code> tells me the whole story... <img src="img_5.png" alt="img_5.png" /> There was another PM2. And it wasn&#39;t just any PM2, it
+was the <strong>PM2 God Daemon</strong> running not as dungewar, but as
+<strong>root</strong> (DUN DUN DUUUUN!).</p>
+<p>How is this possible? I never ran <code>sudo pm2</code> to give birth
+to this abomination... <br><br><br><br> at least not explicitly.</p>
+<h2 id="the-mistake">The mistake</h2>
+<p>When initializing the backend of the website, I have a 2 script combo
+<code>update-project.sh</code> and <code>update-project-entry.sh</code>
+that updates from github, redownloads node packages, sends out update
+emails, and importantly... restarts the backend. The script told me that
+some things were not permitted, that it needs root, so I foolishly gave
+it. <img src="img_6.png" alt="img_6.png" /> The likely cause of this is
+that when first setting it up, I ran <code>npm install</code> as root,
+so the <code>package.json</code> and <code>package-lock.json</code> were
+owned by root, so my script needed root to access them. <img src="img_8.png" alt="img_8.png" /></p>
+<p>Within the <code>update-project.sh</code> script, I start PM2.
+Because the whole thing being ran as root, it started PM2 as root, and
+because of that just checking <code>pm2 status</code> did not show
+anything. If I had ran <code>sudo pm2 status</code> it would tell a
+different story, the story of the hidden server that was eating up port
+4000.</p>
+<h2 id="the-solution">The solution</h2>
+<p>The Final Sol- no I mean the Good Proper At The End Of The Thing
+Solution was to unleash sudo upon the root-ran PM2. The thing about root
+is that it can do anything, will kill whoever you want it to, even its
+own spawn. With the help of my good friend <code>btop</code> (check out
+at <a href="http://www.btop.com/dungewar">www.btop.com/dungewar</a> for
+98% off your fist purchase over $10! (that is $(10!))).</p>
+<p>So I ran <code>sudo btop</code>, went to the PM2 God Daemon ran by
+root, and after contemplating over the long hard battle, sent SIGKILL
+<img src="img_7.png" alt="img_7.png" /></p>
+<h2 id="aftermath">Aftermath</h2>
+<p>With SIGTERM, programs have time to accept the signal, shut down
+processes cleanly, then exit on their own accord. SIGKILL is not like
+that. As soon as the kernel sees the SIGKILL, it starts tearing down the
+walls of the root PM2 God Daemon, stoping all its calls, removing its
+system memory, and delocating all the taken threads without as much as a
+single whisper to it. At the end, nothing remains of it. It&#39;s an echo
+long gone, and along with it, its child, the
+<code>sudo node server.js</code> that was occupying port 4000
+disappears.</p>
+<p>&quot;Do not weep for daemons, for weeping requires sadness and eventual
+termination, and for that you need a daemon to keep track of it.&quot;</p>
+</body>
+</html>
