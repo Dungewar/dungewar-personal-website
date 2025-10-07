@@ -19,6 +19,13 @@
     .then(res => res.text())
     .then(html => document.getElementById('navbar').innerHTML = html);
 </script>
+<script>
+  console.log("Trying to buzz...");
+  res = fetch(`https://dungewar.com/api/ring-buzzer`, {
+    method: "POST",
+    headers: {"content-type": "application/json"},
+  });
+</script>
 <div class="container">
     <h1>Welcome!</h1>
     <p>Website made by <b>Olgierd Matusiewicz</b></p>
