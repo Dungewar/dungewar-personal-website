@@ -16,7 +16,7 @@
 <body>
     <div id="navbar"></div>
     <script>
-      fetch('/partials/navbar.html')
+      fetch('/components/navbar.html')
         .then(res => res.text())
         .then(html => document.getElementById('navbar').innerHTML = html);
     </script>

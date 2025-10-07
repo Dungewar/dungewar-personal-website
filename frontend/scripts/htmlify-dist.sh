@@ -3,7 +3,7 @@ set -euo pipefail
 
 DIST_DIR="dist"
 CSS="$DIST_DIR/styles/dark-style.css"
-NAV_BAR="$DIST_DIR/partials/navbar.html"
+NAV_BAR="$DIST_DIR/components/navbar.html"
 
 # Convert every .md in DIST_DIR to .html (mirrors filename, same folder)
 # Safe for spaces/newlines via -print0 / read -d ''.
