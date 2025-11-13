@@ -28,10 +28,10 @@
 
 <script>
   let waitTime = 500;
-  const socket = new WebSocket('wss://dungewar.com/ws');
   connect();
 
   function connect() {
+    var socket = new WebSocket('wss://dungewar.com/ws');
     // When connection opens
     socket.addEventListener('open', () => {
       console.log('connected to server');
