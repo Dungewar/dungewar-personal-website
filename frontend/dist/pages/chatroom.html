@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Chatroom</title>
 
@@ -23,14 +23,14 @@
 
 <h1>Hello</h1>
 <p id="message-box">Work in progress...</p>
-<button onclick="socket.send(JSON.stringify({message: 'button pressed'}))">Reload</button>
+<button onclick="sendSomething('hello')">Reload</button>
 
 <script>
-  let waitTime = 1000;
+  let waitTime = 500;
+  const socket = new WebSocket('wss://dungewar.com/ws');
+  connect();
 
   function connect() {
-    const socket = new WebSocket('wss://dungewar.com/ws');
-
     // When connection opens
     socket.addEventListener('open', () => {
       console.log('connected to server');
@@ -49,19 +49,24 @@
     socket.addEventListener('close', () => {
       waitTime*=2;
       console.log('connection closed, waiting for ', waitTime, 'ms');
-      setTimeout(connect, );
+      setTimeout(connect, waitTime);
     });
 
     // When something goes wrong
     socket.addEventListener('error', (err) => {
       console.error('WebSocket error', err);
+      waitTime*=2;
+      console.log('attempting to reconnect after ', waitTime, 'ms');
+      setTimeout(connect, waitTime);
     });
-
-    // You can send later too:
-    function sendSomething() {
-      if (socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify({type: 'ping', time: Date.now()}));
-      }
+  }
+  // You can send later too:
+  function sendSomething(message) {
+    if (socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({message: message}));
+      console.log("Message sent to websocket: ", message)
+    } else {
+      console.log("Socket not ready yet")
     }
   }
 </script>
