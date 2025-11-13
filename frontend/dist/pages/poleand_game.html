@@ -16,7 +16,7 @@
 <body>
     <div id="navbar"></div>
     <script>
-      fetch('/partials/navbar.html')
+      fetch('/components/navbar.html')
         .then(res => res.text())
         .then(html => document.getElementById('navbar').innerHTML = html);
     </script>
@@ -27,8 +27,6 @@
     <div class="widget iframe-wrapper">
       <iframe
         src="poleand_game/index.html"
-        frameborder="0"
-        allowfullscreen
       ></iframe>
     </div>
 

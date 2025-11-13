@@ -2,34 +2,36 @@ import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import {readFile} from "node:fs";
+import {logErrorFile, logMessageFile, readDataFile} from "../helpers/fileHandler";
 
-const logDir = "/srv/dungewar-personal-website-data/data/";
-const logFile = path.join(logDir, 'email-subscriptions-updates.txt');
-
+const EMAIL_FILE = 'email-subscriptions-updates.txt';
+const LOG_FILE = 'email-list-subscribe.log';
 
 export const emailListSubscribe = (req: Request, res: Response): void => {
 
-    if(!fs.existsSync(logFile)) {
-        fs.mkdirSync(logDir, { recursive: true });
-        fs.writeFileSync(logFile, "");
+
+    if(!req || !req.body || !req.body.email) {
+        logMessageFile(LOG_FILE, `Received malformed email request`);
+        res.status(400).send("Malformed request, missing request, body, or email");
     }
-    const existingEmails = fs.readFileSync(logFile, 'utf8');
+    const email = req.body.email;
+
+    const existingEmails = readDataFile(EMAIL_FILE);
+    logMessageFile(LOG_FILE, "Received request to add email: " + email);
 
     const lines = existingEmails.split("\n");
     for (const line of lines) {
         const parts = line.trim().split(/\s+/);
-        if(parts.length > 1 && parts[1].trim() === req.body.email.trim()) {
+        if(parts.length > 1 && parts[1].trim() === email.trim()) {
+            logMessageFile(LOG_FILE, "Email already exists in file, not saving it");
             res.status(201).send('Email address already exists');
             return;
         }
     }
 
-
-    const timestamp = new Date().toISOString();
-    const logLine = `${timestamp} ${req.body.email} ${req.ip}\n`;
-    fs.appendFileSync(logFile, logLine, 'utf8');
-
-    res.status(200).send('Added to email list!');
+    logMessageFile(LOG_FILE, "Adding new email address: " + email);
+    res.status(200).send(`Added ${email} belonging to ${req.ip} to email list!`);
     return;
 }
 

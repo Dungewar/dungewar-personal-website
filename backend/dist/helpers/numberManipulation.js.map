@@ -1,0 +1,1 @@
+{"version":3,"file":"numberManipulation.js","sourceRoot":"","sources":["../../src/helpers/numberManipulation.ts"],"names":[],"mappings":";;AAAA,sBAMC;AAND,SAAgB,KAAK,CAAC,GAAW,EAAE,GAAW,EAAE,GAAW;IACvD,OAAO,GAAG,IAAI,GAAG;QACb,CAAC,CAAC,GAAG;QACL,CAAC,CAAC,GAAG,IAAI,GAAG;YACR,CAAC,CAAC,GAAG;YACL,CAAC,CAAC,GAAG,CAAA;AACjB,CAAC"}

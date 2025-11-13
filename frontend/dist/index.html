@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Hello Page</title>
+<head id="header">
+    <title>Hello!</title>
 
-<!--    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">-->
     <link rel="stylesheet" href="/styles/dark-style.css">
-
     <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96"/>
     <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg"/>
     <link rel="shortcut icon" href="favicon/favicon.ico"/>
@@ -17,11 +15,17 @@
 
 <div id="navbar"></div>
 <script>
-fetch('/partials/navbar.html')
-  .then(res => res.text())
-  .then(html => document.getElementById('navbar').innerHTML = html);
+  fetch('/components/navbar.html')
+    .then(res => res.text())
+    .then(html => document.getElementById('navbar').innerHTML = html);
 </script>
-
+<script>
+  console.log("Trying to buzz...");
+  res = fetch(`https://dungewar.com/api/ring-buzzer`, {
+    method: "POST",
+    headers: {"content-type": "application/json"},
+  });
+</script>
 <div class="container">
     <h1>Welcome!</h1>
     <p>Website made by <b>Olgierd Matusiewicz</b></p>
