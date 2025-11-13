@@ -11,6 +11,7 @@ const cors_1 = __importDefault(require("cors"));
 const ringBuzzer_1 = require("./routes/ringBuzzer");
 const fileHandler_1 = require("./helpers/fileHandler");
 const ws_1 = require("ws");
+const webSocketCommunication_1 = require("./routes/webSocketCommunication");
 const app = (0, express_1.default)();
 const BACKEND_PORT = 4000;
 const WEBSOCKET_PORT = 8080;
@@ -28,23 +29,5 @@ app.listen(BACKEND_PORT, () => {
     (0, fileHandler_1.logMessage)(`Backend listening on http://localhost:${BACKEND_PORT}`);
 });
 const webSocketServer = new ws_1.WebSocketServer({ port: WEBSOCKET_PORT });
-const webSocketHandler = (socket) => {
-    console.log(`Websocket connection started`);
-    socket.send(JSON.stringify({
-        "message": `Websocket connection started, fick you`
-    }));
-    socket.on('message', (message) => {
-        console.log(`Client says ${message}`);
-        socket.send(JSON.stringify({
-            "messages": `I like cheese`
-        }));
-    });
-    socket.on('error', (err) => {
-        console.error(`Web socket error: ${err}`);
-    });
-    socket.on('close', () => {
-        console.log('Client disconnected');
-    });
-};
-webSocketServer.on('connection', webSocketHandler);
+webSocketServer.on('connection', webSocketCommunication_1.webSocketHandler);
 //# sourceMappingURL=server.js.map

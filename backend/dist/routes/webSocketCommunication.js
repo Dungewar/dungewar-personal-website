@@ -1,0 +1,28 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.webSocketHandler = void 0;
+const fileHandler_1 = require("../helpers/fileHandler");
+const webSocketHandler = (socket) => {
+    console.log(`Websocket connection started`);
+    socket.send(JSON.stringify({
+        "message": `Websocket connection started, fick you`
+    }));
+    socket.on('message', (message) => {
+        console.log(`Client says ${message}`);
+        const parsedMessage = JSON.parse(message.toString());
+        if (parsedMessage.message)
+            (0, fileHandler_1.appendDataFile)("chatroom_messages.txt", parsedMessage.message);
+        const messages = (0, fileHandler_1.readDataFile)("chatroom_messages.txt");
+        socket.send(JSON.stringify({
+            "message": messages
+        }));
+    });
+    socket.on('error', (err) => {
+        console.error(`Web socket error: ${err}`);
+    });
+    socket.on('close', () => {
+        console.log('Client disconnected');
+    });
+};
+exports.webSocketHandler = webSocketHandler;
+//# sourceMappingURL=webSocketCommunication.js.map
