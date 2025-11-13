@@ -4,9 +4,12 @@ exports.webSocketHandler = void 0;
 const fileHandler_1 = require("../helpers/fileHandler");
 const webSocketHandler = (socket) => {
     console.log(`Websocket connection started`);
-    socket.send(JSON.stringify({
-        "message": `Websocket connection started, fick you`
-    }));
+    {
+        const messages = (0, fileHandler_1.readDataFile)("chatroom_messages.txt", 10);
+        socket.send(JSON.stringify({
+            "message": messages
+        }));
+    }
     socket.on('message', (message) => {
         console.log(`Client says ${message.toString()}`);
         try {
