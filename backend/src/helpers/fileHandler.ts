@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 
-const LOG_DIR = '/srv/dungewar-personal-website-data/website-data/logs/';
-const DATA_DIR = '/srv/dungewar-personal-website-data/website-data/data/';
+const LOG_DIR = '/srv/dungewar-personal-website-data/logs/';
+const DATA_DIR = '/srv/dungewar-personal-website-data/data/';
 fs.mkdirSync(path.dirname(LOG_DIR), {recursive: true});
 
 const timestamp = () => {
