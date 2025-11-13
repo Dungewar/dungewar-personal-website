@@ -52,3 +52,14 @@ export function readDataFile(file: string): string {
 
     return fs.readFileSync(DATA_FILE, 'utf8');
 }
+
+/**
+ * Appends message to data file
+ * @param file The file to append to
+ * @param msg The message to add
+ */
+export function appendDataFile(file: string, msg: string): void {
+    const DATA_FILE = path.join(DATA_DIR, file);
+
+    fs.appendFileSync(DATA_FILE, 'msg');
+}

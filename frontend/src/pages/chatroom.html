@@ -22,8 +22,9 @@
 </script>
 
 <h1>Hello</h1>
-<p>Work in progress...</p>
-<button onclick="socket.send('User clicked button')">Reload</button>
+<p id="message-box">Work in progress...</p>
+<button onclick="socket.send(JSON.stringify({message: 'button pressed'}))">Reload</button>
+
 <script>
   const socket = new WebSocket('wss://dungewar.com/ws');
 
@@ -36,6 +37,9 @@
   // When a message comes in
   socket.addEventListener('message', (event) => {
     console.log('message from server:', event.data);
+    event.data = JSON.parse(event.data);
+
+    document.getElementById('message-box').innerHTML = event.data.message;
   });
 
   // When the connection closes

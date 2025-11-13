@@ -5,7 +5,8 @@ import {emailListSubscribe} from "./routes/emailListSubscribe";
 import cors from "cors";
 import {buzzerRinger} from "./routes/ringBuzzer";
 import {logMessage} from "./helpers/fileHandler";
-import WebSocket, {WebSocketServer} from 'ws';
+import {WebSocketServer} from 'ws';
+import {webSocketHandler} from "./routes/webSocketCommunication";
 
 const app = express();
 const BACKEND_PORT = 4000;
@@ -28,25 +29,5 @@ app.listen(BACKEND_PORT, () => {
 
 
 const webSocketServer = new WebSocketServer({port: WEBSOCKET_PORT});
-
-const webSocketHandler = (socket: WebSocket) => {
-    console.log(`Websocket connection started`);
-
-    socket.send(JSON.stringify({
-        "message": `Websocket connection started, fick you`
-    }));
-    socket.on('message', (message) => {
-        console.log(`Client says ${message}`);
-        socket.send(JSON.stringify({
-            "messages": `I like cheese`
-        }));
-    })
-    socket.on('error', (err) => {
-        console.error(`Web socket error: ${err}`);
-    })
-    socket.on('close', () => {
-        console.log('Client disconnected');
-    })
-};
 
 webSocketServer.on('connection', webSocketHandler);
