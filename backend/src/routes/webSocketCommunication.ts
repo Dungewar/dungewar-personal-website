@@ -10,17 +10,21 @@ export const webSocketHandler = (socket: WebSocket) => {
         "message": `Websocket connection started, fick you`
     }));
     socket.on('message', (message) => {
-        console.log(`Client says ${message}`);
-        const parsedMessage = JSON.parse(message.toString());
+        console.log(`Client says ${message.toString()}`);
+        try {
+            const parsedMessage = JSON.parse(message.toString());
 
-        if (parsedMessage.message)
-            appendDataFile("chatroom_messages.txt", parsedMessage.message);
+            if (parsedMessage.message)
+                appendDataFile("chatroom_messages.txt", parsedMessage.message);
 
-        const messages = readDataFile("chatroom_messages.txt");
+            const messages = readDataFile("chatroom_messages.txt");
 
-        socket.send(JSON.stringify({
-            "message": messages
-        }));
+            socket.send(JSON.stringify({
+                "message": messages
+            }));
+        } catch (error) {
+            console.error(error);
+        }
     })
     socket.on('error', (err) => {
         console.error(`Web socket error: ${err}`);
