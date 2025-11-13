@@ -58,6 +58,6 @@ function readDataFile(file) {
  */
 function appendDataFile(file, msg) {
     const DATA_FILE = path_1.default.join(DATA_DIR, file);
-    fs_1.default.appendFileSync(DATA_FILE, 'msg');
+    fs_1.default.appendFileSync(DATA_FILE, msg + "\n");
 }
 //# sourceMappingURL=fileHandler.js.map
