@@ -28,15 +28,23 @@ app.listen(BACKEND_PORT, () => {
     (0, fileHandler_1.logMessage)(`Backend listening on http://localhost:${BACKEND_PORT}`);
 });
 const webSocketServer = new ws_1.WebSocketServer({ port: WEBSOCKET_PORT });
-webSocketServer.on('connection', (socket) => {
+const webSocketHandler = (socket) => {
     console.log(`Websocket connection started`);
     socket.send(JSON.stringify({
-        "message": `Websocket connection started, fick you`,
-        "some_url": socket.url
+        "message": `Websocket connection started, fick you`
     }));
     socket.on('message', (message) => {
         console.log(`Client says ${message}`);
-        socket.send("Gochu fam");
+        socket.send(JSON.stringify({
+            "messages": `I like cheese`
+        }));
     });
-});
+    socket.on('error', (err) => {
+        console.error(`Web socket error: ${err}`);
+    });
+    socket.on('close', () => {
+        console.log('Client disconnected');
+    });
+};
+webSocketServer.on('connection', webSocketHandler);
 //# sourceMappingURL=server.js.map

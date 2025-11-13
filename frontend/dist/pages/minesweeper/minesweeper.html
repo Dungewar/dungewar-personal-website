@@ -4,14 +4,14 @@
     <title>Minesweeper</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles/dark-style.css">
+    <link href="/styles/dark-style.css" rel="stylesheet">
 
-    <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96"/>
-    <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg"/>
-    <link rel="shortcut icon" href="../../favicon/favicon.ico"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png"/>
-    <meta name="apple-mobile-web-app-title" content="MyWebSite"/>
-    <link rel="manifest" href="../../favicon/site.webmanifest"/>
+    <link href="../../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+    <link href="../../favicon/favicon.svg" rel="icon" type="image/svg+xml"/>
+    <link href="../../favicon/favicon.ico" rel="shortcut icon"/>
+    <link href="../../favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+    <meta content="MyWebSite" name="apple-mobile-web-app-title"/>
+    <link href="../../favicon/site.webmanifest" rel="manifest"/>
 </head>
 <body>
 <div id="navbar"></div>
@@ -23,8 +23,8 @@
 <div class="container">
     <h1>Minesweeper</h1>
     <p>Play the minesweeper game, the <a href="https://dungewar.com">BEST™</a> game on earth.</p>
-    <canvas id="gameCanvas" width="1000" height="1000"></canvas>
+    <canvas height="1000" id="gameCanvas" width="1000"></canvas>
 </div>
-<script type="module" src="./minesweeper-driver.js"></script>
+<script src="./minesweeper-driver.js" type="module"></script>
 </body>
 </html>
