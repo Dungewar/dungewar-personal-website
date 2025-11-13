@@ -40,10 +40,11 @@
     // When a message comes in
     socket.addEventListener('message', (event) => {
       console.log('message from server:', event.data);
-      event.data = JSON.parse(event.data);
+      const parsedData = JSON.parse(event.data);
 
-      console.log("Setting element to ", event.data.message);
-      document.getElementById('message-box').innerText = event.data.message;
+      console.log("What is ", parsedData);
+      console.log("Setting element to ", parsedData.message);
+      document.getElementById('message-box').innerText = parsedData.message;
     });
 
     // When the connection closes
