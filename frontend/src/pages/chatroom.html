@@ -29,9 +29,10 @@
 <script>
   let waitTime = 500;
   connect();
+  let socket;
 
   function connect() {
-    var socket = new WebSocket('wss://dungewar.com/ws');
+    socket = new WebSocket('wss://dungewar.com/ws');
     // When connection opens
     socket.addEventListener('open', () => {
       console.log('connected to server');
@@ -40,11 +41,11 @@
 
     // When a message comes in
     socket.addEventListener('message', (event) => {
-      console.log('message from server:', event.data);
+      console.log('Message from server:', event.data);
       const parsedData = JSON.parse(event.data);
 
-      console.log("What is ", parsedData);
-      console.log("Setting element to ", parsedData.message);
+      console.log("Parsed server data: ", parsedData);
+      console.log("Setting element to: ", parsedData.message);
       document.getElementById('message-box').innerText = parsedData.message;
     });
 
@@ -65,7 +66,7 @@
   }
   // You can send later too:
   function sendSomething(message) {
-    if (socket.readyState === WebSocket.OPEN) {
+    if (socket && socket.readyState === WebSocket.OPEN) {
       socket.send(JSON.stringify({message: message}));
       console.log("Message sent to websocket: ", message)
     } else {

@@ -6,9 +6,13 @@ export const webSocketHandler = (socket: WebSocket) => {
 
     console.log(`Websocket connection started`);
 
-    socket.send(JSON.stringify({
-        "message": `Websocket connection started, fick you`
-    }));
+    {
+        const messages = readDataFile("chatroom_messages.txt", 10);
+        socket.send(JSON.stringify({
+            "message": messages
+        }));
+    }
+
     socket.on('message', (message) => {
         console.log(`Client says ${message.toString()}`);
         try {
