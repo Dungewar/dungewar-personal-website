@@ -1,15 +1,15 @@
-import express from 'express';
+import express, {response} from 'express';
 import {webhookHandler} from './routes/pullWebhook';
 import {miscLogger} from "./routes/miscLogger";
 import {emailListSubscribe} from "./routes/emailListSubscribe";
 import cors from "cors";
 import {buzzerRinger} from "./routes/ringBuzzer";
 import {logMessage, logMessageFile} from "./helpers/fileHandler";
-import WebSocket from 'ws';
+import {WebSocketServer} from 'ws';
 
 const app = express();
-const PORT = 4000;
-const webSocket = new WebSocket('ws://localhost:8080');
+const BACKEND_PORT = 4000;
+const WEBSOCKET_PORT = 8080;
 
 app.use(express.json());
 app.use(cors());
@@ -22,26 +22,23 @@ app.get('/api/health', (_req, res) => {
     res.send('ok');
 });
 
-app.listen(PORT, () => {
-    logMessage(`Backend listening on http://localhost:${PORT}`);
+app.listen(BACKEND_PORT, () => {
+    logMessage(`Backend listening on http://localhost:${BACKEND_PORT}`);
 });
 
-webSocket.addEventListener('open', () => {
-    console.log("WebSocket is connected");
 
-    webSocket.send('Hello, server')
-});
+const webSocketServer = new WebSocketServer({port: WEBSOCKET_PORT});
 
-webSocket.addEventListener('message', event => {
-    console.log("Received message: ", event.data);
-});
+webSocketServer.on('connection', (socket) => {
+    console.log(`Websocket connection started`);
 
-// Executes when the connection is closed, providing the close code and reason.
-webSocket.addEventListener('close', event => {
-    console.log('WebSocket connection closed:', event.code, event.reason);
-});
+    socket.send(JSON.stringify({
+        "message": `Websocket connection started, fick you`,
+        "some_url": socket.url
+    }));
 
-// Executes if an error occurs during the WebSocket communication.
-webSocket.addEventListener('error', error => {
-    console.error('WebSocket error:', error);
+    socket.on('message', (message) => {
+        console.log(`Client says ${message}`);
+        socket.send("Gochu fam");
+    })
 });
