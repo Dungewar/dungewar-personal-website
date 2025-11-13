@@ -23,5 +23,37 @@
 
 <h1>Hello</h1>
 <p>Work in progress...</p>
+<button onclick="socket.send('User clicked button')">Reload</button>
+<script>
+  const socket = new WebSocket('wss://dungewar.com/ws');
+
+  // When connection opens
+  socket.addEventListener('open', () => {
+    console.log('connected to server');
+    socket.send('hello from browser');
+  });
+
+  // When a message comes in
+  socket.addEventListener('message', (event) => {
+    console.log('message from server:', event.data);
+  });
+
+  // When the connection closes
+  socket.addEventListener('close', () => {
+    console.log('connection closed');
+  });
+
+  // When something goes wrong
+  socket.addEventListener('error', (err) => {
+    console.error('WebSocket error', err);
+  });
+
+  // You can send later too:
+  function sendSomething() {
+    if (socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ type: 'ping', time: Date.now() }));
+    }
+  }
+</script>
 </body>
 </html>
