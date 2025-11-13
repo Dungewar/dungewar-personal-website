@@ -8,14 +8,19 @@ const webSocketHandler = (socket) => {
         "message": `Websocket connection started, fick you`
     }));
     socket.on('message', (message) => {
-        console.log(`Client says ${message}`);
-        const parsedMessage = JSON.parse(message.toString());
-        if (parsedMessage.message)
-            (0, fileHandler_1.appendDataFile)("chatroom_messages.txt", parsedMessage.message);
-        const messages = (0, fileHandler_1.readDataFile)("chatroom_messages.txt");
-        socket.send(JSON.stringify({
-            "message": messages
-        }));
+        console.log(`Client says ${message.toString()}`);
+        try {
+            const parsedMessage = JSON.parse(message.toString());
+            if (parsedMessage.message)
+                (0, fileHandler_1.appendDataFile)("chatroom_messages.txt", parsedMessage.message);
+            const messages = (0, fileHandler_1.readDataFile)("chatroom_messages.txt");
+            socket.send(JSON.stringify({
+                "message": messages
+            }));
+        }
+        catch (error) {
+            console.error(error);
+        }
     });
     socket.on('error', (err) => {
         console.error(`Web socket error: ${err}`);
