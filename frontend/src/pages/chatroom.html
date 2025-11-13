@@ -21,7 +21,7 @@
     .then(html => document.getElementById('navbar').innerHTML = html);
 </script>
 
-<h1>TALK ROOM THE CHEESE GOD</h1>
+<h1>TALK ROOM</h1>
 <p id="message-box">Work in progress...</p>
 <label for="input-box">Type message in here!</label><textarea id="input-box"></textarea>
 <button onclick="
@@ -32,7 +32,7 @@ inputBox.value = '';
 </button>
 
 <script>
-  let waitTime = 500;
+  let waitTime = 1000;
   let socket = null;
   connect();
 
@@ -56,7 +56,6 @@ inputBox.value = '';
 
     // When the connection closes
     socket.addEventListener('close', () => {
-      waitTime *= 2;
       console.log('connection closed, waiting for ', waitTime, 'ms');
       setTimeout(connect, waitTime);
     });
@@ -64,7 +63,6 @@ inputBox.value = '';
     // When something goes wrong
     socket.addEventListener('error', (err) => {
       console.error('WebSocket error', err);
-      waitTime *= 2;
       console.log('attempting to reconnect after ', waitTime, 'ms');
       setTimeout(connect, waitTime);
     });

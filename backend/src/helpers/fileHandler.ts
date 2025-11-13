@@ -51,6 +51,7 @@ export function logError(msg: string) {
 export function readDataFile(file: string, lines?: number): string {
     const DATA_FILE = path.join(DATA_DIR, file);
     const contents = fs.readFileSync(DATA_FILE, 'utf8');
+
     if(lines) {
         const value = contents.split("\n");
         return value.slice(-lines).join("\n");
