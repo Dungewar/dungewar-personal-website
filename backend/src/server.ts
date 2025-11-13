@@ -5,6 +5,7 @@ import {emailListSubscribe} from "./routes/emailListSubscribe";
 import cors from "cors";
 import {buzzerRinger} from "./routes/ringBuzzer";
 import {logMessage, logMessageFile} from "./helpers/fileHandler";
+import WebSocket from 'ws';
 
 const app = express();
 const PORT = 4000;
