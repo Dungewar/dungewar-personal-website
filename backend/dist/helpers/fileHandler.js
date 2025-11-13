@@ -11,8 +11,8 @@ exports.readDataFile = readDataFile;
 exports.appendDataFile = appendDataFile;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const LOG_DIR = '/srv/dungewar-personal-website-data/website-data/logs/';
-const DATA_DIR = '/srv/dungewar-personal-website-data/website-data/data/';
+const LOG_DIR = '/srv/dungewar-personal-website-data/logs/';
+const DATA_DIR = '/srv/dungewar-personal-website-data/data/';
 fs_1.default.mkdirSync(path_1.default.dirname(LOG_DIR), { recursive: true });
 const timestamp = () => {
     return new Date().toISOString();
