@@ -61,5 +61,5 @@ export function readDataFile(file: string): string {
 export function appendDataFile(file: string, msg: string): void {
     const DATA_FILE = path.join(DATA_DIR, file);
 
-    fs.appendFileSync(DATA_FILE, 'msg');
+    fs.appendFileSync(DATA_FILE, msg + "\n");
 }
