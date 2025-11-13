@@ -10,9 +10,14 @@
     "strict": true,
     "skipLibCheck": true,
     "sourceMap": true,
-//    "allowImportingTsExtensions": true,
-    "noEmit": false,
+    //    "allowImportingTsExtensions": true,
+    "noEmit": false
   },
-  "include": ["src/**/*"],
-  "exclude": ["dist", "node_modules"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }

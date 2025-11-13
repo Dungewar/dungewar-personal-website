@@ -1,15 +1,15 @@
 /* =========================
    Base + Palette
    ========================= */
-:root{
+:root {
     --bg: #fffdf5;
     --panel: #ffffff;
     --text: #332200;
     --muted: #6b5a33;
     --link: #336699;
     --link-hover: #254c73;
-    --shadow: 0 0 10px rgba(0,0,0,0.1);
-    --shadow-strong: 0 0 10px rgba(0,0,0,0.2);
+    --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    --shadow-strong: 0 0 10px rgba(0, 0, 0, 0.2);
     --radius: 8px;
 
     /* Yellows: made the light stop more vibrant */
@@ -22,11 +22,15 @@
 
 *,
 *::before,
-*::after { box-sizing: border-box; }
+*::after {
+    box-sizing: border-box;
+}
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+    -webkit-text-size-adjust: 100%;
+}
 
-body{
+body {
     font-family: 'Roboto', system-ui, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
     background-color: var(--bg);
@@ -37,41 +41,72 @@ body{
 }
 
 /* Links */
-a{
+a {
     color: var(--link);
     text-decoration: underline;
     text-underline-offset: 2px;
 }
-a:hover{ color: var(--link-hover); }
+
+a:hover {
+    color: var(--link-hover);
+}
 
 /* Headings spacing/scale (Simple.css-esque) */
-h1,h2,h3,h4,h5,h6{
+h1, h2, h3, h4, h5, h6 {
     line-height: 1.25;
     margin: 1.2em 0 0.5em;
 }
-h1{ font-size: 2rem; }
-h2{ font-size: 1.6rem; }
-h3{ font-size: 1.3rem; }
-h4{ font-size: 1.15rem; }
-h5,h6{ font-size: 1rem; }
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.6rem;
+}
+
+h3 {
+    font-size: 1.3rem;
+}
+
+h4 {
+    font-size: 1.15rem;
+}
+
+h5, h6 {
+    font-size: 1rem;
+}
 
 /* Paragraphs & lists */
-p{ margin: 0.9em 0; }
-ul,ol{ padding-left: 1.4em; margin: 0.9em 0; }
-li + li{ margin-top: 0.2em; }
+p {
+    margin: 0.9em 0;
+}
+
+ul, ol {
+    padding-left: 1.4em;
+    margin: 0.9em 0;
+}
+
+li + li {
+    margin-top: 0.2em;
+}
 
 /* Media should never overflow the column */
-img, video, iframe, canvas, svg{ max-width: 100%; height: auto; }
+img, video, iframe, canvas, svg {
+    max-width: 100%;
+    height: auto;
+}
 
 /* Code + pre */
-code, kbd, samp{
+code, kbd, samp {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Roboto Mono", monospace;
     font-size: 0.95em;
-    background: rgba(255,224,102,0.25);
+    background: rgba(255, 224, 102, 0.25);
     padding: 0.1em 0.35em;
     border-radius: 4px;
 }
-pre{
+
+pre {
     background: #fffef7;
     border: 1px solid #f2e7a6;
     border-radius: var(--radius);
@@ -79,10 +114,14 @@ pre{
     overflow: auto;
     box-shadow: var(--shadow);
 }
-pre > code{ background: transparent; padding: 0; }
+
+pre > code {
+    background: transparent;
+    padding: 0;
+}
 
 /* Blockquotes */
-blockquote{
+blockquote {
     margin: 1em 0;
     padding: 0.6em 1em;
     background: #fff9e3;
@@ -91,7 +130,7 @@ blockquote{
 }
 
 /* Tables */
-table{
+table {
     width: 100%;
     border-collapse: collapse;
     margin: 1em 0;
@@ -100,24 +139,29 @@ table{
     border-radius: var(--radius);
     overflow: hidden;
 }
-th, td{
+
+th, td {
     border-bottom: 1px solid #eee7bf;
     padding: 10px 12px;
     text-align: left;
 }
-thead th{
+
+thead th {
     background: linear-gradient(90deg, var(--yellow), var(--yellow-light));
     color: #3a2a00;
     font-weight: 700;
 }
-tbody tr:hover{ background: #fffbe3; }
+
+tbody tr:hover {
+    background: #fffbe3;
+}
 
 /* =========================
    Layout
    ========================= */
 
 /* Navbar: full-bleed strip */
-.navbar{
+.navbar {
     background: linear-gradient(90deg, var(--yellow), var(--yellow-light));
     margin: -40px -20px 20px; /* pull to page edges but keep page padding elsewhere */
     padding: 0;
@@ -125,34 +169,36 @@ tbody tr:hover{ background: #fffbe3; }
     flex-wrap: wrap;
     box-shadow: var(--shadow);
 }
-.navbar a{
+
+.navbar a {
     padding: 15px 20px;
     color: var(--text);
     text-decoration: none;
     font-weight: 700;
 }
-.navbar a:hover{
+
+.navbar a:hover {
     background-color: var(--yellow-light);
 }
 
 /* Main content wrapper like Simple.css's <main> */
-.container{
+.container {
     max-width: 1040px;
     width: 100%;
-    margin: 0 auto;              /* centered column */
-    padding: 40px 60px;          /* inner whitespace */
+    margin: 0 auto; /* centered column */
+    padding: 40px 60px; /* inner whitespace */
     background: var(--panel);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
 }
 
 /* Prevent unexpected horizontal scroll from wide content */
-.container, body{
+.container, body {
     overflow-x: hidden;
 }
 
 /* Widgets */
-.widget{
+.widget {
     background: var(--widget-bg);
     border-radius: var(--radius);
     box-shadow: var(--shadow-strong);
@@ -164,7 +210,7 @@ tbody tr:hover{ background: #fffbe3; }
    Special Sections
    ========================= */
 
-.poleand-section{
+.poleand-section {
     font-family: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     background: var(--poleand-bg);
     padding: 30px;
@@ -174,18 +220,32 @@ tbody tr:hover{ background: #fffbe3; }
     box-shadow: var(--shadow);
     line-height: 1.7;
 }
-.poleand-section h1{
+
+.poleand-section h1 {
     font-size: 2em;
     color: var(--text);
     text-align: center;
     margin-bottom: 0.5em;
 }
-.poleand-section .highlight{ color: #ff9800; }
-.poleand-section p{ margin-bottom: 1em; }
-.poleand-section strong{ color: #cc6600; }
-.poleand-section em{ color: #888; font-style: italic; }
 
-.note{
+.poleand-section .highlight {
+    color: #ff9800;
+}
+
+.poleand-section p {
+    margin-bottom: 1em;
+}
+
+.poleand-section strong {
+    color: #cc6600;
+}
+
+.poleand-section em {
+    color: #888;
+    font-style: italic;
+}
+
+.note {
     font-style: italic;
     background-color: var(--note-bg);
     padding: 10px 12px;
@@ -196,7 +256,7 @@ tbody tr:hover{ background: #fffbe3; }
 }
 
 /* Credits */
-.credits-title{
+.credits-title {
     margin-top: 2em;
     font-size: 1.5em;
     text-align: center;
@@ -204,19 +264,32 @@ tbody tr:hover{ background: #fffbe3; }
     border-top: 1px dashed #ddd;
     padding-top: 1em;
 }
-.credits-list{ list-style: none; padding-left: 0; }
-.credits-list li{
+
+.credits-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.credits-list li {
     margin: 0.5em 0;
     padding-left: 1em;
     text-indent: -1em;
 }
-.credits-font{ font-size: 0.9em; margin-top: 1.5em; }
-.credits-font a{ color: var(--link); text-decoration: underline; }
+
+.credits-font {
+    font-size: 0.9em;
+    margin-top: 1.5em;
+}
+
+.credits-font a {
+    color: var(--link);
+    text-decoration: underline;
+}
 
 /* =========================
    Iframe helper (4:3)
    ========================= */
-.iframe-wrapper{
+.iframe-wrapper {
     position: relative;
     width: 100%;
     padding-top: 75%;
@@ -224,7 +297,8 @@ tbody tr:hover{ background: #fffbe3; }
     border-radius: var(--radius);
     box-shadow: var(--shadow-strong);
 }
-.iframe-wrapper iframe{
+
+.iframe-wrapper iframe {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -235,40 +309,48 @@ tbody tr:hover{ background: #fffbe3; }
 /* =========================
    Email Dialog
    ========================= */
-#email-submit-dialog{
+#email-submit-dialog {
     border: none;
     border-radius: 10px;
     padding: 20px 30px;
     background: #fffef9;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
     max-width: 400px;
     width: 90%;
 }
-#email-submit-dialog::backdrop{ background: rgba(0,0,0,0.4); }
-#email-submit-dialog p{
+
+#email-submit-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+#email-submit-dialog p {
     margin-top: 0;
     font-size: 1.1em;
     margin-bottom: 1em;
     text-align: center;
 }
-#email-submit-form{
+
+#email-submit-form {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
-#email-submit-form input[type="text"]{
+
+#email-submit-form input[type="text"] {
     padding: 10px;
     border: 2px solid var(--yellow-light);
     border-radius: 6px;
     font-size: 1em;
     font-family: inherit;
 }
-#email-submit-form input[type="email"]:focus{
+
+#email-submit-form input[type="email"]:focus {
     outline: none;
     border-color: var(--yellow);
-    box-shadow: 0 0 5px rgba(255,183,0,0.6);
+    box-shadow: 0 0 5px rgba(255, 183, 0, 0.6);
 }
-#submit_btn{
+
+#submit_btn {
     background: linear-gradient(90deg, var(--yellow), var(--yellow-light));
     border: none;
     border-radius: 6px;
@@ -279,10 +361,12 @@ tbody tr:hover{ background: #fffbe3; }
     color: var(--text);
     transition: background 0.2s ease;
 }
-#submit_btn:hover{
+
+#submit_btn:hover {
     background: linear-gradient(90deg, var(--yellow-light), var(--yellow));
 }
-#close_btn{
+
+#close_btn {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -293,8 +377,12 @@ tbody tr:hover{ background: #fffbe3; }
     color: #888;
     cursor: pointer;
 }
-#close_btn:hover{ color: var(--text); }
-.mail-trigger{
+
+#close_btn:hover {
+    color: var(--text);
+}
+
+.mail-trigger {
     background: var(--yellow);
     border: none;
     border-radius: 6px;
@@ -303,8 +391,12 @@ tbody tr:hover{ background: #fffbe3; }
     cursor: pointer;
     transition: background 0.2s ease;
 }
-.mail-trigger:hover{ background: var(--yellow-light); }
-.mail-widget-wrapper{
+
+.mail-trigger:hover {
+    background: var(--yellow-light);
+}
+
+.mail-widget-wrapper {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -314,9 +406,20 @@ tbody tr:hover{ background: #fffbe3; }
 /* =========================
    Small screens
    ========================= */
-@media (max-width: 768px){
-    body{ padding: 24px 14px; }
-    .navbar{ margin: -24px -14px 14px; }
-    .container{ padding: 22px 18px; }
-    th, td{ padding: 8px 10px; }
+@media (max-width: 768px) {
+    body {
+        padding: 24px 14px;
+    }
+
+    .navbar {
+        margin: -24px -14px 14px;
+    }
+
+    .container {
+        padding: 22px 18px;
+    }
+
+    th, td {
+        padding: 8px 10px;
+    }
 }

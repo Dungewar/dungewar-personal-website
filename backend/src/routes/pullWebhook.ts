@@ -1,8 +1,6 @@
 import {Request, Response} from 'express';
-import * as fs from 'fs';
-import * as path from 'path';
 import {exec} from 'child_process';
-import {logError, logErrorFile, logMessage, logMessageFile} from "../helpers/fileHandler";
+import {logErrorFile, logMessage, logMessageFile} from "../helpers/fileHandler";
 
 
 const LOG_FILE = "pull-webhook.log";
@@ -22,11 +20,11 @@ export const webhookHandler = (req: Request, res: Response) => {
         }
 
         exec('/srv/dungewar-personal-website/update-project-entry.sh', (err, stdout, stderr) => {
-            if(!err) {
+            if (!err) {
                 logMessageFile(LOG_FILE, "Webhook executed without error");
             } else {
                 // logErrorFile(LOG_FILE, "Update failed:" + err);
-            // We don't have time to wait for it to fully update :/
+                // We don't have time to wait for it to fully update :/
             }
         });
 

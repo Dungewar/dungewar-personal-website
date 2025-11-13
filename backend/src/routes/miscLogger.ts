@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import {Request, Response} from 'express';
 import {logMessageFile} from "../helpers/fileHandler";
 
 export const miscLogger = (req: Request, res: Response): void => {

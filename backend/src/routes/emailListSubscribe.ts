@@ -1,9 +1,5 @@
-import { Request, Response } from 'express';
-import fs from 'fs';
-import path from 'path';
-import os from 'os';
-import {readFile} from "node:fs";
-import {logErrorFile, logMessageFile, readDataFile} from "../helpers/fileHandler";
+import {Request, Response} from 'express';
+import {logMessageFile, readDataFile} from "../helpers/fileHandler";
 
 const EMAIL_FILE = 'email-subscriptions-updates.txt';
 const LOG_FILE = 'email-list-subscribe.log';
@@ -11,7 +7,7 @@ const LOG_FILE = 'email-list-subscribe.log';
 export const emailListSubscribe = (req: Request, res: Response): void => {
 
 
-    if(!req || !req.body || !req.body.email) {
+    if (!req || !req.body || !req.body.email) {
         logMessageFile(LOG_FILE, `Received malformed email request`);
         res.status(400).send("Malformed request, missing request, body, or email");
     }
@@ -23,7 +19,7 @@ export const emailListSubscribe = (req: Request, res: Response): void => {
     const lines = existingEmails.split("\n");
     for (const line of lines) {
         const parts = line.trim().split(/\s+/);
-        if(parts.length > 1 && parts[1].trim() === email.trim()) {
+        if (parts.length > 1 && parts[1].trim() === email.trim()) {
             logMessageFile(LOG_FILE, "Email already exists in file, not saving it");
             res.status(201).send('Email address already exists');
             return;

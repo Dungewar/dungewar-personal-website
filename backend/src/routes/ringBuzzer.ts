@@ -9,7 +9,7 @@ export const buzzerRinger = (req: Request, res: Response): void => {
     logMessageFile(LOG_FILE, "Received request to ring buzzer")
 
     let duration: number = 25;
-    if(!req || !req.body || !req.body.duration) {
+    if (!req || !req.body || !req.body.duration) {
         logMessageFile(LOG_FILE, "Request does not specify duration, using 25ms");
     } else {
         const hopefullyNumber = parseInt(req.body.duration);
@@ -20,7 +20,7 @@ export const buzzerRinger = (req: Request, res: Response): void => {
     }
 
     exec(`/srv/iocommands/buzzer.py ${duration}`, (err, stdout, stderr) => {
-        if(!err) {
+        if (!err) {
             logMessageFile(LOG_FILE, "Buzzer executed without error");
         } else {
             logErrorFile(LOG_FILE, "Buzzer failed to execute: " + err)
