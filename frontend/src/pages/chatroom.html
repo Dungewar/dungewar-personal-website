@@ -28,8 +28,8 @@
 
 <script>
   let waitTime = 500;
-  connect();
   let socket = null;
+  connect();
 
   function connect() {
     socket = new WebSocket('wss://dungewar.com/ws');
