@@ -28,6 +28,7 @@ app.listen(BACKEND_PORT, () => {
 });
 
 
-const webSocketServer = new WebSocketServer({port: WEBSOCKET_PORT});
+export const webSocketServer = new WebSocketServer({port: WEBSOCKET_PORT});
 
+// webSocketServer.clients
 webSocketServer.on('connection', webSocketHandler);
