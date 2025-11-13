@@ -44,13 +44,18 @@ export function logError(msg: string) {
 }
 
 /**
- * Returns the entire contents of a file in utf8
+ * Returns entire contents of a file in utf8
  * @param file The file to read, just file no directory, the directory is automatically at /website-data/data
+ * @param lines Read the last X lines
  */
-export function readDataFile(file: string): string {
+export function readDataFile(file: string, lines?: number): string {
     const DATA_FILE = path.join(DATA_DIR, file);
-
-    return fs.readFileSync(DATA_FILE, 'utf8');
+    const contents = fs.readFileSync(DATA_FILE, 'utf8');
+    if(lines) {
+        const value = contents.split("\n");
+        return value.slice(-lines).join("\n");
+    }
+    return contents;
 }
 
 /**

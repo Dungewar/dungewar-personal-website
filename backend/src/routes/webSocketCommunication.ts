@@ -15,9 +15,9 @@ export const webSocketHandler = (socket: WebSocket) => {
             const parsedMessage = JSON.parse(message.toString());
 
             if (parsedMessage.message)
-                appendDataFile("chatroom_messages.txt", parsedMessage.message);
+                appendDataFile("chatroom_messages.txt", new Date().toDateString() + " " + parsedMessage.message);
 
-            const messages = readDataFile("chatroom_messages.txt");
+            const messages = readDataFile("chatroom_messages.txt", 10);
 
             socket.send(JSON.stringify({
                 "message": messages
