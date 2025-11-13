@@ -1,6 +1,5 @@
 import WebSocket from 'ws';
 import {appendDataFile, readDataFile} from "../helpers/fileHandler";
-import {parse} from "node:url";
 
 export const webSocketHandler = (socket: WebSocket) => {
 
@@ -14,7 +13,7 @@ export const webSocketHandler = (socket: WebSocket) => {
         console.log(`Client says ${message}`);
         const parsedMessage = JSON.parse(message.toString());
 
-        if(parsedMessage.message)
+        if (parsedMessage.message)
             appendDataFile("chatroom_messages.txt", parsedMessage.message);
 
         const messages = readDataFile("chatroom_messages.txt");
@@ -28,5 +27,6 @@ export const webSocketHandler = (socket: WebSocket) => {
     })
     socket.on('close', () => {
         console.log('Client disconnected');
+
     })
 };

@@ -26,36 +26,42 @@
 <button onclick="socket.send(JSON.stringify({message: 'button pressed'}))">Reload</button>
 
 <script>
-  const socket = new WebSocket('wss://dungewar.com/ws');
+  let waitTime = 1000;
 
-  // When connection opens
-  socket.addEventListener('open', () => {
-    console.log('connected to server');
-    socket.send('hello from browser');
-  });
+  function connect() {
+    const socket = new WebSocket('wss://dungewar.com/ws');
 
-  // When a message comes in
-  socket.addEventListener('message', (event) => {
-    console.log('message from server:', event.data);
-    event.data = JSON.parse(event.data);
+    // When connection opens
+    socket.addEventListener('open', () => {
+      console.log('connected to server');
+      socket.send('hello from browser');
+    });
 
-    document.getElementById('message-box').innerHTML = event.data.message;
-  });
+    // When a message comes in
+    socket.addEventListener('message', (event) => {
+      console.log('message from server:', event.data);
+      event.data = JSON.parse(event.data);
 
-  // When the connection closes
-  socket.addEventListener('close', () => {
-    console.log('connection closed');
-  });
+      document.getElementById('message-box').innerHTML = event.data.message;
+    });
 
-  // When something goes wrong
-  socket.addEventListener('error', (err) => {
-    console.error('WebSocket error', err);
-  });
+    // When the connection closes
+    socket.addEventListener('close', () => {
+      waitTime*=2;
+      console.log('connection closed, waiting for ', waitTime, 'ms');
+      setTimeout(connect, );
+    });
 
-  // You can send later too:
-  function sendSomething() {
-    if (socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify({ type: 'ping', time: Date.now() }));
+    // When something goes wrong
+    socket.addEventListener('error', (err) => {
+      console.error('WebSocket error', err);
+    });
+
+    // You can send later too:
+    function sendSomething() {
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({type: 'ping', time: Date.now()}));
+      }
     }
   }
 </script>
