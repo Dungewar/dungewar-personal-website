@@ -42,7 +42,8 @@
       console.log('message from server:', event.data);
       event.data = JSON.parse(event.data);
 
-      document.getElementById('message-box').innerHTML = event.data.message;
+      console.log("Setting element to ", event.data.message);
+      document.getElementById('message-box').innerText = event.data.message;
     });
 
     // When the connection closes
