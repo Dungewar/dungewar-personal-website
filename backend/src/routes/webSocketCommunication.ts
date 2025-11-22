@@ -4,18 +4,14 @@ import { webSocketServer } from "../server";
 import { clamp } from "../helpers/numberManipulation";
 import { addMessage, getMessage as getMessages, MessageRow } from '../helpers/databaseHandler';
 
-// let listenerList: WebSocket[] = [];
+const messageCount = 15;
 
 export const webSocketHandler = (socket: WebSocket) => {
     console.log(`Websocket connection started`);
-    // listenerList.push(socket);
 
-    {
-        const messages = readDataFile("chatroom_messages.txt", 10);
-        socket.send(JSON.stringify({
-            "message": messages
-        }));
-    }
+    socket.send(JSON.stringify({
+        "messages": getMessages(messageCount)
+    }));
 
     socket.on('message', (message) => {
         console.log(`Client says ${message.toString()}`);
@@ -23,20 +19,16 @@ export const webSocketHandler = (socket: WebSocket) => {
             const parsedMessage = JSON.parse(message.toString());
 
             if (parsedMessage.message)
-                // appendDataFile("chatroom_messages.txt", `[${new Date().toLocaleTimeString()}] ${parsedMessage.message}`);
                 addMessage("Anonymous", parsedMessage.message);
 
-            let messageCount = 15;
-            if (parsedMessage.messageCount)
-                messageCount = clamp(messageCount, 1, 30);
 
-            // send updates to all the sockets
-            // const messages = readDataFile("chatroom_messages.txt", messageCount);
-            const messages: MessageRow[] = getMessages(messageCount);
+            // if (parsedMessage.messageCount)
+            //     messageCount = clamp(messageCount, 1, 30);
+
 
             webSocketServer.clients.forEach((client) => {
                 client.send(JSON.stringify({
-                    "messages": messages
+                    "messages": getMessages(messageCount)
                 }));
             });
         } catch (error) {
@@ -45,7 +37,6 @@ export const webSocketHandler = (socket: WebSocket) => {
     });
     socket.on('error', (err) => {
         console.error(`Web socket error: ${err}`);
-        // listenerList.;
     });
     socket.on('close', () => {
         console.log('Client disconnected');
