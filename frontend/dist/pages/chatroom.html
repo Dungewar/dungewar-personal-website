@@ -24,7 +24,7 @@
   </script>
 
   <h1>TALK ROOM</h1>
-  <p id="message-box">Loading please wait...</p>
+  <div id="message-box">Loading please wait...</div>
   <label for="input-box">Type message in here!</label><textarea id="input-box"></textarea>
   <button onclick="
 const inputBox = document.getElementById('input-box');
@@ -43,17 +43,33 @@ inputBox.value = '';
       // When connection opens
       socket.addEventListener('open', () => {
         console.log('connected to server');
-        socket.send(JSON.stringify({}));
+        // socket.send(JSON.stringify({}));
       });
 
       // When a message comes in
       socket.addEventListener('message', (event) => {
         console.log('Message from server:', event.data);
         const parsedData = JSON.parse(event.data);
+        const messages = parsedData.messages;
 
-        console.log("Parsed server data: ", parsedData);
-        console.log("Setting element to: ", parsedData.messages);
-        document.getElementById('message-box').innerText = parsedData.messages;
+        const messageBox = document.createElement('div');
+
+        for (const message of messages) {
+          const msg = document.createElement("div");
+
+          const header = document.createElement("div");
+          header.innerHTML = `<span class="author">${message.author}</span> — ${message.created_at}`;
+
+          const body = document.createElement("p");
+          body.innerText = message.text; // SAFE TEXT
+          msg.append(header, body);
+
+          messageBox.appendChild(msg);
+        }
+
+        const container = document.getElementById('message-box');
+        container.innerHTML = "";
+        container.replaceChildren(messageBox);
       });
 
       // When the connection closes
