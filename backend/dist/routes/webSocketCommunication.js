@@ -4,6 +4,7 @@ exports.webSocketHandler = void 0;
 const fileHandler_1 = require("../helpers/fileHandler");
 const server_1 = require("../server");
 const numberManipulation_1 = require("../helpers/numberManipulation");
+const databaseHandler_1 = require("../helpers/databaseHandler");
 // let listenerList: WebSocket[] = [];
 const webSocketHandler = (socket) => {
     console.log(`Websocket connection started`);
@@ -19,15 +20,17 @@ const webSocketHandler = (socket) => {
         try {
             const parsedMessage = JSON.parse(message.toString());
             if (parsedMessage.message)
-                (0, fileHandler_1.appendDataFile)("chatroom_messages.txt", `[${new Date().toLocaleTimeString()}] ${parsedMessage.message}`);
-            let lines = 15;
-            if (parsedMessage.lines)
-                lines = (0, numberManipulation_1.clamp)(lines, 1, 30);
+                // appendDataFile("chatroom_messages.txt", `[${new Date().toLocaleTimeString()}] ${parsedMessage.message}`);
+                (0, databaseHandler_1.addMessage)("Anonymous", parsedMessage.message);
+            let messageCount = 15;
+            if (parsedMessage.messageCount)
+                messageCount = (0, numberManipulation_1.clamp)(messageCount, 1, 30);
             // send updates to all the sockets
-            const messages = (0, fileHandler_1.readDataFile)("chatroom_messages.txt", lines);
+            // const messages = readDataFile("chatroom_messages.txt", messageCount);
+            const messages = (0, databaseHandler_1.getMessage)(messageCount);
             server_1.webSocketServer.clients.forEach((client) => {
                 client.send(JSON.stringify({
-                    "message": messages
+                    "messages": messages
                 }));
             });
         }
