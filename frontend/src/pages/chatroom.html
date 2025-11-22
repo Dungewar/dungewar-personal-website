@@ -43,7 +43,7 @@ inputBox.value = '';
       // When connection opens
       socket.addEventListener('open', () => {
         console.log('connected to server');
-        socket.send('Hello gimmie messages');
+        socket.send(JSON.stringify({}));
       });
 
       // When a message comes in
