@@ -11,22 +11,41 @@ database.exec(`
         id         INTEGER PRIMARY KEY AUTOINCREMENT,
         author     TEXT NOT NULL,
         text       TEXT NOT NULL,
-        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        created_at INTEGER NOT NULL DEFAULT (unixepoch())
     )
 `);
 
-const getAllMessages = database.prepare(`
-  SELECT id, author, text, created_at
-  FROM messages
-  ORDER BY id ASC
+const messagePreparation = database.prepare(`
+    INSERT INTO messages (author, text)
+    VALUES (?, ?)
+`);
+const getLastMessagePrepare = database.prepare<[number], MessageRow>(`
+    SELECT *
+    FROM messages
+    ORDER BY id DESC
+    LIMIT ?;
+`);
+const getAllMessages = database.prepare<[], MessageRow>(`
+SELECT id, author, text, created_at
+    FROM messages
+    ORDER BY id ASC
 `);
 
 
-const messagePreparation = database.prepare(`
-        INSERT INTO messages (author, text, created_at)
-        VALUES (?, ?, ?)
-    `);
+export function addMessage(author: string, text: string): void {
+    messagePreparation.run(author, text);
+}
 
-export function addMessage(author: string, text: string) {
-    messagePreparation.run(author, text, new Date().toISOString());
+export interface MessageRow {
+    id: number;
+    author: string;
+    text: string;
+    created_at: number;
+}
+export function getMessage(messages: number): MessageRow[] {
+    return getLastMessagePrepare.all(messages).reverse();
+}
+
+export function getAll(): MessageRow[] {
+    return getAllMessages.all();
 }

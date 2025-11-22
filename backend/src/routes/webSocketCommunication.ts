@@ -1,7 +1,8 @@
 import WebSocket from 'ws';
-import {appendDataFile, readDataFile} from "../helpers/fileHandler";
-import {webSocketServer} from "../server";
-import {clamp} from "../helpers/numberManipulation";
+import { appendDataFile, readDataFile } from "../helpers/fileHandler";
+import { webSocketServer } from "../server";
+import { clamp } from "../helpers/numberManipulation";
+import { addMessage, getMessage as getMessages, MessageRow } from '../helpers/databaseHandler';
 
 // let listenerList: WebSocket[] = [];
 
@@ -22,29 +23,31 @@ export const webSocketHandler = (socket: WebSocket) => {
             const parsedMessage = JSON.parse(message.toString());
 
             if (parsedMessage.message)
-                appendDataFile("chatroom_messages.txt", `[${new Date().toLocaleTimeString()}] ${parsedMessage.message}`);
+                // appendDataFile("chatroom_messages.txt", `[${new Date().toLocaleTimeString()}] ${parsedMessage.message}`);
+                addMessage("Anonymous", parsedMessage.message);
 
-            let lines = 15;
-            if (parsedMessage.lines)
-                lines = clamp(lines, 1, 30);
+            let messageCount = 15;
+            if (parsedMessage.messageCount)
+                messageCount = clamp(messageCount, 1, 30);
 
             // send updates to all the sockets
-            const messages = readDataFile("chatroom_messages.txt", lines);
+            // const messages = readDataFile("chatroom_messages.txt", messageCount);
+            const messages: MessageRow[] = getMessages(messageCount);
 
             webSocketServer.clients.forEach((client) => {
                 client.send(JSON.stringify({
-                    "message": messages
+                    "messages": messages
                 }));
             });
         } catch (error) {
             console.error(error);
         }
-    })
+    });
     socket.on('error', (err) => {
         console.error(`Web socket error: ${err}`);
         // listenerList.;
-    })
+    });
     socket.on('close', () => {
         console.log('Client disconnected');
-    })
+    });
 };

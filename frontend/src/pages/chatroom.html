@@ -1,82 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Chatroom</title>
+  <title>Chatroom</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link href="/styles/dark-style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link href="/styles/dark-style.css" rel="stylesheet">
 
-    <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
-    <link href="../favicon/favicon.svg" rel="icon" type="image/svg+xml"/>
-    <link href="../favicon/favicon.ico" rel="shortcut icon"/>
-    <link href="../favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
-    <meta content="MyWebSite" name="apple-mobile-web-app-title"/>
-    <link href="../favicon/site.webmanifest" rel="manifest"/>
+  <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
+  <link href="../favicon/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="../favicon/favicon.ico" rel="shortcut icon" />
+  <link href="../favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+  <meta content="MyWebSite" name="apple-mobile-web-app-title" />
+  <link href="../favicon/site.webmanifest" rel="manifest" />
 </head>
-<body>
-<div id="navbar"></div>
-<script>
-  fetch('/components/navbar.html')
-    .then(res => res.text())
-    .then(html => document.getElementById('navbar').innerHTML = html);
-</script>
 
-<h1>TALK ROOM</h1>
-<p id="message-box">Work in progress...</p>
-<label for="input-box">Type message in here!</label><textarea id="input-box"></textarea>
-<button onclick="
+<body>
+  <div id="navbar"></div>
+  <script>
+    fetch('/components/navbar.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('navbar').innerHTML = html);
+  </script>
+
+  <h1>TALK ROOM</h1>
+  <p id="message-box">Loading please wait...</p>
+  <label for="input-box">Type message in here!</label><textarea id="input-box"></textarea>
+  <button onclick="
 const inputBox = document.getElementById('input-box');
 sendSomething(inputBox.value);
 inputBox.value = '';
 ">Send!
-</button>
+  </button>
 
-<script>
-  let waitTime = 1000;
-  let socket = null;
-  connect();
+  <script>
+    let waitTime = 1000;
+    let socket = null;
+    connect();
 
-  function connect() {
-    socket = new WebSocket('wss://dungewar.com/ws');
-    // When connection opens
-    socket.addEventListener('open', () => {
-      console.log('connected to server');
-      socket.send('hello from browser');
-    });
+    function connect() {
+      socket = new WebSocket('wss://dungewar.com/ws');
+      // When connection opens
+      socket.addEventListener('open', () => {
+        console.log('connected to server');
+        socket.send('Hello gimmie messages');
+      });
 
-    // When a message comes in
-    socket.addEventListener('message', (event) => {
-      console.log('Message from server:', event.data);
-      const parsedData = JSON.parse(event.data);
+      // When a message comes in
+      socket.addEventListener('message', (event) => {
+        console.log('Message from server:', event.data);
+        const parsedData = JSON.parse(event.data);
 
-      console.log("Parsed server data: ", parsedData);
-      console.log("Setting element to: ", parsedData.message);
-      document.getElementById('message-box').innerText = parsedData.message;
-    });
+        console.log("Parsed server data: ", parsedData);
+        console.log("Setting element to: ", parsedData.messages);
+        document.getElementById('message-box').innerText = parsedData.messages;
+      });
 
-    // When the connection closes
-    socket.addEventListener('close', () => {
-      console.log('connection closed, waiting for ', waitTime, 'ms');
-      setTimeout(connect, waitTime);
-    });
+      // When the connection closes
+      socket.addEventListener('close', () => {
+        console.log('connection closed, waiting for ', waitTime, 'ms');
+        setTimeout(connect, waitTime);
+      });
 
-    // When something goes wrong
-    socket.addEventListener('error', (err) => {
-      console.error('WebSocket error', err);
-      console.log('attempting to reconnect after ', waitTime, 'ms');
-      setTimeout(connect, waitTime);
-    });
-  }
-
-  // You can send later too:
-  function sendSomething(message) {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify({message: message}));
-      console.log("Message sent to websocket: ", message)
-    } else {
-      console.log("Socket not ready yet")
+      // When something goes wrong
+      socket.addEventListener('error', (err) => {
+        console.error('WebSocket error', err);
+        console.log('attempting to reconnect after ', waitTime, 'ms');
+        setTimeout(connect, waitTime);
+      });
     }
-  }
-</script>
+
+    // You can send later too:
+    function sendSomething(message) {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ message: message, messageCount: 15 }));
+        console.log("Message sent to websocket: ", message)
+      } else {
+        console.log("Socket not ready yet")
+      }
+    }
+  </script>
 </body>
+
 </html>

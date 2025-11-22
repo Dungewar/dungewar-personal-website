@@ -7,6 +7,7 @@ import {buzzerRinger} from "./routes/ringBuzzer";
 import {logMessage} from "./helpers/fileHandler";
 import {WebSocketServer} from 'ws';
 import {webSocketHandler} from "./routes/webSocketCommunication";
+import './helpers/databaseHandler'
 
 const app = express();
 const BACKEND_PORT = 4000;
@@ -32,3 +33,4 @@ export const webSocketServer = new WebSocketServer({port: WEBSOCKET_PORT});
 
 // webSocketServer.clients
 webSocketServer.on('connection', webSocketHandler);
+
