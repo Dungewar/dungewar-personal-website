@@ -3,11 +3,20 @@ import { appendDataFile, readDataFile } from "../helpers/fileHandler";
 import { webSocketServer } from "../server";
 import { clamp } from "../helpers/numberManipulation";
 import { addMessage, getMessage as getMessages, MessageRow } from '../helpers/databaseHandler';
+import { IncomingMessage } from 'http';
 
 const messageCount = 15;
-const messageDelay = 3;
+const messageDelay = 1;
+const cooldownTimers: Map<string, number> = new Map<string, number>();
 
-export const webSocketHandler = (socket: WebSocket) => {
+export const webSocketHandler = (socket: WebSocket, req: IncomingMessage) => {
+    const IP = req.socket.remoteAddress;
+    if (!IP) return;
+
+    if (!cooldownTimers.has(IP))
+        cooldownTimers.set(IP, 0);
+
+
     console.log(`Websocket connection started`);
     let lastSent = 0;
 
@@ -16,13 +25,15 @@ export const webSocketHandler = (socket: WebSocket) => {
     }));
 
     socket.on('message', (message) => {
+        const lastSent = cooldownTimers.get(IP);
+        if (!lastSent) return;
 
         if (Date.now() - lastSent < messageDelay * 1000)
             return; // they're spamming
 
-        lastSent = Date.now();
+        cooldownTimers.set(IP, Date.now());
 
-        console.log(`Client says ${message.toString()}`);
+        // console.log(`Client says ${message.toString()}`);
         try {
             const parsedMessage = JSON.parse(message.toString());
 
