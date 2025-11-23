@@ -5,6 +5,7 @@ const server_1 = require("../server");
 const databaseHandler_1 = require("../helpers/databaseHandler");
 const messageCount = 15;
 const messageDelay = 1;
+const charLimit = 1000;
 const cooldownTimers = new Map();
 const webSocketHandler = (socket, req) => {
     const xff = req.headers['x-forwarded-for'];
@@ -40,7 +41,8 @@ const webSocketHandler = (socket, req) => {
         // console.log(`Client says ${message.toString()}`);
         try {
             const parsedMessage = JSON.parse(message.toString());
-            if (parsedMessage.message)
+            // parsedMessage.message = parsedMessage.message as string;
+            if (parsedMessage.message && parsedMessage.message.length < charLimit)
                 (0, databaseHandler_1.addMessage)("Anonymous", parsedMessage.message);
             // if (parsedMessage.messageCount)
             //     messageCount = clamp(messageCount, 1, 30);
