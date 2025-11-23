@@ -58,11 +58,12 @@ inputBox.value = '';
           const msg = document.createElement("div");
 
           const header = document.createElement("div");
-          const messageTime = new Date(message.created_at);
+          const messageTime = new Date(message.created_at * 1000); // seconds to milliseconds
           header.innerHTML = `<span class="author">${message.author}</span> — <span class="timestamp">${messageTime.toLocaleDateString()} at ${messageTime.toLocaleTimeString()}</span>`;
 
           const body = document.createElement("p");
           msg.classList.add("message");
+
           body.innerText = message.text; // SAFE TEXT
           msg.append(header, body);
 
