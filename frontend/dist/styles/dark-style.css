@@ -2,8 +2,8 @@
 :root {
     /* Set sans-serif & mono fonts */
     --sans-font: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir,
-    "Nimbus Sans L", Roboto, "Noto Sans", "Segoe UI", Arial, Helvetica,
-    "Helvetica Neue", sans-serif;
+        "Nimbus Sans L", Roboto, "Noto Sans", "Segoe UI", Arial, Helvetica,
+        "Helvetica Neue", sans-serif;
     --mono-font: Consolas, Menlo, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
     --standard-border-radius: 5px;
     --border-width: 1px;
@@ -47,7 +47,9 @@
 }
 
 /* Reset box-sizing */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -78,12 +80,12 @@ body {
     margin: 0;
 }
 
-body > * {
+body>* {
     grid-column: 2;
 }
 
 /* Make the header bg full width, but the content inline with body */
-body > header {
+body>header {
     background-color: var(--accent-bg);
     border-bottom: var(--border-width) solid var(--border);
     text-align: center;
@@ -91,16 +93,16 @@ body > header {
     grid-column: 1 / -1;
 }
 
-body > header > *:only-child {
+body>header>*:only-child {
     margin-block-start: 2rem;
 }
 
-body > header h1 {
+body>header h1 {
     max-width: 1200px;
     margin: 1rem auto;
 }
 
-body > header p {
+body>header p {
     max-width: 40rem;
     margin: 1rem auto;
 }
@@ -110,7 +112,7 @@ main {
     padding-top: 1.5rem;
 }
 
-body > footer {
+body>footer {
     margin-top: 4rem;
     padding: 2rem 1rem 1.5rem 1rem;
     color: var(--text-light);
@@ -151,7 +153,13 @@ p {
 }
 
 /* Prevent long strings from overflowing container */
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     overflow-wrap: break-word;
 }
 
@@ -193,7 +201,8 @@ a:hover {
 
 button,
 .button,
-a.button, /* extra specificity to override a */
+a.button,
+/* extra specificity to override a */
 input[type="submit"],
 input[type="reset"],
 input[type="button"] {
@@ -239,11 +248,9 @@ input[type="button"]:enabled:hover {
 
 .button:focus-visible,
 button:focus-visible:where(:enabled),
-input:enabled:focus-visible:where(
-  [type="submit"],
-  [type="reset"],
-  [type="button"]
-) {
+input:enabled:focus-visible:where([type="submit"],
+    [type="reset"],
+    [type="button"]) {
     outline: 2px solid var(--accent);
     outline-offset: 1px;
 }
@@ -311,7 +318,10 @@ header nav a[aria-current="true"] {
 }
 
 /* Consolidate box styling */
-aside, details, pre, progress {
+aside,
+details,
+pre,
+progress {
     background-color: var(--accent-bg);
     border: var(--border-width) solid var(--border);
     border-radius: var(--standard-border-radius);
@@ -339,7 +349,9 @@ aside {
     }
 }
 
-article, fieldset, dialog {
+article,
+fieldset,
+dialog {
     border: var(--border-width) solid var(--border);
     padding: 1rem;
     border-radius: var(--standard-border-radius);
@@ -361,13 +373,13 @@ section {
 }
 
 /* Don't double separators when chaining sections */
-section + section,
+section+section,
 section:first-child {
     border-top: 0;
     padding-top: 0;
 }
 
-section + section {
+section+section {
     margin-top: 0;
 }
 
@@ -388,15 +400,15 @@ summary {
     word-break: break-all;
 }
 
-details[open] > summary + * {
+details[open]>summary+* {
     margin-top: 0;
 }
 
-details[open] > summary {
+details[open]>summary {
     margin-bottom: 0.5rem;
 }
 
-details[open] > :last-child {
+details[open]> :last-child {
     margin-bottom: 0;
 }
 
@@ -406,7 +418,7 @@ table {
     margin: 1.5rem 0;
 }
 
-figure > table {
+figure>table {
     width: max-content;
     margin: 0;
 }
@@ -468,7 +480,7 @@ textarea:not([cols]) {
 /* Add arrow to drop-down */
 select:not([multiple]) {
     background-image: linear-gradient(45deg, transparent 49%, var(--text) 51%),
-    linear-gradient(135deg, var(--text) 51%, transparent 49%);
+        linear-gradient(135deg, var(--text) 51%, transparent 49%);
     background-position: calc(100% - 15px), calc(100% - 10px);
     background-size: 5px 5px, 5px 5px;
     background-repeat: no-repeat;
@@ -487,8 +499,8 @@ input[type="radio"] {
     width: min-content;
 }
 
-input[type="checkbox"] + label,
-input[type="radio"] + label {
+input[type="checkbox"]+label,
+input[type="radio"]+label {
     display: inline-block;
 }
 
@@ -532,6 +544,7 @@ input[type="radio"]:checked::after {
 
 /* Makes input fields wider on smaller screens */
 @media only screen and (max-width: 720px) {
+
     textarea,
     select,
     input {
@@ -582,8 +595,8 @@ figure {
     overflow-x: auto;
 }
 
-figure > img,
-figure > picture > img {
+figure>img,
+figure>picture>img {
     display: block;
     margin-inline: auto;
 }
@@ -701,7 +714,8 @@ dialog::backdrop {
 
 /* Superscript & Subscript */
 /* Prevent scripts from affecting line-height. */
-sup, sub {
+sup,
+sub {
     vertical-align: baseline;
     position: relative;
 }
@@ -741,12 +755,12 @@ div.notice p:last-of-type {
         display: block;
     }
 
-    body > header {
+    body>header {
         background-color: unset;
     }
 
-    body > header nav,
-    body > footer {
+    body>header nav,
+    body>footer {
         display: none;
     }
 
@@ -780,7 +794,11 @@ div.notice p:last-of-type {
         border: var(--border-width) solid var(--border);
     }
 
-    pre, table, figure, img, svg {
+    pre,
+    table,
+    figure,
+    img,
+    svg {
         break-inside: avoid;
     }
 
@@ -792,30 +810,60 @@ div.notice p:last-of-type {
 /* ===================== USER MADE ===================== */
 /* when not fullscreen */
 .iframe {
-  width: 100%;
-  height: 300px;
-  position: relative;
+    width: 100%;
+    height: 300px;
+    position: relative;
 }
 
 /* when fullscreen */
 /* data-open is a data attribute. doesn't do anything magic, just another way to target elements */
 .iframe[data-open="true"] {
-  position: fixed;
-  inset: 0; /* shorthand for top, left, bottom, right */
-  width: 100%;
-  height: 100%;
-  z-index: 3; /* if you want on top of everything this z-index needs to be highest of all */
+    position: fixed;
+    inset: 0;
+    /* shorthand for top, left, bottom, right */
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    /* if you want on top of everything this z-index needs to be highest of all */
 }
 
 /* iframe itself should fill the parent div */
 .iframe iframe {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 /* put the toggle button in the bottom right of iframe */
 .iframe-toggle {
-  position: absolute;
-  right: 0;
-  bottom: 0;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.author {
+    font-weight: 600;
+    color: #ffd86b;
+    /* warm cheese gold */
+    text-shadow: 0 0 3px rgba(255, 216, 107, 0.3);
+}
+
+.timestamp {
+    font-size: 0.85em;
+    color: #8899aa;
+    /* subtle cool gray-blue */
+    margin-left: 6px;
+    opacity: 0.8;
+}
+
+.message {
+    border: 1px solid #3a3f4b;
+    /* dark subtle border */
+    background: #1f2229;
+    /* slightly lighter than page background */
+    padding: 10px 14px;
+    margin: 10px 0;
+    border-radius: 8px;
+
+    /* optional: soft glow for depth */
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.35);
 }
