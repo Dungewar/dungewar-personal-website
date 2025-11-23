@@ -12,9 +12,9 @@ const webSocketHandler = (socket) => {
         "messages": (0, databaseHandler_1.getMessage)(messageCount)
     }));
     socket.on('message', (message) => {
-        if (new Date().getUTCMilliseconds() - lastSent < messageDelay * 1000)
+        if (Date.now() - lastSent < messageDelay * 1000)
             return; // they're spamming
-        lastSent = new Date().getUTCMilliseconds();
+        lastSent = Date.now();
         console.log(`Client says ${message.toString()}`);
         try {
             const parsedMessage = JSON.parse(message.toString());
