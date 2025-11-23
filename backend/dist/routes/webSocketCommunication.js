@@ -4,12 +4,17 @@ exports.webSocketHandler = void 0;
 const server_1 = require("../server");
 const databaseHandler_1 = require("../helpers/databaseHandler");
 const messageCount = 15;
+const messageDelay = 3;
 const webSocketHandler = (socket) => {
     console.log(`Websocket connection started`);
+    let lastSent = 0;
     socket.send(JSON.stringify({
         "messages": (0, databaseHandler_1.getMessage)(messageCount)
     }));
     socket.on('message', (message) => {
+        if (new Date().getUTCMilliseconds() - lastSent < messageDelay * 1000)
+            return; // they're spamming
+        lastSent = new Date().getUTCMilliseconds();
         console.log(`Client says ${message.toString()}`);
         try {
             const parsedMessage = JSON.parse(message.toString());
