@@ -37,7 +37,7 @@ export const webSocketHandler = (socket: WebSocket, req: IncomingMessage) => {
 
     socket.on('message', (message) => {
         const lastSent = cooldownTimers.get(IP);
-        if (!lastSent) {
+        if (lastSent === undefined) {
             console.error("For some reason IP ", IP, " has no timer");
             return;
         }
