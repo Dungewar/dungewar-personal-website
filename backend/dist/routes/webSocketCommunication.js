@@ -12,15 +12,16 @@ const webSocketHandler = (socket, req) => {
         return;
     if (!cooldownTimers.has(IP))
         cooldownTimers.set(IP, 0);
-    console.log(`Websocket connection started`);
-    let lastSent = 0;
+    console.log(`Websocket connection started for IP `, IP);
     socket.send(JSON.stringify({
         "messages": (0, databaseHandler_1.getMessage)(messageCount)
     }));
     socket.on('message', (message) => {
         const lastSent = cooldownTimers.get(IP);
-        if (!lastSent)
+        if (!lastSent) {
+            console.error("For some reason IP ", IP, " has no timer");
             return;
+        }
         if (Date.now() - lastSent < messageDelay * 1000)
             return; // they're spamming
         cooldownTimers.set(IP, Date.now());
