@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.webSocketHandler = void 0;
 const server_1 = require("../server");
 const databaseHandler_1 = require("../helpers/databaseHandler");
-const messageCount = 12;
+const messageCount = 15;
 const webSocketHandler = (socket) => {
     console.log(`Websocket connection started`);
     socket.send(JSON.stringify({

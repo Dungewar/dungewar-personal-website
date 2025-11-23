@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head id="header">
-    <title>Hello!</title>
 
-    <link href="/styles/dark-style.css" rel="stylesheet">
-    <link href="favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
-    <link href="favicon/favicon.svg" rel="icon" type="image/svg+xml"/>
-    <link href="favicon/favicon.ico" rel="shortcut icon"/>
-    <link href="favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
-    <meta content="MyWebSite" name="apple-mobile-web-app-title"/>
-    <link href="favicon/site.webmanifest" rel="manifest"/>
+<head id="header">
+  <title>Hello!</title>
+
+  <link href="/styles/dark-style.css" rel="stylesheet">
+  <link href="favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
+  <link href="favicon/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="favicon/favicon.ico" rel="shortcut icon" />
+  <link href="favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+  <meta content="MyWebSite" name="apple-mobile-web-app-title" />
+  <link href="favicon/site.webmanifest" rel="manifest" />
 </head>
+
 <body>
 
-<div id="navbar"></div>
-<script>
-  fetch('/components/navbar.html')
-    .then(res => res.text())
-    .then(html => document.getElementById('navbar').innerHTML = html);
-</script>
-<script>
-  console.log("Trying to buzz...");
-  res = fetch(`https://dungewar.com/api/ring-buzzer`, {
-    method: "POST",
-    headers: {"content-type": "application/json"},
-  });
-</script>
-<div class="container">
+  <div id="navbar"></div>
+  <script>
+    fetch('/components/navbar.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('navbar').innerHTML = html);
+  </script>
+  <script>
+    console.log("Trying to buzz...");
+    res = fetch(`https://dungewar.com/api/ring-buzzer`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+    });
+  </script>
+  <div class="container">
     <h1>Welcome!</h1>
     <p>Website made by <b>Olgierd Matusiewicz</b></p>
-    <p>This personal site showcases a few small projects. Note: some of them do not work yet or ever.</p>
+    <p>This personal site showcases a few small projects and whatever else.</p>
     <ul>
-        <li>Try the WebAssembly demo on the Minesweeper page.</li>
-        <li>Explore the upcoming CAL Simulator.</li>
-        <li>Play the new Poleand Game.</li>
-        <li>Check back for more updates soon.</li>
+      <li>Play MINESWEEPER (holy crap)</li>
+      <li>Play our POLEAND GAME (even more exciting)</li>
+      <li>Talk in <i>the chat room</i></li>
+      <li>Read my blog about making this website!</li>
+      <b>ALL THIS AND MORE, available at the top navbar.</b>
     </ul>
-</div>
+  </div>
 
-<script src="./components/mail-signup-widget.js" type="module"></script>
-<mail-signup-widget></mail-signup-widget>
+  <script src="./components/mail-signup-widget.js" type="module"></script>
+  <mail-signup-widget></mail-signup-widget>
 
 </body>
+
 </html>
