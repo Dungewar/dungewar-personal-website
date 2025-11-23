@@ -7,6 +7,7 @@ import { IncomingMessage } from 'http';
 
 const messageCount = 15;
 const messageDelay = 1;
+const charLimit = 1000;
 const cooldownTimers: Map<string, number> = new Map<string, number>();
 
 export const webSocketHandler = (socket: WebSocket, req: IncomingMessage) => {
@@ -50,8 +51,9 @@ export const webSocketHandler = (socket: WebSocket, req: IncomingMessage) => {
         // console.log(`Client says ${message.toString()}`);
         try {
             const parsedMessage = JSON.parse(message.toString());
+            // parsedMessage.message = parsedMessage.message as string;
 
-            if (parsedMessage.message)
+            if (parsedMessage.message && parsedMessage.message.length < charLimit)
                 addMessage("Anonymous", parsedMessage.message);
 
             // if (parsedMessage.messageCount)
