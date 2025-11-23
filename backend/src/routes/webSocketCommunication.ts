@@ -10,12 +10,24 @@ const messageDelay = 1;
 const cooldownTimers: Map<string, number> = new Map<string, number>();
 
 export const webSocketHandler = (socket: WebSocket, req: IncomingMessage) => {
-    const IP = req.socket.remoteAddress;
+    const xff = req.headers['x-forwarded-for'];
+
+    let ip: string;
+
+    if (typeof xff === 'string') {
+        // header can be "client, proxy1, proxy2", so take first
+        ip = xff.split(',')[0].trim();
+    } else if (Array.isArray(xff) && xff.length > 0) {
+        ip = xff[0].split(',')[0].trim();
+    } else {
+        ip = req.socket.remoteAddress ?? '';
+    }
+
+    const IP = ip;
     if (!IP) return;
 
     if (!cooldownTimers.has(IP))
         cooldownTimers.set(IP, 0);
-
 
     console.log(`Websocket connection started for IP `, IP);
 
