@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addMessage = addMessage;
 exports.getMessage = getMessage;
 exports.getAll = getAll;
+exports.getGeneratedUsername = getGeneratedUsername;
+exports.addGeneratedUsername = addGeneratedUsername;
 const better_sqlite3_1 = __importDefault(require("better-sqlite3"));
 const path_1 = __importDefault(require("path"));
 const databasePath = path_1.default.join('/srv/database/', 'data.db');
@@ -42,5 +44,26 @@ function getMessage(messages) {
 }
 function getAll() {
     return getAllMessages.all();
+}
+database.exec(`
+    CREATE TABLE IF NOT EXISTS users
+    (
+        id TEXT PRIMARY KEY,
+        generatedName TEXT NOT NULL UNIQUE
+    )
+`);
+const getGeneratedUsernamePrepare = database.prepare(`
+    SELECT generatedName FROM users WHERE id = ?
+`);
+const setGeneratedUsernamePrepare = database.prepare(`
+    INSERT INTO users (id, generatedName)
+    VALUES (?, ?)
+`);
+function getGeneratedUsername(id) {
+    const row = getGeneratedUsernamePrepare.get(id);
+    return row?.generatedName ?? null;
+}
+function addGeneratedUsername(id, name) {
+    setGeneratedUsernamePrepare.run(id, name);
 }
 //# sourceMappingURL=databaseHandler.js.map

@@ -14,6 +14,7 @@ const fileHandler_1 = require("./helpers/fileHandler");
 const ws_1 = require("ws");
 const webSocketCommunication_1 = require("./routes/webSocketCommunication");
 require("./helpers/databaseHandler");
+require("dotenv/config");
 const app = (0, express_1.default)();
 const BACKEND_PORT = 4000;
 const WEBSOCKET_PORT = 8080;

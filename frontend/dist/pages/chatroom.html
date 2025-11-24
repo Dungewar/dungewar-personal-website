@@ -32,7 +32,7 @@ const inputBox = document.getElementById('input-box');
 if(sendSomething(inputBox.value)) {
   inputBox.value = '';
 } else {
-  displayError('Message failed to send');
+  displayError('Message failed to send (bad internet?)');
 }
 ">Send!
   </button>
@@ -45,12 +45,18 @@ if(sendSomething(inputBox.value)) {
     function displayError(message, timeout) {
       const errorBox = document.getElementById('error-box');
       errorBox.innerText = message;
-      if (!timeout) timeout = 5000;
+      if (!timeout) timeout = 2000;
       setTimeout(() => { errorBox.innerText = '' }, timeout);
     }
 
     function connect() {
-      socket = new WebSocket('wss://dungewar.com/ws');
+      let token = localStorage.getItem("user_id");
+      if (!token) {
+        token = crypto.randomUUID();
+        localStorage.setItem("user_id", token);
+      }
+
+      socket = new WebSocket(`wss://dungewar.com/ws?token=${token}`);
       // When connection opens
       socket.addEventListener('open', () => {
         console.log('connected to server');

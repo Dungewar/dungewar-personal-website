@@ -3,11 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.webSocketHandler = void 0;
 const server_1 = require("../server");
 const databaseHandler_1 = require("../helpers/databaseHandler");
+const aiHandler_1 = require("../helpers/aiHandler");
 const messageCount = 15;
 const messageDelay = 1;
 const charLimit = 1000;
 const cooldownTimers = new Map();
-const webSocketHandler = (socket, req) => {
+const webSocketHandler = async (socket, req) => {
     const xff = req.headers['x-forwarded-for'];
     let ip;
     if (typeof xff === 'string') {
@@ -21,14 +22,27 @@ const webSocketHandler = (socket, req) => {
         ip = req.socket.remoteAddress ?? '';
     }
     const IP = ip;
-    if (!IP)
+    if (!IP) {
+        console.log(`IP missing for client, rejecting connection.`);
         return;
+    }
     if (!cooldownTimers.has(IP))
         cooldownTimers.set(IP, 0);
-    console.log(`Websocket connection started for IP `, IP);
+    const params = new URL(req.url, "http://localhost").searchParams;
+    const token = params.get("token");
+    if (!token) {
+        console.log(`No token provided for IP ${IP}: probably a bot (rejecting connection).`);
+        return;
+    }
+    console.log(`Websocket connection started for IP ${IP} with token ${token}`);
     socket.send(JSON.stringify({
         "messages": (0, databaseHandler_1.getMessage)(messageCount)
     }));
+    let userName = (0, databaseHandler_1.getGeneratedUsername)(token);
+    if (!userName) {
+        userName = await generateNewName(token);
+    }
+    ;
     socket.on('message', (message) => {
         const lastSent = cooldownTimers.get(IP);
         if (lastSent === undefined) {
@@ -43,7 +57,7 @@ const webSocketHandler = (socket, req) => {
             const parsedMessage = JSON.parse(message.toString());
             // parsedMessage.message = parsedMessage.message as string;
             if (parsedMessage.message && parsedMessage.message.length < charLimit)
-                (0, databaseHandler_1.addMessage)("Anonymous", parsedMessage.message);
+                (0, databaseHandler_1.addMessage)(userName, parsedMessage.message);
             // if (parsedMessage.messageCount)
             //     messageCount = clamp(messageCount, 1, 30);
             server_1.webSocketServer.clients.forEach((client) => {
@@ -64,4 +78,21 @@ const webSocketHandler = (socket, req) => {
     });
 };
 exports.webSocketHandler = webSocketHandler;
+async function generateNewName(token) {
+    while (true) { // Retry until unique name
+        const result = await (0, aiHandler_1.askAI)("Generate an appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word");
+        const coolName = result.response.text();
+        try {
+            (0, databaseHandler_1.addGeneratedUsername)(token, coolName);
+            return coolName;
+        }
+        catch (err) {
+            // If the cheese name already exists → try again
+            if (String(err).includes("UNIQUE constraint failed")) {
+                continue; // next loop
+            }
+            throw err; // any other error = real problem
+        }
+    }
+}
 //# sourceMappingURL=webSocketCommunication.js.map
