@@ -27,6 +27,9 @@ app.get('/api/health', (_req, res) => {
     console.log("Health check ok");
     res.send('ok');
 });
+app.get("/api/name", (_req, res) => {
+    res.send('Olgierd Matusiewicz the Cheese God');
+});
 app.listen(BACKEND_PORT, () => {
     (0, fileHandler_1.logMessage)(`Backend listening on http://localhost:${BACKEND_PORT}`);
 });
