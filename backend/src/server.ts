@@ -1,13 +1,13 @@
 import express from 'express';
-import {webhookHandler} from './routes/pullWebhook';
-import {miscLogger} from "./routes/miscLogger";
-import {emailListSubscribe} from "./routes/emailListSubscribe";
+import { webhookHandler } from './routes/pullWebhook';
+import { miscLogger } from "./routes/miscLogger";
+import { emailListSubscribe } from "./routes/emailListSubscribe";
 import cors from "cors";
-import {buzzerRinger} from "./routes/ringBuzzer";
-import {logMessage} from "./helpers/fileHandler";
-import {WebSocketServer} from 'ws';
-import {webSocketHandler} from "./routes/webSocketCommunication";
-import './helpers/databaseHandler'
+import { buzzerRinger } from "./routes/ringBuzzer";
+import { logMessage } from "./helpers/fileHandler";
+import { WebSocketServer } from 'ws';
+import { webSocketHandler } from "./routes/webSocketCommunication";
+import './helpers/databaseHandler';
 
 const app = express();
 const BACKEND_PORT = 4000;
@@ -23,13 +23,16 @@ app.get('/api/health', (_req, res) => {
     console.log("Health check ok");
     res.send('ok');
 });
+app.get("/api/name", (_req, res) => {
+    res.send('Olgierd Matusiewicz the Cheese God');
+});
 
 app.listen(BACKEND_PORT, () => {
     logMessage(`Backend listening on http://localhost:${BACKEND_PORT}`);
 });
 
 
-export const webSocketServer = new WebSocketServer({port: WEBSOCKET_PORT});
+export const webSocketServer = new WebSocketServer({ port: WEBSOCKET_PORT });
 
 // webSocketServer.clients
 webSocketServer.on('connection', webSocketHandler);
