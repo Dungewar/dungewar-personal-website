@@ -1,3 +1,6 @@
+import { config } from "dotenv";
+config({ path: '../.env' }); // HAS TO BE FIRST i think
+
 import express from 'express';
 import { webhookHandler } from './routes/pullWebhook';
 import { miscLogger } from "./routes/miscLogger";
@@ -8,9 +11,6 @@ import { logMessage } from "./helpers/fileHandler";
 import { WebSocketServer } from 'ws';
 import { webSocketHandler } from "./routes/webSocketCommunication";
 import './helpers/databaseHandler';
-import { config } from "dotenv";
-
-config({ path: '../env' });
 
 const app = express();
 const BACKEND_PORT = 4000;
