@@ -25,15 +25,27 @@
 
   <h1>TALK ROOM</h1>
   <div id="message-box">Loading please wait...</div>
+  <div id="error-box"></div>
   <label for="input-box">Type message in here!</label><textarea id="input-box"></textarea>
   <button onclick="
 const inputBox = document.getElementById('input-box');
-sendSomething(inputBox.value);
-inputBox.value = '';
+if(sendSomething(inputBox.value)) {
+  inputBox.value = '';
+} else {
+  displayError('Message failed to send');
+}
 ">Send!
   </button>
 
   <script>
+
+    function displayError(message, timeout) {
+      const errorBox = document.getElementById('error-box');
+      errorBox.innerText = message;
+      if (!timeout) timeout = 5000;
+      setTimeout(() => { errorBox.innerText = '' }, timeout);
+    }
+
     let waitTime = 1000;
     let socket = null;
     connect();
@@ -94,8 +106,10 @@ inputBox.value = '';
       if (socket && socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify({ message: message, messageCount: 15 }));
         console.log("Message sent to websocket: ", message)
+        return true;
       } else {
         console.log("Socket not ready yet")
+        return false;
       }
     }
   </script>
