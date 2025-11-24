@@ -25,7 +25,7 @@
 
   <h1>TALK ROOM</h1>
   <div id="message-box">Loading please wait...</div>
-  <div id="error-box"></div>
+  <div id="error-box" class="error-box"></div>
   <label for="input-box">Type message in here!</label><textarea id="input-box"></textarea>
   <button onclick="
 const inputBox = document.getElementById('input-box');
@@ -38,6 +38,9 @@ if(sendSomething(inputBox.value)) {
   </button>
 
   <script>
+    let waitTime = 1000;
+    let socket = null;
+    connect();
 
     function displayError(message, timeout) {
       const errorBox = document.getElementById('error-box');
@@ -45,10 +48,6 @@ if(sendSomething(inputBox.value)) {
       if (!timeout) timeout = 5000;
       setTimeout(() => { errorBox.innerText = '' }, timeout);
     }
-
-    let waitTime = 1000;
-    let socket = null;
-    connect();
 
     function connect() {
       socket = new WebSocket('wss://dungewar.com/ws');
