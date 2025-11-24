@@ -84,8 +84,8 @@ pm2 start "$SCRIPT_PATH" --name "$APP_NAME" --cwd "$BACKEND_DIR" && \
 echo "[$(timestamp)] Backend restarted..."
 
 
-echo "[$(timestamp)] Sending emails..."
-cd "$START_DIR"
-./send-update-email.sh dungewar@gmail.com "Just testing..."
+# echo "[$(timestamp)] Sending emails..."
+# cd "$START_DIR"
+# ./send-update-email.sh dungewar@gmail.com "Just testing..."
 
 echo "[$(timestamp)] Update complete."
