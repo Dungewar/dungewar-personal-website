@@ -95,7 +95,7 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
 };
 async function generateNewName(token: string) {
     while (true) { // Retry until unique name
-        const result = await askAI("Generate an appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word");
+        const result = await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");
         const coolName = result.response.text();
 
         try {
