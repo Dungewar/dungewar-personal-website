@@ -8,6 +8,7 @@ import { logMessage } from "./helpers/fileHandler";
 import { WebSocketServer } from 'ws';
 import { webSocketHandler } from "./routes/webSocketCommunication";
 import './helpers/databaseHandler';
+import "dotenv/config";
 
 const app = express();
 const BACKEND_PORT = 4000;

@@ -6,6 +6,7 @@
     "backend"
   ],
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "rm": "^0.1.8"
   }
 }
