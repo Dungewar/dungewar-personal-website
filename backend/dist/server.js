@@ -4,6 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.webSocketServer = void 0;
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)({ path: '../.env' }); // HAS TO BE FIRST i think
 const express_1 = __importDefault(require("express"));
 const pullWebhook_1 = require("./routes/pullWebhook");
 const miscLogger_1 = require("./routes/miscLogger");
@@ -14,8 +16,6 @@ const fileHandler_1 = require("./helpers/fileHandler");
 const ws_1 = require("ws");
 const webSocketCommunication_1 = require("./routes/webSocketCommunication");
 require("./helpers/databaseHandler");
-const dotenv_1 = require("dotenv");
-(0, dotenv_1.config)({ path: '../env' });
 const app = (0, express_1.default)();
 const BACKEND_PORT = 4000;
 const WEBSOCKET_PORT = 8080;
