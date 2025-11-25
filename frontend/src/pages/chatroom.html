@@ -59,13 +59,13 @@ if(sendSomething(inputBox.value)) {
       socket = new WebSocket(`wss://dungewar.com/ws?token=${token}`);
       // When connection opens
       socket.addEventListener('open', () => {
-        console.log('connected to server');
+        console.log('Connected to server');
         // socket.send(JSON.stringify({}));
       });
 
       // When a message comes in
       socket.addEventListener('message', (event) => {
-        console.log('Message from server:', event.data);
+        console.log('Message from server.');
         const parsedData = JSON.parse(event.data);
         const messages = parsedData.messages;
 

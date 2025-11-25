@@ -5,6 +5,7 @@ import { clamp } from "../helpers/numberManipulation";
 import { addGeneratedUsername, addMessage, getGeneratedUsername, getMessage as getMessages, MessageRow } from '../helpers/databaseHandler';
 import { IncomingMessage } from 'http';
 import { askAI } from '../helpers/aiHandler';
+const { generateFromEmail, generateUsername } = require("unique-username-generator");
 
 const messageCount = 15;
 const messageDelay = 1;
@@ -95,8 +96,9 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
 };
 async function generateNewName(token: string) {
     while (true) { // Retry until unique name
-        const result = await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");
-        const coolName = result.response.text();
+        // const result = await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");
+        const coolName = generateUsername() as string;
+        // const coolName = result.response.text();
 
         try {
             addGeneratedUsername(token, coolName);
