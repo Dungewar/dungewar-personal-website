@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.webSocketHandler = void 0;
 const server_1 = require("../server");
 const databaseHandler_1 = require("../helpers/databaseHandler");
-const aiHandler_1 = require("../helpers/aiHandler");
+const { generateFromEmail, generateUsername } = require("unique-username-generator");
 const messageCount = 15;
 const messageDelay = 1;
 const charLimit = 1000;
@@ -80,8 +80,9 @@ const webSocketHandler = async (socket, req) => {
 exports.webSocketHandler = webSocketHandler;
 async function generateNewName(token) {
     while (true) { // Retry until unique name
-        const result = await (0, aiHandler_1.askAI)("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");
-        const coolName = result.response.text();
+        // const result = await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");
+        const coolName = generateUsername();
+        // const coolName = result.response.text();
         try {
             (0, databaseHandler_1.addGeneratedUsername)(token, coolName);
             return coolName;
