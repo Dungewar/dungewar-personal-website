@@ -24,7 +24,6 @@
   </script>
 
   <h1>TALK ROOM</h1>
-  <div id="message-box">Loading please wait...</div>
   <div id="error-box" class="error-box"></div>
   <label for="input-box">Type message in here!</label><textarea id="input-box"></textarea>
   <button onclick="
@@ -36,6 +35,7 @@ if(sendSomething(inputBox.value)) {
 }
 ">Send!
   </button>
+  <div id="message-box">Loading please wait...</div>
 
   <script>
     let waitTime = 1000;
@@ -71,7 +71,7 @@ if(sendSomething(inputBox.value)) {
 
         const messageBox = document.createElement('div');
 
-        for (const message of messages) {
+        for (const message of messages.reverse()) {
           const msg = document.createElement("div");
 
           const header = document.createElement("div");
