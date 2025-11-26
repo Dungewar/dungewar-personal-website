@@ -46,6 +46,7 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
     console.log(`Websocket connection started for IP ${IP} with token ${token}`);
 
     socket.send(JSON.stringify({
+        "type": "messages",
         "messages": getMessages(messageCount)
     }));
 
@@ -81,15 +82,15 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
             if (parsedMessage.message && parsedMessage.message.length < charLimit) {
                 addMessage(userName, parsedMessage.message);
 
-                // if (parsedMessage.messageCount)
-                //     messageCount = clamp(messageCount, 1, 30);
+            // if (parsedMessage.messageCount)
+            //     messageCount = clamp(messageCount, 1, 30);
 
                 const payload = JSON.stringify({
                     "messages": getMessages(messageCount)
                 });
                 webSocketServer.clients.forEach((client) => {
                     client.send(payload);
-                });
+            });
             } else {
                 sendErrorToClient("Malformed request (message too long?)");
             }
@@ -105,8 +106,6 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
         console.log('Client disconnected');
     });
 };
-
-
 async function generateNewName(token: string) {
     while (true) { // Retry until unique name
         // const result = await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");
