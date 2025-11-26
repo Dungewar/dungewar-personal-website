@@ -54,6 +54,13 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
         userName = await generateNewName(token);
     };
 
+    function sendErrorToClient(text: string) {
+        socket.send(JSON.stringify({
+            "type": "error",
+            "content": text
+        }));
+    }
+
     socket.on('message', (message) => {
         const lastSent = cooldownTimers.get(IP);
         if (lastSent === undefined) {
@@ -71,20 +78,24 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
             const parsedMessage = JSON.parse(message.toString());
             // parsedMessage.message = parsedMessage.message as string;
 
-            if (parsedMessage.message && parsedMessage.message.length < charLimit)
+            if (parsedMessage.message && parsedMessage.message.length < charLimit) {
                 addMessage(userName, parsedMessage.message);
 
-            // if (parsedMessage.messageCount)
-            //     messageCount = clamp(messageCount, 1, 30);
+                // if (parsedMessage.messageCount)
+                //     messageCount = clamp(messageCount, 1, 30);
 
-
-            webSocketServer.clients.forEach((client) => {
-                client.send(JSON.stringify({
+                const payload = JSON.stringify({
                     "messages": getMessages(messageCount)
-                }));
-            });
+                });
+                webSocketServer.clients.forEach((client) => {
+                    client.send(payload);
+                });
+            } else {
+                sendErrorToClient("Malformed request (message too long?)");
+            }
         } catch (error) {
             console.error(error);
+            sendErrorToClient("Internal server errorw");
         }
     });
     socket.on('error', (err) => {
@@ -94,6 +105,8 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
         console.log('Client disconnected');
     });
 };
+
+
 async function generateNewName(token: string) {
     while (true) { // Retry until unique name
         // const result = await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");
