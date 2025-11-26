@@ -46,13 +46,15 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
     console.log(`Websocket connection started for IP ${IP} with token ${token}`);
 
     socket.send(JSON.stringify({
+        "type": "init",
         "messages": getMessages(messageCount)
     }));
 
     let userName: string | null = getGeneratedUsername(token);
     if (!userName) {
-        userName = await generateNewName(token);
+        userName = generateNewName(token);
     };
+    // TODO: send userName in init handshake
 
     function sendErrorToClient(text: string) {
         socket.send(JSON.stringify({
@@ -64,7 +66,8 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
     socket.on('message', (message) => {
         const lastSent = cooldownTimers.get(IP);
         if (lastSent === undefined) {
-            console.error("For some reason IP ", IP, " has no timer");
+            console.error(`For some reason IP ${IP} has no timer`);
+            sendErrorToClient(`Internal server error: C`);
             return;
         }
 
@@ -85,6 +88,7 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
                 //     messageCount = clamp(messageCount, 1, 30);
 
                 const payload = JSON.stringify({
+                    "type": "messages",
                     "messages": getMessages(messageCount)
                 });
                 webSocketServer.clients.forEach((client) => {
@@ -95,19 +99,19 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
             }
         } catch (error) {
             console.error(error);
-            sendErrorToClient("Internal server errorw");
+            sendErrorToClient("Internal server error: H");
         }
     });
     socket.on('error', (err) => {
         console.error(`Web socket error: ${err}`);
     });
     socket.on('close', () => {
-        console.log('Client disconnected');
+        console.log(`Client ${IP} disconnected`);
     });
 };
 
 
-async function generateNewName(token: string) {
+function generateNewName(token: string) {
     while (true) { // Retry until unique name
         // const result = await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");
         const coolName = generateUsername() as string;
