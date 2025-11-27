@@ -840,7 +840,7 @@ div.notice p:last-of-type {
     bottom: 0;
 }
 
-.author {
+.username {
     font-weight: 600;
     color: #ffd86b;
     /* warm cheese gold */
