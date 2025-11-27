@@ -45,16 +45,18 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
 
     console.log(`Websocket connection started for IP ${IP} with token ${token}`);
 
+
+
+    let username: string | null = getGeneratedUsername(token);
+    if (!username) {
+        username = generateNewName(token);
+    };
+
     socket.send(JSON.stringify({
         "type": "init",
-        "messages": getMessages(messageCount)
+        "messages": getMessages(messageCount),
+        "username": username
     }));
-
-    let userName: string | null = getGeneratedUsername(token);
-    if (!userName) {
-        userName = generateNewName(token);
-    };
-    // TODO: send userName in init handshake
 
     function sendErrorToClient(text: string) {
         socket.send(JSON.stringify({
@@ -82,7 +84,7 @@ export const webSocketHandler = async (socket: WebSocket, req: IncomingMessage) 
             // parsedMessage.message = parsedMessage.message as string;
 
             if (parsedMessage.message && parsedMessage.message.length < charLimit) {
-                addMessage(userName, parsedMessage.message);
+                addMessage(username, parsedMessage.message);
 
                 // if (parsedMessage.messageCount)
                 //     messageCount = clamp(messageCount, 1, 30);

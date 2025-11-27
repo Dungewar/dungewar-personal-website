@@ -35,11 +35,13 @@ if(sendSomething(inputBox.value)) {
 }
 ">Send!
   </button>
+  <p id="username-indicator">Username loading...</p>
   <div id="message-box">Loading please wait...</div>
 
   <script>
     let waitTime = 1000;
     let socket = null;
+    let username;
     connect();
 
     function displayError(message, timeout) {
@@ -74,7 +76,8 @@ if(sendSomething(inputBox.value)) {
         }
 
         if (type == 'init') {
-
+          username = parsedData.username;
+          document.getElementById("username-indicator").innerHTML = `<p>Your username: <b>${username}</b></p>`;
         }
 
         if (type == 'init' || type == 'messages') {
