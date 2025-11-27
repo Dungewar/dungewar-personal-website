@@ -35,11 +35,13 @@ if(sendSomething(inputBox.value)) {
 }
 ">Send!
   </button>
+  <p id="username-indicator">Username loading...</p>
   <div id="message-box">Loading please wait...</div>
 
   <script>
     let waitTime = 1000;
     let socket = null;
+    let username;
     connect();
 
     function displayError(message, timeout) {
@@ -67,30 +69,44 @@ if(sendSomething(inputBox.value)) {
       socket.addEventListener('message', (event) => {
         console.log('Message from server.');
         const parsedData = JSON.parse(event.data);
-        const messages = parsedData.messages;
+        const type = parsedData.type;
 
-        const messageBox = document.createElement('div');
-
-        for (const message of messages.reverse()) {
-          const msg = document.createElement("div");
-
-          const header = document.createElement("div");
-          const messageTime = new Date(message.created_at * 1000); // seconds to milliseconds
-          header.innerHTML = `<span class="author">${message.author}</span> — <span class="timestamp">${messageTime.toLocaleDateString()} at ${messageTime.toLocaleTimeString()}</span>`;
-
-          const body = document.createElement("p");
-          msg.classList.add("message");
-
-          body.innerText = message.text; // SAFE TEXT
-          msg.append(header, body);
-
-          messageBox.appendChild(msg);
+        if (type == 'error') {
+          displayError(parsedData.content);
         }
 
-        const container = document.getElementById('message-box');
-        container.innerHTML = "";
-        container.replaceChildren(messageBox);
-      });
+        if (type == 'init') {
+          username = parsedData.username;
+          document.getElementById("username-indicator").innerHTML = `<p>Your username: <b>${username}</b></p>`;
+        }
+
+        if (type == 'init' || type == 'messages') {
+          const messages = parsedData.messages;
+
+          const messageBox = document.createElement('div');
+
+          for (const message of messages.reverse()) {
+            const msg = document.createElement("div");
+
+            const header = document.createElement("div");
+            const messageTime = new Date(message.created_at * 1000); // seconds to milliseconds
+            header.innerHTML = `<span class="author">${message.author}</span> — <span class="timestamp">${messageTime.toLocaleDateString()} at ${messageTime.toLocaleTimeString()}</span>`;
+
+            const body = document.createElement("p");
+            msg.classList.add("message");
+
+            body.innerText = message.text; // SAFE TEXT
+            msg.append(header, body);
+
+            messageBox.appendChild(msg);
+          }
+
+          const container = document.getElementById('message-box');
+          container.innerHTML = "";
+          container.replaceChildren(messageBox);
+        }
+      }
+      );
 
       // When the connection closes
       socket.addEventListener('close', () => {

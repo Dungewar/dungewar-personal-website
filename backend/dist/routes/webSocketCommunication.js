@@ -35,18 +35,27 @@ const webSocketHandler = async (socket, req) => {
         return;
     }
     console.log(`Websocket connection started for IP ${IP} with token ${token}`);
-    socket.send(JSON.stringify({
-        "messages": (0, databaseHandler_1.getMessage)(messageCount)
-    }));
-    let userName = (0, databaseHandler_1.getGeneratedUsername)(token);
-    if (!userName) {
-        userName = await generateNewName(token);
+    let username = (0, databaseHandler_1.getGeneratedUsername)(token);
+    if (!username) {
+        username = generateNewName(token);
     }
     ;
+    socket.send(JSON.stringify({
+        "type": "init",
+        "messages": (0, databaseHandler_1.getMessage)(messageCount),
+        "username": username
+    }));
+    function sendErrorToClient(text) {
+        socket.send(JSON.stringify({
+            "type": "error",
+            "content": text
+        }));
+    }
     socket.on('message', (message) => {
         const lastSent = cooldownTimers.get(IP);
         if (lastSent === undefined) {
-            console.error("For some reason IP ", IP, " has no timer");
+            console.error(`For some reason IP ${IP} has no timer`);
+            sendErrorToClient(`Internal server error: C`);
             return;
         }
         if (Date.now() - lastSent < messageDelay * 1000)
@@ -56,29 +65,36 @@ const webSocketHandler = async (socket, req) => {
         try {
             const parsedMessage = JSON.parse(message.toString());
             // parsedMessage.message = parsedMessage.message as string;
-            if (parsedMessage.message && parsedMessage.message.length < charLimit)
-                (0, databaseHandler_1.addMessage)(userName, parsedMessage.message);
-            // if (parsedMessage.messageCount)
-            //     messageCount = clamp(messageCount, 1, 30);
-            server_1.webSocketServer.clients.forEach((client) => {
-                client.send(JSON.stringify({
+            if (parsedMessage.message && parsedMessage.message.length < charLimit) {
+                (0, databaseHandler_1.addMessage)(username, parsedMessage.message);
+                // if (parsedMessage.messageCount)
+                //     messageCount = clamp(messageCount, 1, 30);
+                const payload = JSON.stringify({
+                    "type": "messages",
                     "messages": (0, databaseHandler_1.getMessage)(messageCount)
-                }));
-            });
+                });
+                server_1.webSocketServer.clients.forEach((client) => {
+                    client.send(payload);
+                });
+            }
+            else {
+                sendErrorToClient("Malformed request (message too long?)");
+            }
         }
         catch (error) {
             console.error(error);
+            sendErrorToClient("Internal server error: H");
         }
     });
     socket.on('error', (err) => {
         console.error(`Web socket error: ${err}`);
     });
     socket.on('close', () => {
-        console.log('Client disconnected');
+        console.log(`Client ${IP} disconnected`);
     });
 };
 exports.webSocketHandler = webSocketHandler;
-async function generateNewName(token) {
+function generateNewName(token) {
     while (true) { // Retry until unique name
         // const result = await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");await askAI("Generate ONE appropriate online nickname that has at least 15 characters, and includes the name of an interesting cheese, an adjective, and some other unique word. You should just return the single nickname, nothing else. for instance, give CheeseLord but NO PUNCTUATIOON or bolding or capitalizing or quotation marks, just the name");
         const coolName = generateUsername();
