@@ -105,11 +105,11 @@ if(sendSomething(inputBox.value)) {
                 minute: '2-digit'
               });
               if (isToday(messageTime)) {
-                header.innerHTML = `<span class="username">${message.author}</span> — <span class="timestamp">${messageTime.toLocaleDateString()} at ${time}</span>`;
-                console.log("Message at ", messageTime, " is today");
-              } else {
                 header.innerHTML = `<span class="username">${message.author}</span> — <span class="timestamp">${time}</span>`;
-                console.log("Message at ", messageTime, " is NOT today");
+                // console.log("Message at ", messageTime, " is today");
+              } else {
+                header.innerHTML = `<span class="username">${message.author}</span> — <span class="timestamp">${messageTime.toLocaleDateString()} at ${time}</span>`;
+                // console.log("Message at ", messageTime, " is NOT today");
               }
             }
 
