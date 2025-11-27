@@ -77,7 +77,7 @@ if(sendSomething(inputBox.value)) {
 
         if (type == 'init') {
           username = parsedData.username;
-          document.getElementById("username-indicator").innerHTML = `<p>Your username: <b>${username}</b></p>`;
+          document.getElementById("username-indicator").innerHTML = `<p>Your username: <b class="username">${username}</b></p>`;
         }
 
         if (type == 'init' || type == 'messages') {
@@ -89,8 +89,9 @@ if(sendSomething(inputBox.value)) {
             const msg = document.createElement("div");
 
             const header = document.createElement("div");
+            // TODO: improve datetime display
             const messageTime = new Date(message.created_at * 1000); // seconds to milliseconds
-            header.innerHTML = `<span class="author">${message.author}</span> — <span class="timestamp">${messageTime.toLocaleDateString()} at ${messageTime.toLocaleTimeString()}</span>`;
+            header.innerHTML = `<span class="username">${message.author}</span> — <span class="timestamp">${messageTime.toLocaleDateString()} at ${messageTime.toLocaleTimeString()}</span>`;
 
             const body = document.createElement("p");
             msg.classList.add("message");
