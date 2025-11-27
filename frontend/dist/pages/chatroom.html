@@ -100,10 +100,16 @@ if(sendSomething(inputBox.value)) {
             // TODO: improve datetime display
             const messageTime = new Date(message.created_at * 1000); // seconds to milliseconds
             if (messageTime) {
+              const time = messageTime.toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+              });
               if (isToday(messageTime)) {
-                header.innerHTML = `<span class="username">${message.author}</span> — <span class="timestamp">${messageTime.toLocaleDateString()} at ${messageTime.toLocaleTimeString()}</span>`;
+                header.innerHTML = `<span class="username">${message.author}</span> — <span class="timestamp">${messageTime.toLocaleDateString()} at ${time}</span>`;
+                console.log("Message at ", messageTime, " is today");
               } else {
-                header.innerHTML = `<span class="username">${message.author}</span> — <span class="timestamp">${messageTime.toLocaleTimeString()}</span>`;
+                header.innerHTML = `<span class="username">${message.author}</span> — <span class="timestamp">${time}</span>`;
+                console.log("Message at ", messageTime, " is NOT today");
               }
             }
 
