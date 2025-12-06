@@ -16,6 +16,7 @@ const fileHandler_1 = require("./helpers/fileHandler");
 const ws_1 = require("ws");
 const webSocketCommunication_1 = require("./routes/webSocketCommunication");
 require("./helpers/databaseHandler");
+const convinceGame_1 = require("./routes/convinceGame");
 const app = (0, express_1.default)();
 const BACKEND_PORT = 4000;
 const WEBSOCKET_PORT = 8080;
@@ -32,6 +33,7 @@ app.get('/api/health', (_req, res) => {
 app.get("/api/name", (_req, res) => {
     res.send('Olgierd Matusiewicz the Cheese God');
 });
+app.get("/convince-game", convinceGame_1.convinceGameHandler);
 app.listen(BACKEND_PORT, () => {
     (0, fileHandler_1.logMessage)(`Backend listening on http://localhost:${BACKEND_PORT}`);
 });
