@@ -11,6 +11,7 @@ import { logMessage } from "./helpers/fileHandler";
 import { WebSocketServer } from 'ws';
 import { webSocketHandler } from "./routes/webSocketCommunication";
 import './helpers/databaseHandler';
+import { convinceGameHandler } from "./routes/convinceGame";
 
 const app = express();
 const BACKEND_PORT = 4000;
@@ -29,6 +30,7 @@ app.get('/api/health', (_req, res) => {
 app.get("/api/name", (_req, res) => {
     res.send('Olgierd Matusiewicz the Cheese God');
 });
+app.get("/convince-game", convinceGameHandler);
 
 app.listen(BACKEND_PORT, () => {
     logMessage(`Backend listening on http://localhost:${BACKEND_PORT}`);
