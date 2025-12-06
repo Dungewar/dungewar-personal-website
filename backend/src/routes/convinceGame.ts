@@ -3,6 +3,8 @@ import { logMessageFile } from "../helpers/fileHandler";
 import { askAI } from '../helpers/aiHandler';
 
 export const convinceGameHandler = (req: Request, res: Response): void => {
+    console.log("Convince game request received.");
+    
     const message = JSON.stringify({
         method: req.method,
         url: req.originalUrl,
