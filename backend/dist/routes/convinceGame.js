@@ -16,11 +16,12 @@ const convinceGameHandler = (req, res) => {
         res.status(400).send({ error: 'Bad Request: message field is required in the body' });
         return;
     }
+    console.log("Message: ", req.body.message);
     try {
         (0, aiHandler_1.askAI)("You will provide a JSON response for a convince game. The response should have the following format: {\"message\": string, \"convincement\": int}." +
             "The messsage is a short text responding to the user, up to 100 characters. The convincement is an integer from 1 to 10 indicating how convincing the message is." +
             "Make sure the convincement is appropriate to the message content." +
-            "Respond only with the JSON object, no additional text." +
+            "Respond only with the JSON object, no additional text. Do NOT include ```json or otherwise any markdown formatting." +
             "The thing that they are trying to convince you of is why their file should be returned to them. The file was taken away for a good reason, but you don't know what that reason is." +
             "Make sure to judge the gramar and flow of their message in addition to the content." +
             "Here is the user's message: " + req.body.message).then((aiResponse) => {
