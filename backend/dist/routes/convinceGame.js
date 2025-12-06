@@ -4,6 +4,7 @@ exports.convinceGameHandler = void 0;
 const fileHandler_1 = require("../helpers/fileHandler");
 const aiHandler_1 = require("../helpers/aiHandler");
 const convinceGameHandler = (req, res) => {
+    console.log("Convince game request received.");
     const message = JSON.stringify({
         method: req.method,
         url: req.originalUrl,
