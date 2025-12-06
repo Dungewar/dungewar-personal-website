@@ -19,8 +19,8 @@ const convinceGameHandler = (req, res) => {
             "Respond only with the JSON object, no additional text." +
             "The thing that they are trying to convince you of is why their file should be returned to them. The file was taken away for a good reason, but you don't know what that reason is." +
             "Make sure to judge the gramar and flow of their message in addition to the content." +
-            "Here is the user's message: " + message).then((aiResponse) => {
-            (0, fileHandler_1.logMessageFile)('convince-game.log', `User message: ${message}\nAI response: ${aiResponse}\n`);
+            "Here is the user's message: " + req.body.message).then((aiResponse) => {
+            (0, fileHandler_1.logMessageFile)('convince-game.log', `User message: ${message}\nAI response: ${aiResponse.response.text()}\n`);
             res.status(200).send(JSON.stringify(JSON.parse(aiResponse.response.text())));
         });
     }
