@@ -30,7 +30,7 @@ app.get('/api/health', (_req, res) => {
 app.get("/api/name", (_req, res) => {
     res.send('Olgierd Matusiewicz the Cheese God');
 });
-app.get("/api/convince-game", convinceGameHandler);
+app.post("/api/convince-game", convinceGameHandler);
 
 app.listen(BACKEND_PORT, () => {
     logMessage(`Backend listening on http://localhost:${BACKEND_PORT}`);

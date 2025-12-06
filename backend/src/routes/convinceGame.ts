@@ -12,6 +12,10 @@ export const convinceGameHandler = (req: Request, res: Response): void => {
         headers: req.headers,
         body: req.body,
     });
+    if(!req.body || !req.body.message) {
+        res.status(400).send({ error: 'Bad Request: message field is required in the body' });
+        return;
+    }
 
     try {
         askAI("You will provide a JSON response for a convince game. The response should have the following format: {\"message\": string, \"convincement\": int}." +
