@@ -5,6 +5,7 @@ const fileHandler_1 = require("../helpers/fileHandler");
 const aiHandler_1 = require("../helpers/aiHandler");
 const convinceGameHandler = (req, res) => {
     console.log("Convince game request received.");
+    const body = req.body;
     // const message = JSON.stringify({
     //     method: req.method,
     //     url: req.originalUrl,
@@ -12,7 +13,10 @@ const convinceGameHandler = (req, res) => {
     //     headers: req.headers,
     //     body: req.body,
     // });
-    if (!req.body || !req.body.message || !req.body.fileName || !req.body.pastMessages) {
+    if (!body || // Check if body itself is missing
+        body.message === undefined ||
+        body.fileName === undefined ||
+        body.pastMessages === undefined) {
         res.status(400).send({ error: 'Bad Request: message field and fileName and pastMessages is required in the body' });
         return;
     }
