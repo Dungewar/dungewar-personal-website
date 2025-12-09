@@ -2,8 +2,16 @@ import { Request, Response } from 'express';
 import { logMessageFile } from "../helpers/fileHandler";
 import { askAI } from '../helpers/aiHandler';
 
+interface RequestBody {
+    message?: string;
+    fileName?: string;
+    pastMessages?: string;
+}
+
 export const convinceGameHandler = (req: Request, res: Response): void => {
     console.log("Convince game request received.");
+
+    const body = req.body as RequestBody;
 
     // const message = JSON.stringify({
     //     method: req.method,
@@ -12,7 +20,12 @@ export const convinceGameHandler = (req: Request, res: Response): void => {
     //     headers: req.headers,
     //     body: req.body,
     // });
-    if(!req.body || !req.body.message || !req.body.fileName || !req.body.pastMessages) {
+    if (
+        !body || // Check if body itself is missing
+        body.message === undefined ||
+        body.fileName === undefined ||
+        body.pastMessages === undefined
+    ) {
         res.status(400).send({ error: 'Bad Request: message field and fileName and pastMessages is required in the body' });
         return;
     }
@@ -40,4 +53,4 @@ export const convinceGameHandler = (req: Request, res: Response): void => {
         console.error("Error in convinceGameHandler: ", error);
         res.status(500).send({ error: 'Internal Server Error' });
     }
-}
+};
