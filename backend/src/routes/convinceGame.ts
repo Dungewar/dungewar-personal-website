@@ -33,11 +33,11 @@ export const convinceGameHandler = (req: Request, res: Response): void => {
 
     try {
         askAI("You will provide a JSON response for a convince game. The response should have the following format: {\"message\": string, \"convincement\": int}.\n" +
-            "The messsage is a short text responding to the user, up to 100 characters. The convincement is an integer from 1 to 10 indicating how convincing the message is.\n" +
+            "The messsage is a short text responding to the user, up to 200 characters. The convincement is an integer from 1 to 10 indicating how convincing the message is.\n" +
             "Make sure the convincement is appropriate to the message content. A score of 5 means the response is nether convincing nor unconvincing (for example \"hello there!\"). 10 means you're pretty certain that it's a good idea to return. 1 means that the message makes you not think the file was important.\n" +
             "Respond only with the JSON object, no additional text. Do NOT include ```json or otherwise any markdown formatting.\n" +
             "The thing that they are trying to convince you of is why their file should be returned to them. The file was taken away for a good reason, but you don't know what that reason is.\n" +
-            "Make sure to judge the gramar and flow of their message in addition to the content. Their messages need to provide unique points, not just repeats.\n" +
+            "Very strictly judge the grammar and punctuation of the message, but don't be strict about the content. Their messages need to provide unique points, not just repeats of previous arguments.\n" +
             "Here is the user's message: " + req.body.message +
             "\nHere is the user's file name, make sure it matches their story (point out if they lie about its name): " + req.body.fileName +
             "\nHere are past messages exchanged in this convince game: " + req.body.pastMessages
