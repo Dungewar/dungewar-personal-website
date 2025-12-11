@@ -10,7 +10,7 @@ class MailSignupWidget extends HTMLElement {
 
         // --- Mail Button ---
         const mailButton = document.createElement("button");
-        mailButton.textContent = "Sign up to our mailing list!";
+        mailButton.textContent = "Sign up to my mailing list!";
         mailButton.addEventListener("click", () => {
             const dialog = emailSubmitDialog;
             if (dialog?.open) dialog.close();
@@ -27,7 +27,7 @@ class MailSignupWidget extends HTMLElement {
         // Dialog text
         const emailDialogText = document.createElement("p");
         emailDialogText.textContent =
-            "Add your email to our mailing list to get FREE updates whenever the website changes!";
+            "Add your email to my mailing list to get FREE updates whenever the website changes!";
 
         // Form
         const emailForm = document.createElement("form");
