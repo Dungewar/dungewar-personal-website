@@ -54,6 +54,18 @@
             border-radius: 8px;
         }
 
+        .artwork-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .artwork-container img {
+            max-width: 100%;
+            height: auto;
+            border: 10px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
         .event-details {
             text-align: center;
             border-bottom: 1px solid #ddd;
@@ -65,12 +77,6 @@
             font-weight: bold;
             font-size: 1.2rem;
             color: var(--met-blue);
-        }
-
-        .description {
-            font-size: 1.1rem;
-            color: #555;
-            margin: 20px 0;
         }
 
         .ticket-box {
@@ -85,10 +91,12 @@
             background-color: var(--met-blue);
             color: white;
             padding: 15px 40px;
-            text-decoration: none;
+            border: none;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
             font-weight: bold;
             text-transform: uppercase;
-            margin-top: 20px;
+            cursor: pointer;
             transition: background 0.3s ease;
         }
 
@@ -117,7 +125,12 @@
         <section class="event-details">
             <p class="date">Wednesday, December 17th, 2025</p>
             <h2>The Portrait of a Visionary</h2>
-            <p class="description">
+
+            <div class="artwork-container">
+                <img src="./art-project/portrait.png" alt="Portrait of James Weldon Johnson">
+            </div>
+
+            <p>
                 Join us at <strong>The Metropolitan Museum of Art</strong> for an exclusive viewing of Aaron Douglas’s
                 masterpiece. Explore the intersection of American Modernism and the Harlem Renaissance through
                 the eyes of the man who gave us "The Creation."
@@ -128,13 +141,20 @@
             <h3>Reserve Your Entry</h3>
             <p>Timed-entry tickets are required for this special gallery viewing.</p>
             <p><strong>Standard Admission:</strong> $30 | <strong>Members:</strong> Free</p>
-            <a href="#" class="btn">Get Tickets Now</a>
+
+            <button class="btn" onclick="showCredit()">Get Tickets Now</button>
         </section>
     </div>
 
     <footer>
         &copy; 2025 The Metropolitan Museum of Art | 1000 Fifth Avenue, New York, NY
     </footer>
+
+    <script>
+        function showCredit() {
+            alert("Made by Olgierd, because going above and beyond is no barrier.");
+        }
+    </script>
 
 </body>
 
