@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE ROHAN NADKARNI EXPERIENCE</title>
+    <style>
+        /* BASE STYLES - The Foundation of Chaos */
+        body {
+            /* Alternating stripes of Cheese Yellow and Beryllium Green */
+            background: repeating-linear-gradient(45deg,
+                    #FFD700,
+                    #FFD700 40px,
+                    #32CD32 40px,
+                    #32CD32 80px);
+            font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif;
+            color: #006400;
+            /* Dark Green text */
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #FFFACD;
+            /* Lemon Chiffon (Cheese-ish) background */
+            border: 15px ridge #FFA500;
+            /* Orange Cheese Crust Border */
+            padding: 30px;
+            box-shadow: 20px 20px 0px #000;
+        }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-size: 4em;
+            text-shadow: 4px 4px 0px #32CD32;
+            margin-bottom: 10px;
+            animation: vibrate 0.5s infinite;
+        }
+
+        h2 {
+            background-color: #32CD32;
+            /* Beryllium Green */
+            color: yellow;
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 50px;
+            border: 5px dashed #FFFF00;
+            transform: rotate(-2deg);
+        }
+
+        p {
+            font-size: 1.5em;
+            line-height: 1.4;
+            font-weight: bold;
+        }
+
+        /* THE IMAGES */
+        .rohan-img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border: 8px solid #FFD700;
+            margin: 20px;
+        }
+
+        /* ANIMATIONS */
+        @keyframes vibrate {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(2px, 2px) rotate(1deg);
+            }
+
+            50% {
+                transform: translate(0, -2px) rotate(0deg);
+            }
+
+            75% {
+                transform: translate(-2px, 2px) rotate(-1deg);
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 10px #32CD32;
+            }
+
+            50% {
+                box-shadow: 0 0 40px #32CD32, 0 0 80px #32CD32;
+            }
+
+            100% {
+                box-shadow: 0 0 10px #32CD32;
+            }
+        }
+
+        /* CLASS SPECIFICS */
+        .spinning-cheese-head {
+            border-radius: 50%;
+            animation: spin 3s linear infinite;
+        }
+
+        .beryllium-zone {
+            border: 10px double #39FF14;
+            background-color: #000;
+            color: #39FF14;
+            /* Neon Green */
+            padding: 20px;
+            margin-top: 30px;
+            animation: pulse-green 1.5s infinite alternate;
+        }
+
+        .stat-box {
+            background: orange;
+            color: white;
+            padding: 10px;
+            margin: 10px;
+            border: 4px dotted yellow;
+            display: inline-block;
+            font-size: 1.2em;
+        }
+
+        /* MARQUEE SIMULATION */
+        .scrolling-thought {
+            background-color: #FFA500;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            box-sizing: border-box;
+            font-size: 2em;
+            padding: 10px;
+            border-top: 5px solid yellow;
+            border-bottom: 5px solid yellow;
+        }
+
+        .scrolling-thought span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(-100%, 0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="scrolling-thought">
+        <span>Thinking about Brie... Thinking about Gouda... Thinking about that one move in PvZ... Thinking about
+            Cheddar...</span>
+    </div>
+
+    <div class="container">
+        <h1>ROHAN NADKARNI</h1>
+        <p><i>Violin Virtuoso | Cheese Connoisseur | Beryllium Enthusiast</i></p>
+
+        <hr style="border: 5px solid #32CD32;">
+
+        <div>
+            <h2>THE 16-HOUR GRIND</h2>
+            <br>
+            <img src="/pages/images/rohan-1" alt="Rohan playing violin" class="rohan-img">
+            <p>
+                Sleep is for people who don't practice scales.<br>
+                If I am awake, I am bowing. <br>
+                <span class="stat-box">Practice: 16 Hours</span>
+                <span class="stat-box">Sleep: Optional</span>
+                <span class="stat-box">Violin: On Fire</span>
+            </p>
+        </div>
+
+        <div style="background-color: #FFD700; padding: 20px; border-radius: 20px; border: 5px dashed white;">
+            <h2 style="transform: rotate(3deg); background: orange; border-color: white;">THE SUSTENANCE</h2>
+            <br>
+            <img src="/pages/images/rohan-2" alt="Rohan eating cheese" class="rohan-img spinning-cheese-head">
+            <p>
+                You eat vegetables? Cute.<br>
+                My body runs on 100% sharp cheddar. <br>
+                Lactose intolerance is a state of mind that I have defeated.
+            </p>
+        </div>
+
+        <div>
+            <br>
+            <h2>PvZ HEROES STRATEGY</h2>
+            <br>
+            <img src="/pages/images/rohan-3" alt="Rohan playing PvZ" class="rohan-img" style="border-color: #800080;">
+            <p>
+                While practicing Paganini with my left hand, I am calculating optimal zombie placement with my right
+                foot.<br>
+                <b>MY DECK HAS NO WEAKNESS.</b>
+            </p>
+        </div>
+
+        <div class="beryllium-zone">
+            <h2 style="background: black; color: #39FF14; border-color: #39FF14;">ATOMIC NUMBER 4 OBSESSION</h2>
+            <br>
+            <img src="/pages/images/rohan-4" alt="Rohan loving green" class="rohan-img" style="border-color: #39FF14;">
+            <p>
+                WHY IS BERYLLIUM SO GOOD?<br>
+                IT IS GREEN.<br>
+                I AM GREEN.<br>
+                (Because of the mold on the cheese I ate).
+            </p>
+        </div>
+
+        <br>
+        <p style="font-size: 0.8em;">&copy; Rohan's Brain. Currently processing: Mozzarella.</p>
+
+    </div>
+
+</body>
+
+</html>
