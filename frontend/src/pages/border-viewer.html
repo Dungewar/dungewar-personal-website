@@ -98,7 +98,7 @@
                 if (remaining <= 0) {
                     document.getElementById('timer').textContent = '0:00';
                     clearInterval(timerInterval);
-                    setTimeout(fetchBorderData, 5000); // Wait 5 seconds then fetch again
+                    setTimeout(fetchBorderData, 1000);
                 } else {
                     const minutes = Math.floor(remaining / 60);
                     const seconds = Math.floor(remaining % 60);
