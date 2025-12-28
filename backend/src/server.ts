@@ -12,6 +12,7 @@ import { WebSocketServer } from 'ws';
 import { webSocketHandler } from "./routes/webSocketCommunication";
 import './helpers/databaseHandler';
 import { convinceGameHandler } from "./routes/convinceGame";
+import { mcWorldBorderHandler } from "./routes/mcWorldBorder";
 
 const app = express();
 const BACKEND_PORT = 4000;
@@ -35,6 +36,9 @@ app.post("/api/convince-game", convinceGameHandler);
 app.listen(BACKEND_PORT, () => {
     logMessage(`Backend listening on http://localhost:${BACKEND_PORT}`);
 });
+
+app.post("/api/mc-world-border", mcWorldBorderHandler);
+app.get("/api/mc-world-border", mcWorldBorderHandler);
 
 
 export const webSocketServer = new WebSocketServer({ port: WEBSOCKET_PORT });
