@@ -64,13 +64,12 @@
                 const data = await response.json();
                 const borders = data.latest_borders;
 
-                if (borders && borders.length > 0) {
+                if (borders && borders.length >= 2) {
                     latestBorder = borders[0];
                     previousBorder = borders[1];
 
-                    const targetSize = latestBorder.size;
 
-                    document.getElementById('target-size').textContent = Math.round(targetSize);
+                    document.getElementById('target-size').textContent = Math.round(targetSize.size);
                     document.getElementById('latest-size').textContent = Math.round(latestBorder.size);
 
                     startTimer();
