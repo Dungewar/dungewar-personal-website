@@ -17,6 +17,7 @@ const ws_1 = require("ws");
 const webSocketCommunication_1 = require("./routes/webSocketCommunication");
 require("./helpers/databaseHandler");
 const convinceGame_1 = require("./routes/convinceGame");
+const mcWorldBorder_1 = require("./routes/mcWorldBorder");
 const app = (0, express_1.default)();
 const BACKEND_PORT = 4000;
 const WEBSOCKET_PORT = 8080;
@@ -37,6 +38,8 @@ app.post("/api/convince-game", convinceGame_1.convinceGameHandler);
 app.listen(BACKEND_PORT, () => {
     (0, fileHandler_1.logMessage)(`Backend listening on http://localhost:${BACKEND_PORT}`);
 });
+app.post("/api/mc-world-border", mcWorldBorder_1.mcWorldBorderHandler);
+app.get("/api/mc-world-border", mcWorldBorder_1.mcWorldBorderHandler);
 exports.webSocketServer = new ws_1.WebSocketServer({ port: WEBSOCKET_PORT });
 // webSocketServer.clients
 exports.webSocketServer.on('connection', webSocketCommunication_1.webSocketHandler);

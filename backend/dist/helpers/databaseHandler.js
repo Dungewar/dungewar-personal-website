@@ -8,6 +8,10 @@ exports.getMessage = getMessage;
 exports.getAll = getAll;
 exports.getGeneratedUsername = getGeneratedUsername;
 exports.addGeneratedUsername = addGeneratedUsername;
+exports.getWorldBorder = getWorldBorder;
+exports.addWorldBorder = addWorldBorder;
+exports.getLatestWorldBorder = getLatestWorldBorder;
+exports.getLatestWorldBorders = getLatestWorldBorders;
 const better_sqlite3_1 = __importDefault(require("better-sqlite3"));
 const path_1 = __importDefault(require("path"));
 const databasePath = path_1.default.join('/srv/database/', 'data.db');
@@ -65,5 +69,43 @@ function getGeneratedUsername(id) {
 }
 function addGeneratedUsername(id, name) {
     setGeneratedUsernamePrepare.run(id, name);
+}
+database.exec(`
+    CREATE TABLE IF NOT EXISTS world_borders
+    (
+        id         INTEGER PRIMARY KEY AUTOINCREMENT,
+        size     INTEGER NOT NULL,
+        duration       INTEGER NOT NULL,
+        created_at INTEGER NOT NULL DEFAULT (unixepoch())
+    )
+`);
+const getWorldBorderPrepare = database.prepare(`
+    SELECT * FROM world_borders WHERE id = ?
+`);
+const setWorldBorderPrepare = database.prepare(`
+    INSERT INTO world_borders (size, duration)
+    VALUES (?, ?)
+`);
+function getWorldBorder(id) {
+    const row = getWorldBorderPrepare.get(id);
+    return row ?? null;
+}
+function addWorldBorder(size, duration) {
+    setWorldBorderPrepare.run(size, duration);
+}
+function getLatestWorldBorder() {
+    const row = database.prepare(`
+        SELECT * FROM world_borders
+        ORDER BY id DESC
+        LIMIT 1
+    `).get();
+    return row ?? null;
+}
+function getLatestWorldBorders(limit) {
+    return database.prepare(`
+        SELECT * FROM world_borders
+        ORDER BY id DESC
+        LIMIT ?
+    `).all(limit);
 }
 //# sourceMappingURL=databaseHandler.js.map

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head id="header">
+  <title>MC World Border Viewer</title>
+
+  <link href="/styles/yellow-style.css" rel="stylesheet">
+  <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
+  <link href="../favicon/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="../favicon/favicon.ico" rel="shortcut icon" />
+  <link href="../favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+  <meta content="MyWebSite" name="apple-mobile-web-app-title" />
+  <link href="../favicon/site.webmanifest" rel="manifest" />
+</head>
+
+<body>
+
+  <div id="navbar"></div>
+  <script>
+    fetch('/components/navbar.html')
+      .then(res => res.text())
+      .then(html => document.getElementById('navbar').innerHTML = html);
+  </script>
+
+  <div class="container">
+    <h1>MC World Border Viewer</h1>
+    <p>Monitor the Minecraft world border changes in real-time!</p>
+    <div id="border-info" style="background: var(--widget-bg); padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow);">
+      <p><strong>Current border size:</strong> <span id="current-size">Loading...</span></p>
+      <p><strong>Target border size:</strong> <span id="target-size">Loading...</span></p>
+      <p><strong>Time until next change:</strong> <span id="timer">Loading...</span></p>
+      <p><strong>Latest border size set:</strong> <span id="latest-size">Loading...</span></p>
+    </div>
+  </div>
+
+  <script>
+    let timerInterval;
+    let endTime;
+
+    async function fetchBorderData() {
+      try {
+        const response = await fetch('/api/mc-world-border');
+        const data = await response.json();
+        const borders = data.latest_borders;
+
+        if (borders && borders.length > 0) {
+          const latest = borders[0];
+          const previous = borders[1];
+
+          const currentSize = previous ? previous.size : latest.size;
+          const targetSize = latest.size;
+          const duration = latest.duration;
+
+          document.getElementById('current-size').textContent = currentSize;
+          document.getElementById('target-size').textContent = targetSize;
+          document.getElementById('latest-size').textContent = latest.size;
+
+          // Calculate end time
+          const createdAt = latest.created_at * 1000; // convert to milliseconds
+          endTime = createdAt + (duration * 1000);
+
+          startTimer();
+        }
+      } catch (error) {
+        console.error('Error fetching border data:', error);
+      }
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+
+      timerInterval = setInterval(() => {
+        const now = Date.now();
+        const remaining = Math.max(0, endTime - now);
+
+        if (remaining <= 0) {
+          document.getElementById('timer').textContent = '0:00';
+          clearInterval(timerInterval);
+          setTimeout(fetchBorderData, 5000); // Wait 5 seconds then fetch again
+        } else {
+          const minutes = Math.floor(remaining / 60000);
+          const seconds = Math.floor((remaining % 60000) / 1000);
+          document.getElementById('timer').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+      }, 1000);
+    }
+
+    // Initial fetch
+    fetchBorderData();
+  </script>
+
+</body>
+
+</html>
