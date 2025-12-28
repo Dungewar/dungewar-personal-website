@@ -95,13 +95,17 @@
                 document.getElementById('current-size').textContent = Math.round(currentSize);
 
                 if (remaining <= 0) {
-                    document.getElementById('timer').textContent = '0:00';
+                    document.getElementById('timer').textContent = '0:00:00';
                     clearInterval(timerInterval);
                     setTimeout(fetchBorderData, 1000);
                 } else {
-                    const minutes = Math.floor(remaining / 60);
+                    const hours = Math.floor(remaining / 3600);
+                    const minutes = Math.floor((remaining % 3600) / 60);
                     const seconds = Math.floor(remaining % 60);
-                    document.getElementById('timer').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                    // Formats as H:MM:SS or HH:MM:SS
+                    document.getElementById('timer').textContent =
+                        `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 }
             }, 1000);
         }
