@@ -49,13 +49,13 @@
             <p><strong>Current border size:</strong> <span id="current-size">Loading...</span></p>
             <p><strong>Target border size:</strong> <span id="target-size">Loading...</span></p>
             <p><strong>Time until next change:</strong> <span id="timer">Loading...</span></p>
-            <p><strong>Latest border size set:</strong> <span id="latest-size">Loading...</span></p>
+            <p><strong>Previous border size set:</strong> <span id="previous-size">Loading...</span></p>
         </div>
     </div>
 
     <script>
         let timerInterval;
-        let latestBorder;
+        let targetBorder;
         let previousBorder;
 
         async function fetchBorderData() {
@@ -65,12 +65,12 @@
                 const borders = data.latest_borders;
 
                 if (borders && borders.length >= 2) {
-                    latestBorder = borders[0];
+                    targetBorder = borders[0];
                     previousBorder = borders[1];
 
 
-                    document.getElementById('target-size').textContent = Math.round(targetSize.size);
-                    document.getElementById('latest-size').textContent = Math.round(latestBorder.size);
+                    document.getElementById('target-size').textContent = Math.round(targetBorder.size);
+                    document.getElementById('previous-size').textContent = Math.round(previousBorder.size);
 
                     startTimer();
                 }
@@ -84,13 +84,13 @@
 
             timerInterval = setInterval(() => {
                 const now = Date.now() / 1000; // seconds
-                const elapsed = now - latestBorder.created_at;
-                const remaining = Math.max(0, latestBorder.duration - elapsed);
+                const elapsed = now - targetBorder.created_at;
+                const remaining = Math.max(0, targetBorder.duration - elapsed);
 
                 // Calculate current size
-                const progress = Math.min(elapsed / latestBorder.duration, 1);
-                const startSize = previousBorder ? previousBorder.size : latestBorder.size;
-                const currentSize = startSize + (latestBorder.size - startSize) * progress;
+                const progress = Math.min(elapsed / targetBorder.duration, 1);
+                const startSize = previousBorder ? previousBorder.size : targetBorder.size;
+                const currentSize = startSize + (targetBorder.size - startSize) * progress;
 
                 document.getElementById('current-size').textContent = Math.round(currentSize);
 
