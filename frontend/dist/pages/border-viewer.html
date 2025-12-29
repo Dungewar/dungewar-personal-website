@@ -56,7 +56,7 @@
     <script>
         let timerInterval;
         let targetBorder;
-        let previousBorder;
+        let id = -1;
 
         async function fetchBorderData() {
             try {
@@ -65,17 +65,22 @@
                 const borders = data.latest_borders;
 
                 if (borders && borders.length >= 2) {
-                    targetBorder = borders[0];
-                    previousBorder = borders[1];
+                    newestBorder = borders[0];
+                    if (newestBorder.id === id) {
+                        // No change
+                        setTimeout(fetchBorderData, 5000); // 5 seconds to not have spammy requests
+                        return;
+                    }
+                    id = newestBorder.id;
 
-
-                    document.getElementById('target-size').textContent = Math.round(targetBorder.size);
-                    document.getElementById('previous-size').textContent = Math.round(previousBorder.size);
+                    document.getElementById('target-size').textContent = Math.round(newestBorder.new_size);
+                    document.getElementById('previous-size').textContent = Math.round(newestBorder.old_size);
 
                     startTimer();
                 }
             } catch (error) {
                 console.error('Error fetching border data:', error);
+                setTimeout(fetchBorderData, 1000); // Retry fetching data after error
             }
         }
 
@@ -89,8 +94,7 @@
 
                 // Calculate current size
                 const progress = Math.min(elapsed / targetBorder.duration, 1);
-                const startSize = previousBorder ? previousBorder.size : targetBorder.size;
-                const currentSize = startSize + (targetBorder.size - startSize) * progress;
+                const currentSize = targetBorder.old_size + (targetBorder.new_size - targetBorder.old_size) * progress;
 
                 document.getElementById('current-size').textContent = Math.round(currentSize);
 

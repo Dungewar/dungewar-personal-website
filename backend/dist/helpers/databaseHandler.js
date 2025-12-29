@@ -74,7 +74,8 @@ database.exec(`
     CREATE TABLE IF NOT EXISTS world_borders
     (
         id         INTEGER PRIMARY KEY AUTOINCREMENT,
-        size     INTEGER NOT NULL,
+        old_size   INTEGER NOT NULL,
+        new_size   INTEGER NOT NULL,
         duration       INTEGER NOT NULL,
         created_at INTEGER NOT NULL DEFAULT (unixepoch())
     )
@@ -83,23 +84,19 @@ const getWorldBorderPrepare = database.prepare(`
     SELECT * FROM world_borders WHERE id = ?
 `);
 const setWorldBorderPrepare = database.prepare(`
-    INSERT INTO world_borders (size, duration)
-    VALUES (?, ?)
+    INSERT INTO world_borders (old_size, new_size, duration)
+    VALUES (?, ?, ?)
 `);
 function getWorldBorder(id) {
     const row = getWorldBorderPrepare.get(id);
     return row ?? null;
 }
-function addWorldBorder(size, duration) {
-    setWorldBorderPrepare.run(size, duration);
+function addWorldBorder(old_size, new_size, duration) {
+    setWorldBorderPrepare.run(old_size, new_size, duration);
 }
 function getLatestWorldBorder() {
-    const row = database.prepare(`
-        SELECT * FROM world_borders
-        ORDER BY id DESC
-        LIMIT 1
-    `).get();
-    return row ?? null;
+    const row = getLatestWorldBorders(1);
+    return row[0] ?? null;
 }
 function getLatestWorldBorders(limit) {
     return database.prepare(`
