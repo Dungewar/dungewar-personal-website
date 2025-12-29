@@ -27,7 +27,7 @@ export const mcWorldBorderHandler = (req: Request, res: Response): void => {
         console.log("Received worldborder change request: ", body);
 
         // Minimal protection but whatever it's funny at least
-        if (body.secret === "L did you know gods of death like cheese") {
+        if (body.secret === process.env.WORLD_BORDER_SECRET) {
             console.log("It's a submission for world borders!");
             addWorldBorder(body.old_size, body.new_size, body.duration);
             res.status(200).send("Added!");
