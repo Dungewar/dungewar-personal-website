@@ -55,7 +55,7 @@
 
     <script>
         let timerInterval;
-        let targetBorder;
+        let newestBorder;
         let id = -1;
 
         async function fetchBorderData() {
@@ -92,12 +92,12 @@
 
             timerInterval = setInterval(() => {
                 const now = Date.now() / 1000; // seconds
-                const elapsed = now - targetBorder.created_at;
-                const remaining = Math.max(0, targetBorder.duration - elapsed);
+                const elapsed = now - newestBorder.created_at;
+                const remaining = Math.max(0, newestBorder.duration - elapsed);
 
                 // Calculate current size
-                const progress = Math.min(elapsed / targetBorder.duration, 1);
-                const currentSize = targetBorder.old_size + (targetBorder.new_size - targetBorder.old_size) * progress;
+                const progress = Math.min(elapsed / newestBorder.duration, 1);
+                const currentSize = newestBorder.old_size + (newestBorder.new_size - newestBorder.old_size) * progress;
 
                 document.getElementById('current-size').textContent = Math.round(currentSize);
 
