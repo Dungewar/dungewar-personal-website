@@ -79,6 +79,7 @@
                     startTimer();
                 } else {
                     console.warn('Empty border data received');
+                    setTimeout(fetchBorderData, 5000); // 5 seconds to not have spammy requests
                 }
             } catch (error) {
                 console.error('Error fetching border data:', error);
