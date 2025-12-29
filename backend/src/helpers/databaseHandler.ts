@@ -78,14 +78,16 @@ database.exec(`
     CREATE TABLE IF NOT EXISTS world_borders
     (
         id         INTEGER PRIMARY KEY AUTOINCREMENT,
-        size     INTEGER NOT NULL,
+        old_size   INTEGER NOT NULL,
+        new_size   INTEGER NOT NULL,
         duration       INTEGER NOT NULL,
         created_at INTEGER NOT NULL DEFAULT (unixepoch())
     )
 `);
 interface WorldBorderRow {
     id: number;
-    size: number;
+    old_size: number;
+    new_size: number;
     duration: number;
     created_at: number;
 }
@@ -93,23 +95,19 @@ const getWorldBorderPrepare = database.prepare<[number], WorldBorderRow>(`
     SELECT * FROM world_borders WHERE id = ?
 `);
 const setWorldBorderPrepare = database.prepare(`
-    INSERT INTO world_borders (size, duration)
-    VALUES (?, ?)
+    INSERT INTO world_borders (old_size, new_size, duration)
+    VALUES (?, ?, ?)
 `);
 export function getWorldBorder(id: number): WorldBorderRow | null {
     const row = getWorldBorderPrepare.get(id) as WorldBorderRow | undefined;
     return row ?? null;
 }
-export function addWorldBorder(size: number, duration: number): void {
-    setWorldBorderPrepare.run(size, duration);
+export function addWorldBorder(old_size: number, new_size: number, duration: number): void {
+    setWorldBorderPrepare.run(old_size, new_size, duration);
 }
 export function getLatestWorldBorder(): WorldBorderRow | null {
-    const row = database.prepare<[], WorldBorderRow>(`
-        SELECT * FROM world_borders
-        ORDER BY id DESC
-        LIMIT 1
-    `).get() as WorldBorderRow | undefined;
-    return row ?? null;
+    const row = getLatestWorldBorders(1);
+    return row[0] ?? null;
 }
 
 export function getLatestWorldBorders(limit: number): WorldBorderRow[] {
