@@ -869,11 +869,11 @@ of my CPU which is always fun to work in. Normally, programs crash
 because you did a silly with the code, and it gives an exception or
 error and then PM2 has to restart it. This time however, pm2 logs showed
 no errors! It was starting over and over again for no apparent reason.
-<img src="img.png" alt="img.png" /></p>
+<img role="img" aria-label="img.png" src="img.png" alt="img.png" /></p>
 <p>I went on a goose chase thinking something was killing it but no, it
 was just exiting cleanly by itself.</p>
 <p>My code was very barebones, all it did was listen to port 4000 and
-then trigger some handlers. <img src="img_1.png" alt="img_1.png" /></p>
+then trigger some handlers. <img role="img" aria-label="img_1.png" src="img_1.png" alt="img_1.png" /></p>
 <p>ChatGPT was telling me to do all sorts of crazy debugging with
 checking individual kernel calls or something, but it was full of crap.
 Then I came up with a hypothesis: if port 4000 was taken by something
@@ -881,7 +881,7 @@ else, then my program failed to listen to port 4000, and so not having
 anything to do, went to sleep like a peaceful baby that I want to
 shoot.</p>
 <p>Sure enough, <code>sudo ss -tupld</code> told me I was right, some
-node daemon was eating up port 4000. I needed to kill it. <img src="img_2.png" alt="img_2.png" /></p>
+node daemon was eating up port 4000. I needed to kill it. <img role="img" aria-label="img_2.png" src="img_2.png" alt="img_2.png" /></p>
 <h2 id="daemon-hunting">Daemon Hunting</h2>
 <p>I had experience hunting daemons before. On my Ubuntu laptop, I&#39;ve
 had to kill the CUPS daemon for trying to steal my battery silently, and
@@ -916,7 +916,7 @@ question now is: who&#39;s reviving it? Turns out there&#39;s an easy way to
 find out.</p>
 <h3 id="the-permament-execution">The permament execution</h3>
 <p><code>systemctl status 70294</code> gave us the culprit. All along,
-it was PM2. <img src="img_3.png" alt="img_3.png" /></p>
+it was PM2. <img role="img" aria-label="img_3.png" src="img_3.png" alt="img_3.png" /></p>
 <h2 id="the-betrayal">The betrayal</h2>
 <p>You might ask: how have I not noticed this sooner? Well in my
 defence, <code>pm2 status</code> gave me nothing, just my backend that
@@ -925,7 +925,7 @@ was restarting over and over. This means one of two things:</p>
 <li>PM2 is lying to me (possible, I don&#39;t trust it all that much)</li>
 <li>Another PM2 exists</li>
 </ol>
-<p><code>btop</code> tells me the whole story... <img src="img_5.png" alt="img_5.png" /> There was another PM2. And it wasn&#39;t just any PM2, it
+<p><code>btop</code> tells me the whole story... <img role="img" aria-label="img_5.png" src="img_5.png" alt="img_5.png" /> There was another PM2. And it wasn&#39;t just any PM2, it
 was the <strong>PM2 God Daemon</strong> running not as dungewar, but as
 **root ** (DUN DUN DUUUUN!).</p>
 <p>How is this possible? I never ran <code>sudo pm2</code> to give birth
@@ -936,10 +936,10 @@ to this abomination... <br><br><br><br> at least not explicitly.</p>
 that updates from github, redownloads node packages, sends out update
 emails, and importantly... restarts the backend. The script told me that
 some things were not permitted, that it needs root, so I foolishly gave
-it. <img src="img_6.png" alt="img_6.png" /> The likely cause of this is
+it. <img role="img" aria-label="img_6.png" src="img_6.png" alt="img_6.png" /> The likely cause of this is
 that when first setting it up, I ran <code>npm install</code> as root,
 so the <code>package.json</code> and <code>package-lock.json</code> were
-owned by root, so my script needed root to access them. <img src="img_8.png" alt="img_8.png" /></p>
+owned by root, so my script needed root to access them. <img role="img" aria-label="img_8.png" src="img_8.png" alt="img_8.png" /></p>
 <p>Within the <code>update-project.sh</code> script, I start PM2.
 Because the whole thing being ran as root, it started PM2 as root, and
 because of that just checking <code>pm2 status</code> did not show
@@ -955,7 +955,7 @@ at <a href="http://www.btop.com/dungewar">www.btop.com/dungewar</a> for
 98% off your fist purchase over $10! (that is $(10!))).</p>
 <p>So I ran <code>sudo btop</code>, went to the PM2 God Daemon ran by
 root, and after contemplating over the long hard battle, sent SIGKILL
-<img src="img_7.png" alt="img_7.png" /></p>
+<img role="img" aria-label="img_7.png" src="img_7.png" alt="img_7.png" /></p>
 <h2 id="aftermath">Aftermath</h2>
 <p>With SIGTERM, programs have time to accept the signal, shut down
 processes cleanly, then exit on their own accord. SIGKILL is not like
