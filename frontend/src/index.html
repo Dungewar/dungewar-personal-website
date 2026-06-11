@@ -1,51 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head id="header">
-  <title>Hello!</title>
-
-  <link href="/styles/dark-style.css" rel="stylesheet">
-  <link href="favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
-  <link href="favicon/favicon.svg" rel="icon" type="image/svg+xml" />
-  <link href="favicon/favicon.ico" rel="shortcut icon" />
-  <link href="favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
-  <meta content="MyWebSite" name="apple-mobile-web-app-title" />
-  <link href="favicon/site.webmanifest" rel="manifest" />
-</head>
-
-<body>
-
-  <div id="navbar"></div>
-  <script>
-    fetch('/components/navbar.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('navbar').innerHTML = html);
-  </script>
-  <script>
-    console.log("Trying to buzz...");
-    res = fetch(`https://dungewar.com/api/ring-buzzer`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-    });
-  </script>
-  <div class="container">
-    <h1>Welcome!</h1>
-    <p>Website made by <b>Olgierd Matusiewicz</b></p>
-    <p>This personal site (hosted on my own Raspberry PI) showcases a few small projects and whatever else. Every time you open the website, it buzzes a beeper IRL to notify me (I am watching you).</p>
-    <ul>
-      <li>Play MINESWEEPER (so exciting)</li>
-      <li>Play our POLEAND GAME (even more exciting)</li>
-      <li>Talk in <i>the chat room</i> (I am not responsible for what you post in there, but moderation is coming Soon™)</li>
-      <li>Read my blog about making this website!</li>
-      <b>ALL THIS AND MORE, available at the top navbar.</b>
-    </ul>
-  </div>
-
-  <script src="./components/mail-signup-widget.js" type="module"></script>
-  <mail-signup-widget></mail-signup-widget>
-<footer style="font-size: 0.1px; color: transparent;">
-    <a href="https://hifenwusband.org" style="color: inherit; text-decoration: none;">.</a>
-</footer>
-</body>
-
+  <head id="header">
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Hello!</title>
+    <link href="/styles/dark-style.css" rel="stylesheet" />
+    <link
+      href="/favicon/favicon-96x96.png"
+      rel="icon"
+      sizes="96x96"
+      type="image/png"
+    />
+    <link href="/favicon/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="/favicon/favicon.ico" rel="shortcut icon" />
+    <link
+      href="/favicon/apple-touch-icon.png"
+      rel="apple-touch-icon"
+      sizes="180x180"
+    />
+    <meta content="MyWebSite" name="apple-mobile-web-app-title" />
+    <link href="/favicon/site.webmanifest" rel="manifest" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="/app/main.tsx" type="module"></script>
+  </body>
 </html>

@@ -1,160 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <title>Chatroom</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <link href="/styles/dark-style.css" rel="stylesheet">
-
-  <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
-  <link href="../favicon/favicon.svg" rel="icon" type="image/svg+xml" />
-  <link href="../favicon/favicon.ico" rel="shortcut icon" />
-  <link href="../favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
-  <meta content="MyWebSite" name="apple-mobile-web-app-title" />
-  <link href="../favicon/site.webmanifest" rel="manifest" />
-</head>
-
-<body>
-  <div id="navbar"></div>
-  <script>
-    fetch('/components/navbar.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('navbar').innerHTML = html);
-  </script>
-
-  <h1>TALK ROOM</h1>
-  <div id="error-box" class="error-box"></div>
-  <label for="input-box">Type message in here!</label><textarea id="input-box"></textarea>
-  <button onclick="
-const inputBox = document.getElementById('input-box');
-if(sendSomething(inputBox.value)) {
-  inputBox.value = '';
-} else {
-  displayError('Message failed to send (bad internet?)');
-}
-">Send!
-  </button>
-  <p id="username-indicator">Username loading...</p>
-  <div id="message-box">Loading please wait...</div>
-
-  <script>
-    function isToday(date) {
-      const today = new Date();
-      return date.getFullYear() === today.getFullYear() &&
-        date.getMonth() === today.getMonth() &&
-        date.getDate() === today.getDate();
-    }
-
-
-    let waitTime = 1000;
-    let socket = null;
-    let username;
-    connect();
-
-    function displayError(message, timeout) {
-      const errorBox = document.getElementById('error-box');
-      errorBox.innerText = message;
-      if (!timeout) timeout = 2000;
-      setTimeout(() => { errorBox.innerText = '' }, timeout);
-    }
-
-    function connect() {
-      let token = localStorage.getItem("user_id");
-      if (!token) {
-        token = crypto.randomUUID();
-        localStorage.setItem("user_id", token);
-      }
-
-      socket = new WebSocket(`wss://dungewar.com/ws?token=${token}`);
-      // When connection opens
-      socket.addEventListener('open', () => {
-        console.log('Connected to server');
-        // socket.send(JSON.stringify({}));
-      });
-
-      // When a message comes in
-      socket.addEventListener('message', (event) => {
-        console.log('Message from server.');
-        const parsedData = JSON.parse(event.data);
-        const type = parsedData.type;
-
-        if (type == 'error') {
-          displayError(parsedData.content);
-        }
-
-        if (type == 'init') {
-          username = parsedData.username;
-          document.getElementById("username-indicator").innerHTML = `<p>Your username: <b class="username">${username}</b></p>`;
-        }
-
-        if (type == 'init' || type == 'messages') {
-          const messages = parsedData.messages;
-
-          const messageBox = document.createElement('div');
-
-          for (const message of messages.reverse()) {
-            const msg = document.createElement("div");
-
-            const header = document.createElement("div");
-            // TODO: improve datetime display
-            const messageTime = new Date(message.created_at * 1000); // seconds to milliseconds
-            if (messageTime) {
-              const time = messageTime.toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit'
-              });
-              if (isToday(messageTime)) {
-                header.innerHTML = `<span class="username">${message.author}</span> — <span class="timestamp">${time}</span>`;
-                // console.log("Message at ", messageTime, " is today");
-              } else {
-                header.innerHTML = `<span class="username">${message.author}</span> — <span class="timestamp">${messageTime.toLocaleDateString()} at ${time}</span>`;
-                // console.log("Message at ", messageTime, " is NOT today");
-              }
-            }
-
-            const body = document.createElement("p");
-            msg.classList.add("message");
-
-            body.innerText = message.text; // SAFE TEXT
-            msg.append(header, body);
-
-            messageBox.appendChild(msg);
-          }
-
-          const container = document.getElementById('message-box');
-          container.innerHTML = "";
-          container.replaceChildren(messageBox);
-        }
-      }
-      );
-
-      // When the connection closes
-      socket.addEventListener('close', () => {
-        console.log('connection closed, waiting for ', waitTime, 'ms');
-        setTimeout(connect, waitTime);
-      });
-
-      // When something goes wrong
-      socket.addEventListener('error', (err) => {
-        console.error('WebSocket error', err);
-        console.log('attempting to reconnect after ', waitTime, 'ms');
-        setTimeout(connect, waitTime);
-      });
-    }
-
-    // You can send later too:
-    function sendSomething(message) {
-      if (socket && socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify({ message: message, messageCount: 15 }));
-        console.log("Message sent to websocket: ", message)
-        return true;
-      } else {
-        console.log("Socket not ready yet")
-        return false;
-      }
-    }
-  </script>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Chatroom</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="/assets/favicon-96x96-v6hNh5bN.png"
+      rel="icon"
+      sizes="96x96"
+      type="image/png"
+    />
+    <link href="/assets/favicon-CpKSV3Fj.svg" rel="icon" type="image/svg+xml" />
+    <link href="/assets/favicon-Cmf59JH_.ico" rel="shortcut icon" />
+    <link
+      href="/assets/apple-touch-icon-BvjE14-z.png"
+      rel="apple-touch-icon"
+      sizes="180x180"
+    />
+    <meta content="MyWebSite" name="apple-mobile-web-app-title" />
+    <link href="/assets/site-DGWt2i2_.webmanifest" rel="manifest" />
+    <script type="module" crossorigin src="/assets/main-CvvpGps0.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/dark-style-BwlZzQry.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>

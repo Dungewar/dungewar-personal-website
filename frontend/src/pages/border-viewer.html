@@ -1,126 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head id="header">
+  <head id="header">
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>MC World Border Viewer</title>
-
-    <link href="/styles/dark-style.css" rel="stylesheet">
-    <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
-    <link href="../favicon/favicon.svg" rel="icon" type="image/svg+xml" />
-    <link href="../favicon/favicon.ico" rel="shortcut icon" />
-    <link href="../favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+    <link href="/styles/dark-style.css" rel="stylesheet" />
+    <link
+      href="/favicon/favicon-96x96.png"
+      rel="icon"
+      sizes="96x96"
+      type="image/png"
+    />
+    <link href="/favicon/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="/favicon/favicon.ico" rel="shortcut icon" />
+    <link
+      href="/favicon/apple-touch-icon.png"
+      rel="apple-touch-icon"
+      sizes="180x180"
+    />
     <meta content="MyWebSite" name="apple-mobile-web-app-title" />
-    <link href="../favicon/site.webmanifest" rel="manifest" />
-</head>
-
-<body>
-
-    <div id="navbar"></div>
-    <script>
-        fetch('/components/navbar.html')
-            .then(res => res.text())
-            .then(html => document.getElementById('navbar').innerHTML = html);
-    </script>
-
-    <style>
-        #border-info {
-            background: linear-gradient(45deg, #4285f4, #ea4335, #fbbc05, #34a853);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        #border-info p {
-            margin: 10px 0;
-            font-size: 18px;
-        }
-
-        #border-info strong {
-            color: #ffffff;
-        }
-    </style>
-
-    <div class="container">
-        <h1>MC World Border Viewer</h1>
-        <p>Monitor the Minecraft world border changes in real-time!</p>
-        <div id="border-info">
-            <p><strong>Current border size:</strong> <span id="current-size">Loading...</span></p>
-            <p><strong>Target border size:</strong> <span id="target-size">Loading...</span></p>
-            <p><strong>Time until next change:</strong> <span id="timer">Loading...</span></p>
-            <p><strong>Previous border size set:</strong> <span id="previous-size">Loading...</span></p>
-        </div>
-    </div>
-
-    <script>
-        let timerInterval;
-        let newestBorder;
-        let id = -1;
-
-        async function fetchBorderData() {
-            try {
-                const response = await fetch('/api/mc-world-border');
-                const data = await response.json();
-                const borders = data.latest_borders;
-
-                if (borders.length > 0) {
-                    newestBorder = borders[0];
-                    if (newestBorder.id === id) {
-                        // No change
-                        setTimeout(fetchBorderData, 5000); // 5 seconds to not have spammy requests
-                        return;
-                    }
-                    id = newestBorder.id;
-
-                    document.getElementById('target-size').textContent = Math.round(newestBorder.new_size);
-                    document.getElementById('previous-size').textContent = Math.round(newestBorder.old_size);
-
-                    startTimer();
-                } else {
-                    console.warn('Empty border data received');
-                    setTimeout(fetchBorderData, 5000); // 5 seconds to not have spammy requests
-                }
-            } catch (error) {
-                console.error('Error fetching border data:', error);
-                setTimeout(fetchBorderData, 1000); // Retry fetching data after error
-            }
-        }
-
-        function startTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-
-            timerInterval = setInterval(() => {
-                const now = Date.now() / 1000; // seconds
-                const elapsed = now - newestBorder.created_at;
-                const remaining = Math.max(0, newestBorder.duration - elapsed);
-
-                // Calculate current size
-                const progress = Math.min(elapsed / newestBorder.duration, 1);
-                const currentSize = newestBorder.old_size + (newestBorder.new_size - newestBorder.old_size) * progress;
-
-                document.getElementById('current-size').textContent = Math.round(currentSize);
-
-                if (remaining <= 0) {
-                    document.getElementById('timer').textContent = '0:00:00';
-                    clearInterval(timerInterval);
-                    setTimeout(fetchBorderData, 1000);
-                } else {
-                    const hours = Math.floor(remaining / 3600);
-                    const minutes = Math.floor((remaining % 3600) / 60);
-                    const seconds = Math.floor(remaining % 60);
-
-                    // Formats as H:MM:SS or HH:MM:SS
-                    document.getElementById('timer').textContent =
-                        `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                }
-            }, 1000);
-        }
-
-        // Initial fetch
-        fetchBorderData();
-    </script>
-
-</body>
-
+    <link href="/favicon/site.webmanifest" rel="manifest" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="/app/main.tsx" type="module"></script>
+  </body>
 </html>

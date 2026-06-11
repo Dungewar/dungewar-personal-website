@@ -1,30 +1,32 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Minesweeper</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link href="/styles/dark-style.css" rel="stylesheet">
-
-    <link href="../../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
-    <link href="../../favicon/favicon.svg" rel="icon" type="image/svg+xml"/>
-    <link href="../../favicon/favicon.ico" rel="shortcut icon"/>
-    <link href="../../favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
-    <meta content="MyWebSite" name="apple-mobile-web-app-title"/>
-    <link href="../../favicon/site.webmanifest" rel="manifest"/>
-</head>
-<body>
-<div id="navbar"></div>
-<script>
-  fetch('/components/navbar.html')
-    .then(res => res.text())
-    .then(html => document.getElementById('navbar').innerHTML = html);
-</script>
-<div class="container">
-    <h1>Minesweeper</h1>
-    <p>Play the minesweeper game, the <a href="https://dungewar.com">BEST™</a> game on earth.</p>
-    <canvas height="1000" id="gameCanvas" width="1000"></canvas>
-</div>
-<script src="./minesweeper-driver.js" type="module"></script>
-</body>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="/assets/favicon-96x96-v6hNh5bN.png"
+      rel="icon"
+      sizes="96x96"
+      type="image/png"
+    />
+    <link href="/assets/favicon-CpKSV3Fj.svg" rel="icon" type="image/svg+xml" />
+    <link href="/assets/favicon-Cmf59JH_.ico" rel="shortcut icon" />
+    <link
+      href="/assets/apple-touch-icon-BvjE14-z.png"
+      rel="apple-touch-icon"
+      sizes="180x180"
+    />
+    <meta content="MyWebSite" name="apple-mobile-web-app-title" />
+    <link href="/assets/site-DGWt2i2_.webmanifest" rel="manifest" />
+    <script type="module" crossorigin src="/assets/main-CvvpGps0.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/dark-style-BwlZzQry.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>

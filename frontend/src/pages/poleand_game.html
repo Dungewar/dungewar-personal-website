@@ -1,78 +1,32 @@
 <!DOCTYPE html>
-<html>
-
-<head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Poleand Game</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link href="/styles/dark-style.css" rel="stylesheet">
-
-    <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
-    <link href="../favicon/favicon.svg" rel="icon" type="image/svg+xml" />
-    <link href="../favicon/favicon.ico" rel="shortcut icon" />
-    <link href="../favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link href="/styles/dark-style.css" rel="stylesheet" />
+    <link
+      href="/favicon/favicon-96x96.png"
+      rel="icon"
+      sizes="96x96"
+      type="image/png"
+    />
+    <link href="/favicon/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="/favicon/favicon.ico" rel="shortcut icon" />
+    <link
+      href="/favicon/apple-touch-icon.png"
+      rel="apple-touch-icon"
+      sizes="180x180"
+    />
     <meta content="MyWebSite" name="apple-mobile-web-app-title" />
-    <link href="../favicon/site.webmanifest" rel="manifest" />
-</head>
-
-<body>
-    <div id="navbar"></div>
-    <script>
-        fetch('/components/navbar.html')
-            .then(res => res.text())
-            .then(html => document.getElementById('navbar').innerHTML = html);
-    </script>
-
-    <div class="container">
-        <h1>Poleand Game</h1>
-        <p>Play the game below (may take a moment to load).</p>
-        <div class="iframe js-iframe">
-            <iframe src="poleand_game/index.html"></iframe>
-            <button class="button iframe-toggle js-iframe-toggle">Toggle Fullscreen</button>
-            <script src="../utils/fullscreen-toggle.js"></script>
-        </div>
-    </div>
-
-    <div class="poleand-section">
-        <h1>Welcome to <span class="highlight">Poleand</span></h1>
-
-        <p>
-            The goal is to <strong>eliminate all enemies</strong> <em>(purple healthbars)</em>!
-        </p>
-
-        <p>
-            You control <strong>atomic troops</strong> with <strong>positive or negative polarity</strong>.
-            <br>Opposites <strong>attract and destroy</strong> each other. Same polarities ignore each other.
-            You can change your troops' polarity <em>anytime</em>. Each wave increases in difficulty.
-        </p>
-
-        <p>
-            Choose from <strong>5 units</strong>, each with unique strengths.
-            <br>Some shoot <strong>neutrons</strong> (damage only), others fire <strong>electrons</strong>
-            (which also convert enemy polarity to match).
-        </p>
-
-        <p>
-            If you're out of money and troops… <strong>you're toast</strong>. The atoms take over the page!
-            <br><em>Refresh</em> to restart. How long can you survive in the <strong>brutal world of Poleand</strong>?
-        </p>
-
-        <p class="note">
-            Click the top-left of the stats screen to close it.
-        </p>
-
-        <h2 class="credits-title">Credits</h2>
-        <ul class="credits-list">
-            <li><strong>Olgierd Matusiewicz</strong>: Lead developer, unit manager, residence provider, and <em>Polish
-                    Person</em></li>
-            <li><strong>Rohan Nadkarni</strong>: UI/frontend designer, co-developer, <em>GDScript doc enjoyer</em></li>
-            <li><strong>Qinzhao Li</strong>: Lead artist, backend debugger, <em>merge conflict resolver</em></li>
-        </ul>
-
-        <p class="credits-font">
-            Font source: <a href="https://www.fontspace.com/stepalange-font-f104612" target="_blank">Stepalange</a>
-        </p>
-    </div>
-</body>
-
+    <link href="/favicon/site.webmanifest" rel="manifest" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="/app/main.tsx" type="module"></script>
+  </body>
 </html>
