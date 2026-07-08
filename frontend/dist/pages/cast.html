@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head id="header">
+    <title>You Found the Secret</title>
+
+    <link href="/styles/dark-style.css" rel="stylesheet">
+    <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
+    <link href="../favicon/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="../favicon/favicon.ico" rel="shortcut icon" />
+    <link href="../favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+    <meta content="MyWebSite" name="apple-mobile-web-app-title" />
+    <link href="../favicon/site.webmanifest" rel="manifest" />
+</head>
+
+<body>
+
+    <div id="navbar"></div>
+    <script>
+        fetch('/components/navbar.html')
+            .then(res => res.text())
+            .then(html => document.getElementById('navbar').innerHTML = html);
+    </script>
+
+    <style>
+        .cast {
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            margin-top: 28px;
+        }
+
+        .person {
+            background: var(--accent-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            display: block;
+            overflow: hidden;
+            text-decoration: none;
+            transition: transform .15s, border-color .15s;
+        }
+
+        .person:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .person img {
+            aspect-ratio: 4 / 3;
+            display: block;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .person div {
+            padding: 14px;
+        }
+
+        .person h2 {
+            font-size: 1.35rem;
+            margin: 0 0 6px;
+        }
+
+        .person p {
+            color: var(--text-light);
+            font-size: .95rem;
+            margin: 0;
+        }
+    </style>
+
+    <main>
+        <h1>You found the secret</h1>
+        <p>Meet the people hiding behind the suspiciously normal website.</p>
+
+        <div class="cast">
+            <a class="person" href="/pages/olgierd-matusiewicz.html">
+                <img src="/pages/images/olgierd-pizza-gear.jpg" alt="Olgierd Matusiewicz">
+                <div>
+                    <h2>Olgierd Matusiewicz</h2>
+                    <p>Website maker and certified gear appreciator.</p>
+                </div>
+            </a>
+
+            <a class="person" href="/pages/max-shi.html">
+                <img src="/pages/images/max-cube.png" alt="Max Shi">
+                <div>
+                    <h2>Max Shi</h2>
+                    <p>A totally normal guy with totally normal status.</p>
+                </div>
+            </a>
+
+            <a class="person" href="/pages/qinzhao-li.html">
+                <img src="/pages/images/qinzhao-pog-face.png" alt="Qinzhao Li">
+                <div>
+                    <h2>Qinzhao Li</h2>
+                    <p>Bold, confident, and extremely page-themed.</p>
+                </div>
+            </a>
+
+            <a class="person" href="/pages/rohan-nadkarni.html">
+                <img src="/pages/images/rohan-1.jpg" alt="Rohan Nadkarni">
+                <div>
+                    <h2>Rohan Nadkarni</h2>
+                    <p>The full experience awaits.</p>
+                </div>
+            </a>
+        </div>
+    </main>
+
+</body>
+
+</html>

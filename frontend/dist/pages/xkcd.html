@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head id="header">
+    <title>Top XKCD Comics</title>
+
+    <link href="/styles/dark-style.css" rel="stylesheet">
+    <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
+    <link href="../favicon/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="../favicon/favicon.ico" rel="shortcut icon" />
+    <link href="../favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+    <meta content="MyWebSite" name="apple-mobile-web-app-title" />
+    <link href="../favicon/site.webmanifest" rel="manifest" />
+</head>
+
+<body>
+
+    <div id="navbar"></div>
+    <script>
+        fetch('/components/navbar.html')
+            .then(res => res.text())
+            .then(html => document.getElementById('navbar').innerHTML = html);
+    </script>
+
+    <style>
+        #comics { display: grid; gap: 30px; }
+        #comics img { max-width: 100%; background: white; }
+        #comics .alt { color: #bcbcbc; font-size: .8rem; font-style: italic; }
+        @media (prefers-color-scheme: dark) { #comics .alt { color: #333; } }
+    </style>
+
+    <div class="container">
+        <h1>Top XKCD Comics</h1>
+        <p>According to me...</p>
+        <div id="comics">Loading...</div>
+    </div>
+
+    <script>
+        const ids = [699,1604,795,1174,784,1984,530,2473,1746,1806,749,1943,1535,2494,792,1985,569,327,1763,838,2839,2948,1657];
+        const esc = s => s.replace(/[&<"]/g, c => ({'&':'&amp;','<':'&lt;','"':'&quot;'}[c]));
+        Promise.all(ids.map(id => fetch(`https://xkcd.vercel.app/?comic=${id}`).then(r => r.json())))
+            .then(cs => comics.innerHTML = cs.map(c => `<section><h2>${c.num}: ${esc(c.title)}</h2><a href="https://xkcd.com/${c.num}/"><img src="${c.img}" alt="${esc(c.alt)}" title="${esc(c.alt)}"></a><p class="alt">${esc(c.alt)}</p></section>`).join(''));
+    </script>
+
+</body>
+
+</html>
