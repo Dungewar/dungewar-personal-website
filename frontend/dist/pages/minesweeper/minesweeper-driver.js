@@ -112,7 +112,7 @@ function randomInt(min, max) {
 function numNeighbors(x, y) {
     console.assert(inBounds(x, y));
     if (!inBounds(x, y)) {
-        console.assert("I AM GOD!");
+        // console.assert("I AM GOD!");
         console.log("Fick assertions");
     }
     // let numNeighbors = board[x][y].bomb ? -1 : 0;
