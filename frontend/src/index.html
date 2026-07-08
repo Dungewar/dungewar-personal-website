@@ -21,29 +21,22 @@
       .then(res => res.text())
       .then(html => document.getElementById('navbar').innerHTML = html);
   </script>
-  <script>
-    console.log("Trying to buzz...");
-    res = fetch(`https://dungewar.com/api/ring-buzzer`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-    });
-  </script>
+
   <div class="container">
     <h1>Welcome!</h1>
     <p>Website made by <b>Olgierd Matusiewicz</b>!</p>
-    <p>This personal site (hosted on my own VPS) showcases a few small projects and whatever else.</p>
+    <p>This personal site (hosted on my own VPS, no longer leaking my IP) showcases a few small projects and whatever else.</p>
     <ul>
       <li>Play MINESWEEPER (so exciting)</li>
       <li>Play our POLEAND GAME (even more exciting)</li>
+      <li>Play our 2026 GMTK Game Jam Game (wait that didn't happen yet, I'll add it after the game jam)</li>
       <li>Look at the top XKCDs!</li>
       <li>Read my blog about making this website!</li>
-      <li>Try to find secrets! (Hint: They're hidden in plain sight)</li>
-      <b>ALL THIS AND MORE, available at the top navbar.</b>
+      <li>Try to find secrets! (Hint: They're hidden in plain sight ;)</li>
+      <b>ALL THIS AND MORE, available at the top navbar! (the secrets are on this page however)</b>
     </ul>
   </div>
 
-  <script src="./components/mail-signup-widget.js" type="module"></script>
-  <mail-signup-widget></mail-signup-widget>
 <footer style="font-size: 10px; color: transparent;">
     <a href="https://dungewar.com/pages/cast.html" style="color: inherit; text-decoration: none;">YOU FOUND A SECRET</a>
 </footer>
