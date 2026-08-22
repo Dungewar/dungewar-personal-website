@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head id="header">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSB News Viewer</title>
+
+    <link href="/styles/dark-style.css" rel="stylesheet">
+    <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
+    <link href="../favicon/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="../favicon/favicon.ico" rel="shortcut icon" />
+    <link href="../favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
+    <meta content="MyWebSite" name="apple-mobile-web-app-title" />
+    <link href="../favicon/site.webmanifest" rel="manifest" />
+
+    <style>
+        /* News Viewer Custom Styles */
+        :root {
+            --brand-yellow: #ffb700;
+            --brand-yellow-light: #ffe066;
+            --brand-yellow-dark: #cc9200;
+            --tag-bg: rgba(255, 183, 0, 0.18);
+            --tag-text: #b37d00;
+            --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.14);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --tag-bg: rgba(255, 183, 0, 0.22);
+                --tag-text: #ffd566;
+                --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+                --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.55);
+            }
+        }
+
+        .news-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .news-header h1 {
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .news-subtitle {
+            color: var(--text-light);
+            font-size: 1.15rem;
+            margin: 0 0 1rem 0;
+        }
+
+        .live-status-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--accent-bg);
+            border: var(--border-width) solid var(--border);
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            background-color: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulse-green 2s infinite;
+        }
+
+        .status-dot.error {
+            background-color: #ef4444;
+            box-shadow: none;
+            animation: none;
+        }
+
+        @keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        /* Controls & Toolbar */
+        .news-toolbar {
+            background: var(--accent-bg);
+            border: var(--border-width) solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .toolbar-row {
+            display: flex;
+            gap: 0.6rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box-wrapper {
+            position: relative;
+            flex: 1 1 280px;
+        }
+
+        .search-input {
+            width: 100%;
+            margin-bottom: 0;
+            padding: 0.6rem 0.85rem;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .toolbar-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .toolbar-actions select,
+        .toolbar-actions button {
+            margin-bottom: 0;
+            padding: 0.55rem 0.85rem;
+            font-size: 0.95rem;
+            border-radius: 6px;
+        }
+
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+            border: var(--border-width) solid var(--border);
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-bg);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .tag-cloud-label {
+            color: var(--text-light);
+            font-weight: bold;
+            margin-right: 0.2rem;
+        }
+
+        /* Active Filter Indicator */
+        .filter-status {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--tag-bg);
+            border: 1px solid var(--brand-yellow);
+            padding: 0.5rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .filter-status.active {
+            display: flex;
+        }
+
+        .filter-status-text {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .filter-clear-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0.2rem 0.5rem;
+            text-decoration: underline;
+            margin-bottom: 0;
+        }
+
+        /* Featured Latest News Card */
+        .featured-card {
+            background: var(--accent-bg);
+            border: 2px solid var(--brand-yellow);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-badge-banner {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: linear-gradient(90deg, #ffb700, #ffe066);
+            color: #332200;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.25rem 0.85rem;
+            border-bottom-left-radius: 8px;
+        }
+
+        /* News Cards List */
+        .news-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .news-card {
+            background: var(--accent-bg);
+            border: var(--border-width) solid var(--border);
+            border-radius: 8px;
+            padding: 1.35rem 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--accent);
+        }
+
+        .card-header-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.6rem;
+            font-size: 0.88rem;
+        }
+
+        .card-meta-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .id-badge {
+            font-family: var(--mono-font);
+            font-weight: bold;
+            font-size: 0.8rem;
+            background: var(--bg);
+            border: var(--border-width) solid var(--border);
+            color: var(--text-light);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+        }
+
+        .date-badge {
+            color: var(--text-light);
+        }
+
+        .tag-pill {
+            display: inline-block;
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            font-weight: 600;
+            font-size: 0.78rem;
+            padding: 0.15rem 0.55rem;
+            border-radius: 999px;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: border-color 0.15s;
+        }
+
+        .tag-pill:hover {
+            border-color: var(--brand-yellow);
+        }
+
+        .news-title {
+            margin: 0.2rem 0 0.5rem 0;
+            font-size: 1.5rem;
+            line-height: 1.25;
+        }
+
+        .news-title a {
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .news-title a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .author-line {
+            color: var(--text-light);
+            font-size: 0.92rem;
+            margin-bottom: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .news-body {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin: 0.8rem 0;
+            word-break: break-word;
+        }
+
+        .news-body p {
+            margin: 0.6rem 0;
+        }
+
+        .news-body pre {
+            background-color: var(--bg);
+            border: var(--border-width) solid var(--border);
+            padding: 0.8rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: var(--mono-font);
+            font-size: 0.92rem;
+        }
+
+        .news-body code {
+            font-family: var(--mono-font);
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            padding: 0.1rem 0.3rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .news-body pre code {
+            border: none;
+            padding: 0;
+            background: none;
+        }
+
+        .news-body blockquote {
+            border-left: 4px solid var(--brand-yellow);
+            margin: 0.8rem 0;
+            padding: 0.4rem 0.8rem;
+            background: var(--bg);
+            border-radius: 0 6px 6px 0;
+            color: var(--text);
+        }
+
+        .news-body ul, .news-body ol {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .card-footer-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: var(--border-width) solid var(--border);
+        }
+
+        .action-link-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-bottom: 0;
+        }
+
+        .action-link-btn:hover {
+            background: var(--bg);
+        }
+
+        /* Single Story View */
+        .single-view-container {
+            display: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .single-view-container.active {
+            display: block;
+        }
+
+        .single-view-card {
+            background: var(--accent-bg);
+            border: var(--border-width) solid var(--border);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-bottom: 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* States: Loading & Empty & Error */
+        .loading-state,
+        .empty-state,
+        .error-state {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            background: var(--accent-bg);
+            border: var(--border-width) solid var(--border);
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .spinner {
+            width: 38px;
+            height: 38px;
+            border: 4px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 1rem auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* API Documentation Footer Box */
+        .api-docs-box {
+            margin-top: 3rem;
+            background: var(--accent-bg);
+            border: var(--border-width) solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+        }
+
+        .api-docs-box summary {
+            font-weight: 700;
+            color: var(--text);
+            padding: 0.5rem 0;
+        }
+
+        .api-docs-content {
+            padding-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .api-docs-content pre {
+            background: var(--bg);
+            padding: 0.8rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+        }
+
+        .copy-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: #ffffff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.2s, transform 0.2s;
+            pointer-events: none;
+        }
+
+        .copy-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="navbar"></div>
+    <script>
+        fetch('/components/navbar.html')
+            .then(res => res.text())
+            .then(html => document.getElementById('navbar').innerHTML = html);
+    </script>
+
+    <div class="container">
+
+        <!-- Header -->
+        <header class="news-header">
+            <h1>📰 BSB News</h1>
+            <p class="news-subtitle">Live breaking updates, announcements, and bulletins from the BSB News Desk</p>
+            <div class="live-status-bar" id="live-status-bar">
+                <span class="status-dot" id="status-dot"></span>
+                <span id="status-text">Connecting to BSB News API...</span>
+            </div>
+        </header>
+
+        <!-- Active Filter Bar -->
+        <div class="filter-status" id="filter-status">
+            <span class="filter-status-text" id="filter-status-text">Showing filtered news</span>
+            <button class="filter-clear-btn" id="filter-clear-btn" onclick="clearFilters()">Clear filter ✕</button>
+        </div>
+
+        <!-- Single Story View (Hidden by default) -->
+        <section class="single-view-container" id="single-view-container">
+            <button class="btn-secondary back-btn" onclick="showAllNewsView()">← Back to all news</button>
+            <article class="single-view-card" id="single-view-card">
+                <!-- Single article content rendered here -->
+            </article>
+        </section>
+
+        <!-- Main Feed View -->
+        <div id="main-feed-container">
+
+            <!-- Toolbar & Search -->
+            <section class="news-toolbar">
+                <div class="toolbar-row">
+                    <div class="search-box-wrapper">
+                        <input
+                            type="search"
+                            id="search-input"
+                            class="search-input"
+                            placeholder="🔍 Search news by title, content, author, tag..."
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div class="toolbar-actions">
+                        <select id="sort-select" onchange="handleSortChange(this.value)">
+                            <option value="newest">Sort: Newest First</option>
+                            <option value="oldest">Sort: Oldest First</option>
+                        </select>
+
+                        <button class="btn-secondary" onclick="viewLatestStory()" title="View latest story">⚡ Latest</button>
+                        <button class="btn-secondary" onclick="viewRandomStory()" title="View random story">🎲 Random</button>
+                        <button class="btn-secondary" id="refresh-btn" onclick="fetchNews()" title="Refresh news feed">🔄 Refresh</button>
+                    </div>
+                </div>
+
+                <!-- Tag Cloud -->
+                <div class="tag-cloud" id="tag-cloud">
+                    <span class="tag-cloud-label">Popular tags:</span>
+                    <!-- Dynamic tag pills will be injected here -->
+                </div>
+            </section>
+
+            <!-- Loading Spinner -->
+            <div class="loading-state" id="loading-state">
+                <div class="spinner"></div>
+                <p>Fetching latest news bulletins...</p>
+            </div>
+
+            <!-- Error State -->
+            <div class="error-state" id="error-state" style="display: none;">
+                <h3>⚠️ Unable to Load News</h3>
+                <p id="error-message">Could not connect to the BSB News service.</p>
+                <button class="button" onclick="fetchNews()">Retry Connection</button>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <h3>No News Found</h3>
+                <p id="empty-message">No articles matched your current search query or filter.</p>
+                <button class="btn-secondary" onclick="clearFilters()">Reset Filters</button>
+            </div>
+
+            <!-- Featured Story Container (Top / Latest) -->
+            <section id="featured-story-container" style="display: none;">
+                <!-- Rendered dynamically -->
+            </section>
+
+            <!-- Regular News Feed -->
+            <main class="news-feed" id="news-feed">
+                <!-- News items rendered here -->
+            </main>
+
+        </div>
+
+        <!-- API Reference Collapsible Box -->
+        <details class="api-docs-box">
+            <summary>🔌 BSB News API Reference for Agents & Developers</summary>
+            <div class="api-docs-content">
+                <p>The BSB News feed is backed by a REST API accessible to human developers, automated clients, and AI agents.</p>
+                <p><strong>Base URL:</strong> <code>https://api.dungewar.com/bsb-news</code> (or alias <code>/news</code>)</p>
+
+                <h4>Public Endpoints (No Auth Required)</h4>
+                <ul>
+                    <li><code>GET https://api.dungewar.com/bsb-news</code> - List all news (supports <code>?sort=newest|oldest</code>, <code>?limit=N</code>, <code>?q=keyword</code>)</li>
+                    <li><code>GET https://api.dungewar.com/bsb-news/latest</code> - Fetch latest single news story</li>
+                    <li><code>GET https://api.dungewar.com/bsb-news/random</code> - Fetch random news story</li>
+                    <li><code>GET https://api.dungewar.com/bsb-news/:id</code> - Fetch story by numeric ID</li>
+                </ul>
+
+                <h4>Quick cURL Example</h4>
+                <pre><code># Fetch latest 5 news stories
+curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
+
+                <h4>Publishing News (Requires Secret Key)</h4>
+                <p>Pass secret key via <code>x-api-key: &lt;key&gt;</code> header or <code>Authorization: Bearer &lt;key&gt;</code>.</p>
+                <pre><code>curl -X POST https://api.dungewar.com/bsb-news \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: dungewar_bsb_news_secret_key_2026" \
+  -d '{
+    "title": "BSB Championship Announced",
+    "content": "The annual BSB championship will begin next month.",
+    "author": "BSB Editorial Desk",
+    "tags": ["announcement", "events"]
+  }'</code></pre>
+            </div>
+        </details>
+
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="copy-toast" id="copy-toast">Link copied to clipboard!</div>
+
+    <!-- News Viewer Script -->
+    <script>
+        const API_BASE = "https://api.dungewar.com/bsb-news";
+
+        let allNewsItems = [];
+        let currentSort = "newest";
+        let activeTagFilter = null;
+        let activeSearchQuery = "";
+        let searchDebounceTimeout = null;
+
+        // --- Initialization ---
+        document.addEventListener("DOMContentLoaded", () => {
+            initQueryParams();
+            setupSearchInput();
+        });
+
+        function initQueryParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const idParam = urlParams.get("id");
+            const whichParam = urlParams.get("which");
+            const tagParam = urlParams.get("tag");
+            const queryParam = urlParams.get("q") || urlParams.get("search");
+            const sortParam = urlParams.get("sort");
+
+            if (sortParam === "oldest" || sortParam === "newest") {
+                currentSort = sortParam;
+                document.getElementById("sort-select").value = currentSort;
+            }
+
+            if (tagParam) {
+                activeTagFilter = tagParam.trim();
+            }
+
+            if (queryParam) {
+                activeSearchQuery = queryParam.trim();
+                document.getElementById("search-input").value = activeSearchQuery;
+            }
+
+            if (idParam) {
+                fetchSingleStoryById(idParam);
+            } else if (whichParam === "latest") {
+                viewLatestStory();
+            } else if (whichParam === "random") {
+                viewRandomStory();
+            } else {
+                fetchNews();
+            }
+        }
+
+        function setupSearchInput() {
+            const searchInput = document.getElementById("search-input");
+            searchInput.addEventListener("input", (e) => {
+                const query = e.target.value.trim();
+                clearTimeout(searchDebounceTimeout);
+                searchDebounceTimeout = setTimeout(() => {
+                    activeSearchQuery = query;
+                    updateUrlParams();
+                    applyFiltersAndRender();
+                }, 250);
+            });
+        }
+
+        // --- Fetching News ---
+        async function fetchNews() {
+            showLoading(true);
+            hideError();
+
+            const refreshBtn = document.getElementById("refresh-btn");
+            if (refreshBtn) refreshBtn.classList.add("spinning");
+
+            try {
+                const url = `${API_BASE}?sort=${currentSort}`;
+                const res = await fetch(url);
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                }
+
+                const json = await res.json();
+                allNewsItems = Array.isArray(json.data) ? json.data : (json.data ? [json.data] : []);
+
+                updateStatusConnected(allNewsItems.length);
+                renderTagCloud(allNewsItems);
+                applyFiltersAndRender();
+            } catch (err) {
+                console.error("Error fetching news:", err);
+                showError(err.message || "Failed to connect to BSB News API.");
+                updateStatusError();
+            } finally {
+                showLoading(false);
+                if (refreshBtn) refreshBtn.classList.remove("spinning");
+            }
+        }
+
+        async function fetchSingleStoryById(id) {
+            showLoading(true);
+            hideError();
+
+            try {
+                const res = await fetch(`${API_BASE}/${encodeURIComponent(id)}`);
+                if (!res.ok) {
+                    if (res.status === 404) {
+                        throw new Error(`News item #${id} was not found.`);
+                    }
+                    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                }
+
+                const json = await res.json();
+                const story = json.data;
+                if (!story) {
+                    throw new Error("No article data returned.");
+                }
+
+                updateStatusConnected();
+                renderSingleStory(story);
+            } catch (err) {
+                console.error("Error fetching single story:", err);
+                showError(err.message);
+                updateStatusError();
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function viewLatestStory() {
+            showLoading(true);
+            try {
+                const res = await fetch(`${API_BASE}/latest`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const json = await res.json();
+                if (json.data) {
+                    renderSingleStory(json.data);
+                    setUrlParam("id", json.data.id);
+                }
+            } catch (err) {
+                console.error("Error fetching latest story:", err);
+                fetchNews();
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function viewRandomStory() {
+            showLoading(true);
+            try {
+                const res = await fetch(`${API_BASE}/random`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const json = await res.json();
+                if (json.data) {
+                    renderSingleStory(json.data);
+                    setUrlParam("id", json.data.id);
+                }
+            } catch (err) {
+                console.error("Error fetching random story:", err);
+                fetchNews();
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // --- Filtering & Sorting ---
+        function handleSortChange(sort) {
+            currentSort = sort;
+            setUrlParam("sort", sort);
+            fetchNews();
+        }
+
+        function filterByTag(tag) {
+            activeTagFilter = tag;
+            updateUrlParams();
+            showAllNewsView();
+            applyFiltersAndRender();
+        }
+
+        function clearFilters() {
+            activeTagFilter = null;
+            activeSearchQuery = "";
+            document.getElementById("search-input").value = "";
+            updateUrlParams();
+            showAllNewsView();
+            applyFiltersAndRender();
+        }
+
+        function applyFiltersAndRender() {
+            let filtered = [...allNewsItems];
+
+            // 1. Tag filter
+            if (activeTagFilter) {
+                filtered = filtered.filter(item => {
+                    const tags = getNormalizedTags(item);
+                    return tags.some(t => t.toLowerCase() === activeTagFilter.toLowerCase());
+                });
+            }
+
+            // 2. Search query filter
+            if (activeSearchQuery) {
+                const q = activeSearchQuery.toLowerCase();
+                filtered = filtered.filter(item => {
+                    const title = (item.title || item.headline || "").toLowerCase();
+                    const content = (item.content || item.body || item.text || "").toLowerCase();
+                    const author = (item.author || "").toLowerCase();
+                    const tags = getNormalizedTags(item).join(" ").toLowerCase();
+                    const idStr = String(item.id || "");
+                    return title.includes(q) || content.includes(q) || author.includes(q) || tags.includes(q) || idStr === q;
+                });
+            }
+
+            // Update Filter Status Bar
+            updateFilterStatusIndicator(filtered.length);
+
+            // Render views
+            renderFeed(filtered);
+        }
+
+        function updateFilterStatusIndicator(matchCount) {
+            const filterBar = document.getElementById("filter-status");
+            const filterText = document.getElementById("filter-status-text");
+
+            if (activeTagFilter || activeSearchQuery) {
+                filterBar.classList.add("active");
+                let label = `Showing ${matchCount} match${matchCount === 1 ? '' : 'es'}`;
+                if (activeTagFilter) label += ` tagged with #${activeTagFilter}`;
+                if (activeSearchQuery) label += ` matching "${activeSearchQuery}"`;
+                filterText.textContent = label;
+            } else {
+                filterBar.classList.remove("active");
+            }
+        }
+
+        // --- Rendering ---
+        function renderFeed(items) {
+            const emptyState = document.getElementById("empty-state");
+            const feedContainer = document.getElementById("news-feed");
+            const featuredContainer = document.getElementById("featured-story-container");
+
+            if (!items || items.length === 0) {
+                emptyState.style.display = "block";
+                feedContainer.innerHTML = "";
+                featuredContainer.style.display = "none";
+                return;
+            }
+
+            emptyState.style.display = "none";
+
+            // If we have no active filters and we are sorting newest, feature the very first item
+            const isDefaultView = !activeTagFilter && !activeSearchQuery && currentSort === "newest";
+
+            let feedItems = items;
+            if (isDefaultView && items.length > 0) {
+                const featuredItem = items[0];
+                renderFeaturedStory(featuredItem);
+                featuredContainer.style.display = "block";
+                feedItems = items.slice(1);
+            } else {
+                featuredContainer.style.display = "none";
+            }
+
+            // Render regular items
+            feedContainer.innerHTML = feedItems.map(item => createNewsCardHtml(item)).join("");
+        }
+
+        function renderFeaturedStory(item) {
+            const container = document.getElementById("featured-story-container");
+            const title = escapeHtml(item.title || item.headline || "Untitled News");
+            const author = escapeHtml(item.author || "BSB News Desk");
+            const dateStr = formatDate(item.createdAt || item.timestamp);
+            const relTime = formatRelativeTime(item.createdAt || item.timestamp);
+            const contentHtml = renderMarkdown(item.content || item.body || item.text || "");
+            const tags = getNormalizedTags(item);
+            const id = item.id || 0;
+
+            const tagsHtml = tags.map(t =>
+                `<span class="tag-pill" onclick="filterByTag('${escapeAttr(t)}')">#${escapeHtml(t)}</span>`
+            ).join(" ");
+
+            container.innerHTML = `
+                <article class="featured-card">
+                    <div class="featured-badge-banner">⚡ LATEST HEADLINE</div>
+                    <div class="card-header-meta">
+                        <div class="card-meta-left">
+                            <span class="id-badge">#${id}</span>
+                            <span class="date-badge" title="${escapeAttr(dateStr)}">🕒 ${escapeHtml(relTime)}</span>
+                            ${tagsHtml ? `<span>${tagsHtml}</span>` : ''}
+                        </div>
+                    </div>
+                    <h2 class="news-title">
+                        <a href="javascript:void(0)" onclick="openStoryById(${id})">${title}</a>
+                    </h2>
+                    <div class="author-line">
+                        <span>✍️</span> Reported by <span class="author-name">${author}</span>
+                    </div>
+                    <div class="news-body">
+                        ${contentHtml}
+                    </div>
+                    <div class="card-footer-actions">
+                        <button class="action-link-btn" onclick="copyStoryLink(${id})" title="Copy permalink">
+                            🔗 Share Link
+                        </button>
+                        <button class="action-link-btn" onclick="openStoryById(${id})">
+                            📖 Direct Story View →
+                        </button>
+                    </div>
+                </article>
+            `;
+        }
+
+        function createNewsCardHtml(item) {
+            const title = escapeHtml(item.title || item.headline || "Untitled News");
+            const author = escapeHtml(item.author || "BSB News Desk");
+            const dateStr = formatDate(item.createdAt || item.timestamp);
+            const relTime = formatRelativeTime(item.createdAt || item.timestamp);
+            const contentHtml = renderMarkdown(item.content || item.body || item.text || "");
+            const tags = getNormalizedTags(item);
+            const id = item.id || 0;
+
+            const tagsHtml = tags.map(t =>
+                `<span class="tag-pill" onclick="filterByTag('${escapeAttr(t)}')">#${escapeHtml(t)}</span>`
+            ).join(" ");
+
+            return `
+                <article class="news-card" id="news-item-${id}">
+                    <div class="card-header-meta">
+                        <div class="card-meta-left">
+                            <span class="id-badge">#${id}</span>
+                            <span class="date-badge" title="${escapeAttr(dateStr)}">🕒 ${escapeHtml(relTime)}</span>
+                            ${tagsHtml ? `<span>${tagsHtml}</span>` : ''}
+                        </div>
+                    </div>
+                    <h3 class="news-title">
+                        <a href="javascript:void(0)" onclick="openStoryById(${id})">${title}</a>
+                    </h3>
+                    <div class="author-line">
+                        <span>✍️</span> By <span class="author-name">${author}</span>
+                    </div>
+                    <div class="news-body">
+                        ${contentHtml}
+                    </div>
+                    <div class="card-footer-actions">
+                        <button class="action-link-btn" onclick="copyStoryLink(${id})" title="Copy permalink">
+                            🔗 Share Link
+                        </button>
+                        <button class="action-link-btn" onclick="openStoryById(${id})">
+                            📖 View Full Story →
+                        </button>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderSingleStory(item) {
+            const mainFeed = document.getElementById("main-feed-container");
+            const singleView = document.getElementById("single-view-container");
+            const card = document.getElementById("single-view-card");
+
+            const title = escapeHtml(item.title || item.headline || "Untitled News");
+            const author = escapeHtml(item.author || "BSB News Desk");
+            const dateStr = formatDate(item.createdAt || item.timestamp);
+            const relTime = formatRelativeTime(item.createdAt || item.timestamp);
+            const contentHtml = renderMarkdown(item.content || item.body || item.text || "");
+            const tags = getNormalizedTags(item);
+            const id = item.id || 0;
+
+            const tagsHtml = tags.map(t =>
+                `<span class="tag-pill" onclick="filterByTag('${escapeAttr(t)}')">#${escapeHtml(t)}</span>`
+            ).join(" ");
+
+            card.innerHTML = `
+                <div class="card-header-meta">
+                    <div class="card-meta-left">
+                        <span class="id-badge">#${id}</span>
+                        <span class="date-badge">📅 Published: ${escapeHtml(dateStr)} (${escapeHtml(relTime)})</span>
+                        ${tagsHtml ? `<span>${tagsHtml}</span>` : ''}
+                    </div>
+                </div>
+                <h1 class="news-title" style="font-size: 2rem; margin: 0.5rem 0 1rem 0;">${title}</h1>
+                <div class="author-line" style="font-size: 1.05rem;">
+                    <span>✍️</span> By <span class="author-name">${author}</span>
+                </div>
+                <hr style="border: 0; border-top: var(--border-width) solid var(--border); margin: 1rem 0 1.5rem 0;">
+                <div class="news-body" style="font-size: 1.15rem; line-height: 1.7;">
+                    ${contentHtml}
+                </div>
+                <div class="card-footer-actions" style="margin-top: 2rem;">
+                    <button class="btn-secondary" onclick="copyStoryLink(${id})">
+                        🔗 Copy Direct Link
+                    </button>
+                    <button class="button" onclick="showAllNewsView()">
+                        ← Return to All News
+                    </button>
+                </div>
+            `;
+
+            mainFeed.style.display = "none";
+            singleView.classList.add("active");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function openStoryById(id) {
+            setUrlParam("id", id);
+            fetchSingleStoryById(id);
+        }
+
+        function showAllNewsView() {
+            removeUrlParam("id");
+            removeUrlParam("which");
+            document.getElementById("single-view-container").classList.remove("active");
+            document.getElementById("main-feed-container").style.display = "block";
+            if (allNewsItems.length === 0) {
+                fetchNews();
+            } else {
+                applyFiltersAndRender();
+            }
+        }
+
+        function renderTagCloud(items) {
+            const cloud = document.getElementById("tag-cloud");
+            const tagSet = new Set();
+
+            items.forEach(item => {
+                const tags = getNormalizedTags(item);
+                tags.forEach(t => tagSet.add(t));
+            });
+
+            if (tagSet.size === 0) {
+                cloud.style.display = "none";
+                return;
+            }
+
+            cloud.style.display = "flex";
+            const tags = Array.from(tagSet).sort();
+            cloud.innerHTML = `
+                <span class="tag-cloud-label">Tags:</span>
+                ${tags.map(tag => `
+                    <span class="tag-pill" onclick="filterByTag('${escapeAttr(tag)}')">#${escapeHtml(tag)}</span>
+                `).join("")}
+            `;
+        }
+
+        // --- Markdown & Sanitization ---
+        function renderMarkdown(text) {
+            if (!text) return '<p><em>No content provided.</em></p>';
+
+            // Escape HTML characters
+            let escaped = escapeHtml(text);
+
+            // Code blocks: ```lang ... ```
+            escaped = escaped.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
+                return `<pre><code>${code.trim()}</code></pre>`;
+            });
+
+            // Inline code: `code`
+            escaped = escaped.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+            // Blockquotes: > quote
+            escaped = escaped.replace(/^>\s?(.*)$/gm, '<blockquote>$1</blockquote>');
+            escaped = escaped.replace(/<\/blockquote>\n<blockquote>/g, '<br>');
+
+            // Headers: ### h3, ## h2, # h1
+            escaped = escaped.replace(/^### (.*$)/gm, '<h4>$1</h4>');
+            escaped = escaped.replace(/^## (.*$)/gm, '<h3>$1</h3>');
+            escaped = escaped.replace(/^# (.*$)/gm, '<h3>$1</h3>');
+
+            // Bold: **text** or __text__
+            escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            escaped = escaped.replace(/__(.*?)__/g, '<strong>$1</strong>');
+
+            // Italics: *text* or _text_
+            escaped = escaped.replace(/(^|[^\*])\*([^\*]+)\*([^\*]|$)/g, '$1<em>$2</em>$3');
+            escaped = escaped.replace(/(^|[^_])_([^_]+)_([^_]|$)/g, '$1<em>$2</em>$3');
+
+            // Strikethrough: ~~text~~
+            escaped = escaped.replace(/~~(.*?)~~/g, '<del>$1</del>');
+
+            // Links: [label](url) - only allow safe protocols
+            escaped = escaped.replace(/\[([^\]]+)\]\(((?:https?:\/\/|mailto:|\/)[^\s\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+            // Lists: - item or * item
+            escaped = escaped.replace(/^[\*\-]\s+(.*)$/gm, '<li>$1</li>');
+            escaped = escaped.replace(/(<li>.*<\/li>(\n|$))+/g, '<ul>$&</ul>');
+
+            // Convert paragraphs (double newline) and single linebreaks
+            const sections = escaped.split(/\n\n+/);
+            const html = sections.map(sec => {
+                sec = sec.trim();
+                if (!sec) return '';
+                if (sec.startsWith('<pre>') || sec.startsWith('<ul>') || sec.startsWith('<h3>') || sec.startsWith('<h4>') || sec.startsWith('<blockquote>')) {
+                    return sec;
+                }
+                return `<p>${sec.replace(/\n/g, '<br>')}</p>`;
+            }).join('\n');
+
+            return html;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return "";
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function escapeAttr(str) {
+            if (!str) return "";
+            return String(str).replace(/"/g, "&quot;").replace(/'/g, "\\'");
+        }
+
+        function getNormalizedTags(item) {
+            const tags = [];
+            if (Array.isArray(item.tags)) {
+                tags.push(...item.tags);
+            } else if (typeof item.tags === "string" && item.tags.trim()) {
+                tags.push(item.tags.trim());
+            }
+            if (item.category && !tags.includes(item.category)) {
+                tags.unshift(item.category);
+            }
+            return tags.filter(Boolean);
+        }
+
+        // --- Date Formatting ---
+        function formatDate(dateVal) {
+            if (!dateVal) return "Recently";
+            try {
+                const d = new Date(dateVal);
+                if (isNaN(d.getTime())) return String(dateVal);
+                return d.toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit'
+                });
+            } catch {
+                return String(dateVal);
+            }
+        }
+
+        function formatRelativeTime(dateVal) {
+            if (!dateVal) return "Just now";
+            try {
+                const d = new Date(dateVal);
+                const now = new Date();
+                const diffSec = Math.floor((now.getTime() - d.getTime()) / 1000);
+
+                if (isNaN(diffSec) || diffSec < 0) return formatDate(dateVal);
+                if (diffSec < 60) return "Just now";
+                if (diffSec < 3600) {
+                    const m = Math.floor(diffSec / 60);
+                    return `${m}m ago`;
+                }
+                if (diffSec < 86400) {
+                    const h = Math.floor(diffSec / 3600);
+                    return `${h}h ago`;
+                }
+                if (diffSec < 604800) {
+                    const days = Math.floor(diffSec / 86400);
+                    return `${days}d ago`;
+                }
+                return formatDate(dateVal);
+            } catch {
+                return formatDate(dateVal);
+            }
+        }
+
+        // --- URL & State Helpers ---
+        function setUrlParam(key, val) {
+            const url = new URL(window.location.href);
+            url.searchParams.set(key, val);
+            window.history.pushState({}, "", url.toString());
+        }
+
+        function removeUrlParam(key) {
+            const url = new URL(window.location.href);
+            url.searchParams.delete(key);
+            window.history.pushState({}, "", url.toString());
+        }
+
+        function updateUrlParams() {
+            const url = new URL(window.location.href);
+            if (activeTagFilter) url.searchParams.set("tag", activeTagFilter);
+            else url.searchParams.delete("tag");
+
+            if (activeSearchQuery) url.searchParams.set("q", activeSearchQuery);
+            else url.searchParams.delete("q");
+
+            if (currentSort !== "newest") url.searchParams.set("sort", currentSort);
+            else url.searchParams.delete("sort");
+
+            window.history.pushState({}, "", url.toString());
+        }
+
+        // --- Copy Link & Toast ---
+        function copyStoryLink(id) {
+            const url = new URL(window.location.href);
+            url.searchParams.set("id", id);
+            url.searchParams.delete("tag");
+            url.searchParams.delete("q");
+
+            navigator.clipboard.writeText(url.toString()).then(() => {
+                showToast("Story permalink copied to clipboard!");
+            }).catch(() => {
+                showToast(`Link: ${url.toString()}`);
+            });
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById("copy-toast");
+            toast.textContent = msg;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+
+        // --- UI Status Indicators ---
+        function showLoading(show) {
+            document.getElementById("loading-state").style.display = show ? "block" : "none";
+        }
+
+        function showError(msg) {
+            const errState = document.getElementById("error-state");
+            const errMsg = document.getElementById("error-message");
+            errMsg.textContent = msg;
+            errState.style.display = "block";
+        }
+
+        function hideError() {
+            document.getElementById("error-state").style.display = "none";
+        }
+
+        function updateStatusConnected(count) {
+            const dot = document.getElementById("status-dot");
+            const text = document.getElementById("status-text");
+            dot.className = "status-dot";
+            text.textContent = count !== undefined
+                ? `Live API Connected (${count} bulletin${count === 1 ? '' : 's'})`
+                : "Live API Connected";
+        }
+
+        function updateStatusError() {
+            const dot = document.getElementById("status-dot");
+            const text = document.getElementById("status-text");
+            dot.className = "status-dot error";
+            text.textContent = "Offline / Connection Error";
+        }
+    </script>
+
+</body>
+
+</html>
