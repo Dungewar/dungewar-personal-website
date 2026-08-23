@@ -5,6 +5,11 @@ DIST_DIR="dist"
 CSS="$DIST_DIR/styles/dark-style.css"
 NAV_BAR="$DIST_DIR/components/navbar.html"
 
+if ! command -v pandoc >/dev/null 2>&1; then
+  echo "Warning: pandoc command not found, skipping .md to .html conversion."
+  exit 0
+fi
+
 # Convert every .md in DIST_DIR to .html (mirrors filename, same folder)
 # Safe for spaces/newlines via -print0 / read -d ''.
 while IFS= read -r -d '' f; do

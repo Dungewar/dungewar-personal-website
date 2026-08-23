@@ -4,7 +4,7 @@
 <head id="header">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BSB News Viewer</title>
+    <title>BSB News</title>
 
     <link href="/styles/dark-style.css" rel="stylesheet">
     <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
@@ -20,15 +20,15 @@
             --brand-yellow: #ffb700;
             --brand-yellow-light: #ffe066;
             --brand-yellow-dark: #cc9200;
-            --tag-bg: rgba(255, 183, 0, 0.18);
-            --tag-text: #b37d00;
+            --tag-bg: rgba(255, 183, 0, 0.16);
+            --tag-text: #8c6200;
             --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
             --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.14);
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --tag-bg: rgba(255, 183, 0, 0.22);
+                --tag-bg: rgba(255, 183, 0, 0.18);
                 --tag-text: #ffd566;
                 --card-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
                 --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.55);
@@ -40,36 +40,58 @@
             text-align: center;
         }
 
-        .news-header h1 {
-            margin-bottom: 0.25rem;
+        .news-logo-wrapper {
             display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+            align-items: center;
+            margin: 0.5rem auto 1rem auto;
+        }
+
+        .bsb-logo {
+            max-height: 78px;
+            width: auto;
+            border-radius: 8px;
+            background: #000;
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            opacity: 1 !important;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .bsb-logo:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .news-header h1 {
+            margin: 0 0 0.35rem 0;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
         .news-subtitle {
             color: var(--text-light);
-            font-size: 1.15rem;
+            font-size: 1.08rem;
             margin: 0 0 1rem 0;
         }
 
         .live-status-bar {
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.55rem;
             background: var(--accent-bg);
             border: var(--border-width) solid var(--border);
             padding: 0.35rem 0.9rem;
             border-radius: 999px;
-            font-size: 0.88rem;
+            font-size: 0.86rem;
             font-weight: 600;
         }
 
         .status-dot {
-            width: 9px;
-            height: 9px;
+            width: 8px;
+            height: 8px;
             background-color: #10b981;
             border-radius: 50%;
             display: inline-block;
@@ -88,7 +110,7 @@
                 box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
             }
             70% {
-                box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+                box-shadow: 0 0 0 7px rgba(16, 185, 129, 0);
             }
             100% {
                 box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
@@ -116,7 +138,7 @@
 
         .search-box-wrapper {
             position: relative;
-            flex: 1 1 280px;
+            flex: 1 1 260px;
         }
 
         .search-input {
@@ -124,7 +146,7 @@
             margin-bottom: 0;
             padding: 0.6rem 0.85rem;
             border-radius: 6px;
-            font-size: 1rem;
+            font-size: 0.96rem;
         }
 
         .toolbar-actions {
@@ -138,7 +160,7 @@
         .toolbar-actions button {
             margin-bottom: 0;
             padding: 0.55rem 0.85rem;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             border-radius: 6px;
         }
 
@@ -148,7 +170,7 @@
             border: var(--border-width) solid var(--border);
             cursor: pointer;
             font-weight: 600;
-            transition: background 0.15s, border-color 0.15s;
+            transition: background 0.15s, border-color 0.15s, color 0.15s;
         }
 
         .btn-secondary:hover {
@@ -180,7 +202,7 @@
             border: 1px solid var(--brand-yellow);
             padding: 0.5rem 0.85rem;
             border-radius: 6px;
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             margin-bottom: 1.25rem;
         }
 
@@ -209,7 +231,7 @@
             background: var(--accent-bg);
             border: 2px solid var(--brand-yellow);
             border-radius: 10px;
-            padding: 1.5rem;
+            padding: 1.6rem;
             margin-bottom: 2rem;
             box-shadow: var(--card-shadow);
             position: relative;
@@ -222,11 +244,11 @@
             right: 0;
             background: linear-gradient(90deg, #ffb700, #ffe066);
             color: #332200;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 0.25rem 0.85rem;
+            letter-spacing: 0.06em;
+            padding: 0.25rem 0.8rem;
             border-bottom-left-radius: 8px;
         }
 
@@ -260,7 +282,7 @@
             flex-wrap: wrap;
             gap: 0.5rem;
             margin-bottom: 0.6rem;
-            font-size: 0.88rem;
+            font-size: 0.86rem;
         }
 
         .card-meta-left {
@@ -304,9 +326,9 @@
         }
 
         .news-title {
-            margin: 0.2rem 0 0.5rem 0;
-            font-size: 1.5rem;
-            line-height: 1.25;
+            margin: 0.2rem 0 0.45rem 0;
+            font-size: 1.45rem;
+            line-height: 1.3;
         }
 
         .news-title a {
@@ -321,11 +343,8 @@
 
         .author-line {
             color: var(--text-light);
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             margin-bottom: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
         }
 
         .author-name {
@@ -333,8 +352,9 @@
             color: var(--text);
         }
 
+        /* News Body & Typography */
         .news-body {
-            font-size: 1.05rem;
+            font-size: 1.02rem;
             line-height: 1.6;
             margin: 0.8rem 0;
             word-break: break-word;
@@ -344,6 +364,71 @@
             margin: 0.6rem 0;
         }
 
+        .news-body h2,
+        .news-body h3,
+        .news-body h4 {
+            margin-top: 1.35rem;
+            margin-bottom: 0.55rem;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.25rem;
+            font-size: 1.22rem;
+        }
+
+        .news-body h2:first-child,
+        .news-body h3:first-child {
+            margin-top: 0.2rem;
+        }
+
+        .news-body h4 {
+            font-size: 1.08rem;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .news-body hr {
+            border: 0;
+            border-top: 1px solid var(--border);
+            margin: 1.4rem 0;
+        }
+
+        .news-body ul,
+        .news-body ol {
+            margin: 0.5rem 0;
+            padding-left: 1.4rem;
+        }
+
+        .news-body ul ul,
+        .news-body ol ol,
+        .news-body ul ol,
+        .news-body ol ul {
+            margin: 0.35rem 0;
+            padding-left: 1.3rem;
+        }
+
+        .news-body li {
+            margin-bottom: 0.45rem;
+            line-height: 1.55;
+        }
+
+        .news-body .list-item-extra {
+            margin-top: 0.25rem;
+            margin-bottom: 0.35rem;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .news-body a {
+            color: var(--accent);
+            text-decoration: underline;
+            word-break: break-all;
+            transition: color 0.15s ease;
+        }
+
+        .news-body a:hover {
+            color: var(--accent-hover);
+        }
+
         .news-body pre {
             background-color: var(--bg);
             border: var(--border-width) solid var(--border);
@@ -351,7 +436,7 @@
             border-radius: 6px;
             overflow-x: auto;
             font-family: var(--mono-font);
-            font-size: 0.92rem;
+            font-size: 0.9rem;
         }
 
         .news-body code {
@@ -372,15 +457,10 @@
         .news-body blockquote {
             border-left: 4px solid var(--brand-yellow);
             margin: 0.8rem 0;
-            padding: 0.4rem 0.8rem;
+            padding: 0.4rem 0.85rem;
             background: var(--bg);
             border-radius: 0 6px 6px 0;
             color: var(--text);
-        }
-
-        .news-body ul, .news-body ol {
-            margin: 0.5rem 0;
-            padding-left: 1.5rem;
         }
 
         .card-footer-actions {
@@ -398,7 +478,7 @@
             border: none;
             color: var(--accent);
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.86rem;
             font-weight: 600;
             padding: 0.3rem 0.6rem;
             border-radius: 4px;
@@ -439,7 +519,7 @@
             cursor: pointer;
         }
 
-        /* States: Loading & Empty & Error */
+        /* States: Loading, Empty, Error */
         .loading-state,
         .empty-state,
         .error-state {
@@ -452,10 +532,10 @@
         }
 
         .spinner {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border: 4px solid var(--border);
-            border-top-color: var(--accent);
+            border-top-color: var(--brand-yellow);
             border-radius: 50%;
             animation: spin 0.9s linear infinite;
             margin: 0 auto 1rem auto;
@@ -480,11 +560,12 @@
             font-weight: 700;
             color: var(--text);
             padding: 0.5rem 0;
+            cursor: pointer;
         }
 
         .api-docs-content {
             padding-top: 0.5rem;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
         }
 
         .api-docs-content pre {
@@ -505,7 +586,7 @@
             border-radius: 8px;
             font-size: 0.9rem;
             font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             z-index: 9999;
             opacity: 0;
             transform: translateY(10px);
@@ -533,8 +614,11 @@
 
         <!-- Header -->
         <header class="news-header">
-            <h1>📰 BSB News</h1>
-            <p class="news-subtitle">Live breaking updates, announcements, and bulletins from the BSB News Desk</p>
+            <div class="news-logo-wrapper">
+                <img src="/pages/images/bsb-logo.webp" alt="BSB Logo" class="bsb-logo">
+            </div>
+            <h1>BSB News</h1>
+            <p class="news-subtitle">Announcements, events, and bulletins from the BSB News Desk</p>
             <div class="live-status-bar" id="live-status-bar">
                 <span class="status-dot" id="status-dot"></span>
                 <span id="status-text">Connecting to BSB News API...</span>
@@ -544,7 +628,7 @@
         <!-- Active Filter Bar -->
         <div class="filter-status" id="filter-status">
             <span class="filter-status-text" id="filter-status-text">Showing filtered news</span>
-            <button class="filter-clear-btn" id="filter-clear-btn" onclick="clearFilters()">Clear filter ✕</button>
+            <button class="filter-clear-btn" id="filter-clear-btn" onclick="clearFilters()">Clear filter</button>
         </div>
 
         <!-- Single Story View (Hidden by default) -->
@@ -566,7 +650,7 @@
                             type="search"
                             id="search-input"
                             class="search-input"
-                            placeholder="🔍 Search news by title, content, author, tag..."
+                            placeholder="Search news by title, content, author, tag..."
                             autocomplete="off"
                         >
                     </div>
@@ -577,15 +661,15 @@
                             <option value="oldest">Sort: Oldest First</option>
                         </select>
 
-                        <button class="btn-secondary" onclick="viewLatestStory()" title="View latest story">⚡ Latest</button>
-                        <button class="btn-secondary" onclick="viewRandomStory()" title="View random story">🎲 Random</button>
-                        <button class="btn-secondary" id="refresh-btn" onclick="fetchNews()" title="Refresh news feed">🔄 Refresh</button>
+                        <button class="btn-secondary" onclick="viewLatestStory()" title="View latest story">Latest</button>
+                        <button class="btn-secondary" onclick="viewRandomStory()" title="View random story">Random</button>
+                        <button class="btn-secondary" id="refresh-btn" onclick="fetchNews()" title="Refresh news feed">Refresh</button>
                     </div>
                 </div>
 
                 <!-- Tag Cloud -->
                 <div class="tag-cloud" id="tag-cloud">
-                    <span class="tag-cloud-label">Popular tags:</span>
+                    <span class="tag-cloud-label">Tags:</span>
                     <!-- Dynamic tag pills will be injected here -->
                 </div>
             </section>
@@ -598,7 +682,7 @@
 
             <!-- Error State -->
             <div class="error-state" id="error-state" style="display: none;">
-                <h3>⚠️ Unable to Load News</h3>
+                <h3>Unable to Load News</h3>
                 <p id="error-message">Could not connect to the BSB News service.</p>
                 <button class="button" onclick="fetchNews()">Retry Connection</button>
             </div>
@@ -624,7 +708,7 @@
 
         <!-- API Reference Collapsible Box -->
         <details class="api-docs-box">
-            <summary>🔌 BSB News API Reference for Agents & Developers</summary>
+            <summary>BSB News API Reference for Agents & Developers</summary>
             <div class="api-docs-content">
                 <p>The BSB News feed is backed by a REST API accessible to human developers, automated clients, and AI agents.</p>
                 <p><strong>Base URL:</strong> <code>https://api.dungewar.com/bsb-news</code> (or alias <code>/news</code>)</p>
@@ -637,7 +721,7 @@
                     <li><code>GET https://api.dungewar.com/bsb-news/:id</code> - Fetch story by numeric ID</li>
                 </ul>
 
-                <h4>Quick cURL Example</h4>
+                <h4>cURL Example</h4>
                 <pre><code># Fetch latest 5 news stories
 curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
 
@@ -718,7 +802,7 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
                     activeSearchQuery = query;
                     updateUrlParams();
                     applyFiltersAndRender();
-                }, 250);
+                }, 200);
             });
         }
 
@@ -728,7 +812,7 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
             hideError();
 
             const refreshBtn = document.getElementById("refresh-btn");
-            if (refreshBtn) refreshBtn.classList.add("spinning");
+            if (refreshBtn) refreshBtn.disabled = true;
 
             try {
                 const url = `${API_BASE}?sort=${currentSort}`;
@@ -749,7 +833,7 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
                 updateStatusError();
             } finally {
                 showLoading(false);
-                if (refreshBtn) refreshBtn.classList.remove("spinning");
+                if (refreshBtn) refreshBtn.disabled = false;
             }
         }
 
@@ -888,6 +972,32 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
             }
         }
 
+        // --- Article Data Extraction ---
+        function extractArticleMeta(item) {
+            const rawText = item.content || item.body || item.text || "";
+            let title = (item.title || item.headline || "").trim();
+            let bodyText = rawText;
+
+            if (!title) {
+                const headingMatch = rawText.match(/^\s*#\s+([^\n]+)/);
+                if (headingMatch) {
+                    title = headingMatch[1].trim();
+                } else {
+                    title = `BSB Bulletin #${item.id || "Update"}`;
+                }
+            }
+
+            return {
+                title,
+                bodyText,
+                author: item.author || "BSB News Desk",
+                dateStr: formatDate(item.createdAt || item.timestamp),
+                relTime: formatRelativeTime(item.createdAt || item.timestamp),
+                tags: getNormalizedTags(item),
+                id: item.id || 0
+            };
+        }
+
         // --- Rendering ---
         function renderFeed(items) {
             const emptyState = document.getElementById("empty-state");
@@ -903,7 +1013,6 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
 
             emptyState.style.display = "none";
 
-            // If we have no active filters and we are sorting newest, feature the very first item
             const isDefaultView = !activeTagFilter && !activeSearchQuery && currentSort === "newest";
 
             let feedItems = items;
@@ -916,49 +1025,43 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
                 featuredContainer.style.display = "none";
             }
 
-            // Render regular items
             feedContainer.innerHTML = feedItems.map(item => createNewsCardHtml(item)).join("");
         }
 
         function renderFeaturedStory(item) {
             const container = document.getElementById("featured-story-container");
-            const title = escapeHtml(item.title || item.headline || "Untitled News");
-            const author = escapeHtml(item.author || "BSB News Desk");
-            const dateStr = formatDate(item.createdAt || item.timestamp);
-            const relTime = formatRelativeTime(item.createdAt || item.timestamp);
-            const contentHtml = renderMarkdown(item.content || item.body || item.text || "");
-            const tags = getNormalizedTags(item);
-            const id = item.id || 0;
+            const meta = extractArticleMeta(item);
+            const contentHtml = renderMarkdown(meta.bodyText);
 
-            const tagsHtml = tags.map(t =>
-                `<span class="tag-pill" onclick="filterByTag('${escapeAttr(t)}')">#${escapeHtml(t)}</span>`
+            const tagsHtml = meta.tags.map(t =>
+                `<span class="tag-pill" data-tag="${escapeAttr(t)}" onclick="filterByTag('${escapeAttr(t)}')">#${escapeHtml(t)}</span>`
             ).join(" ");
 
             container.innerHTML = `
                 <article class="featured-card">
-                    <div class="featured-badge-banner">⚡ LATEST HEADLINE</div>
+                    <div class="featured-badge-banner">LATEST HEADLINE</div>
                     <div class="card-header-meta">
                         <div class="card-meta-left">
-                            <span class="id-badge">#${id}</span>
-                            <span class="date-badge" title="${escapeAttr(dateStr)}">🕒 ${escapeHtml(relTime)}</span>
+                            <span class="id-badge">#${meta.id}</span>
+                            <span class="date-badge" title="${escapeAttr(meta.dateStr)}">${escapeHtml(meta.relTime)}</span>
                             ${tagsHtml ? `<span>${tagsHtml}</span>` : ''}
                         </div>
                     </div>
                     <h2 class="news-title">
-                        <a href="javascript:void(0)" onclick="openStoryById(${id})">${title}</a>
+                        <a href="javascript:void(0)" onclick="openStoryById(${meta.id})">${escapeHtml(meta.title)}</a>
                     </h2>
                     <div class="author-line">
-                        <span>✍️</span> Reported by <span class="author-name">${author}</span>
+                        Reported by <span class="author-name">${escapeHtml(meta.author)}</span>
                     </div>
                     <div class="news-body">
                         ${contentHtml}
                     </div>
                     <div class="card-footer-actions">
-                        <button class="action-link-btn" onclick="copyStoryLink(${id})" title="Copy permalink">
-                            🔗 Share Link
+                        <button class="action-link-btn" onclick="copyStoryLink(${meta.id})" title="Copy link">
+                            Share Link
                         </button>
-                        <button class="action-link-btn" onclick="openStoryById(${id})">
-                            📖 Direct Story View →
+                        <button class="action-link-btn" onclick="openStoryById(${meta.id})">
+                            Direct Story View →
                         </button>
                     </div>
                 </article>
@@ -966,42 +1069,37 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
         }
 
         function createNewsCardHtml(item) {
-            const title = escapeHtml(item.title || item.headline || "Untitled News");
-            const author = escapeHtml(item.author || "BSB News Desk");
-            const dateStr = formatDate(item.createdAt || item.timestamp);
-            const relTime = formatRelativeTime(item.createdAt || item.timestamp);
-            const contentHtml = renderMarkdown(item.content || item.body || item.text || "");
-            const tags = getNormalizedTags(item);
-            const id = item.id || 0;
+            const meta = extractArticleMeta(item);
+            const contentHtml = renderMarkdown(meta.bodyText);
 
-            const tagsHtml = tags.map(t =>
-                `<span class="tag-pill" onclick="filterByTag('${escapeAttr(t)}')">#${escapeHtml(t)}</span>`
+            const tagsHtml = meta.tags.map(t =>
+                `<span class="tag-pill" data-tag="${escapeAttr(t)}" onclick="filterByTag('${escapeAttr(t)}')">#${escapeHtml(t)}</span>`
             ).join(" ");
 
             return `
-                <article class="news-card" id="news-item-${id}">
+                <article class="news-card" id="news-item-${meta.id}">
                     <div class="card-header-meta">
                         <div class="card-meta-left">
-                            <span class="id-badge">#${id}</span>
-                            <span class="date-badge" title="${escapeAttr(dateStr)}">🕒 ${escapeHtml(relTime)}</span>
+                            <span class="id-badge">#${meta.id}</span>
+                            <span class="date-badge" title="${escapeAttr(meta.dateStr)}">${escapeHtml(meta.relTime)}</span>
                             ${tagsHtml ? `<span>${tagsHtml}</span>` : ''}
                         </div>
                     </div>
                     <h3 class="news-title">
-                        <a href="javascript:void(0)" onclick="openStoryById(${id})">${title}</a>
+                        <a href="javascript:void(0)" onclick="openStoryById(${meta.id})">${escapeHtml(meta.title)}</a>
                     </h3>
                     <div class="author-line">
-                        <span>✍️</span> By <span class="author-name">${author}</span>
+                        By <span class="author-name">${escapeHtml(meta.author)}</span>
                     </div>
                     <div class="news-body">
                         ${contentHtml}
                     </div>
                     <div class="card-footer-actions">
-                        <button class="action-link-btn" onclick="copyStoryLink(${id})" title="Copy permalink">
-                            🔗 Share Link
+                        <button class="action-link-btn" onclick="copyStoryLink(${meta.id})" title="Copy link">
+                            Share Link
                         </button>
-                        <button class="action-link-btn" onclick="openStoryById(${id})">
-                            📖 View Full Story →
+                        <button class="action-link-btn" onclick="openStoryById(${meta.id})">
+                            View Full Story →
                         </button>
                     </div>
                 </article>
@@ -1013,37 +1111,32 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
             const singleView = document.getElementById("single-view-container");
             const card = document.getElementById("single-view-card");
 
-            const title = escapeHtml(item.title || item.headline || "Untitled News");
-            const author = escapeHtml(item.author || "BSB News Desk");
-            const dateStr = formatDate(item.createdAt || item.timestamp);
-            const relTime = formatRelativeTime(item.createdAt || item.timestamp);
-            const contentHtml = renderMarkdown(item.content || item.body || item.text || "");
-            const tags = getNormalizedTags(item);
-            const id = item.id || 0;
+            const meta = extractArticleMeta(item);
+            const contentHtml = renderMarkdown(meta.bodyText);
 
-            const tagsHtml = tags.map(t =>
-                `<span class="tag-pill" onclick="filterByTag('${escapeAttr(t)}')">#${escapeHtml(t)}</span>`
+            const tagsHtml = meta.tags.map(t =>
+                `<span class="tag-pill" data-tag="${escapeAttr(t)}" onclick="filterByTag('${escapeAttr(t)}')">#${escapeHtml(t)}</span>`
             ).join(" ");
 
             card.innerHTML = `
                 <div class="card-header-meta">
                     <div class="card-meta-left">
-                        <span class="id-badge">#${id}</span>
-                        <span class="date-badge">📅 Published: ${escapeHtml(dateStr)} (${escapeHtml(relTime)})</span>
+                        <span class="id-badge">#${meta.id}</span>
+                        <span class="date-badge">Published: ${escapeHtml(meta.dateStr)} (${escapeHtml(meta.relTime)})</span>
                         ${tagsHtml ? `<span>${tagsHtml}</span>` : ''}
                     </div>
                 </div>
-                <h1 class="news-title" style="font-size: 2rem; margin: 0.5rem 0 1rem 0;">${title}</h1>
+                <h1 class="news-title" style="font-size: 2rem; margin: 0.5rem 0 1rem 0;">${escapeHtml(meta.title)}</h1>
                 <div class="author-line" style="font-size: 1.05rem;">
-                    <span>✍️</span> By <span class="author-name">${author}</span>
+                    By <span class="author-name">${escapeHtml(meta.author)}</span>
                 </div>
                 <hr style="border: 0; border-top: var(--border-width) solid var(--border); margin: 1rem 0 1.5rem 0;">
-                <div class="news-body" style="font-size: 1.15rem; line-height: 1.7;">
+                <div class="news-body" style="font-size: 1.12rem; line-height: 1.7;">
                     ${contentHtml}
                 </div>
                 <div class="card-footer-actions" style="margin-top: 2rem;">
-                    <button class="btn-secondary" onclick="copyStoryLink(${id})">
-                        🔗 Copy Direct Link
+                    <button class="btn-secondary" onclick="copyStoryLink(${meta.id})">
+                        Copy Direct Link
                     </button>
                     <button class="button" onclick="showAllNewsView()">
                         ← Return to All News
@@ -1092,67 +1185,12 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
             cloud.innerHTML = `
                 <span class="tag-cloud-label">Tags:</span>
                 ${tags.map(tag => `
-                    <span class="tag-pill" onclick="filterByTag('${escapeAttr(tag)}')">#${escapeHtml(tag)}</span>
+                    <span class="tag-pill" data-tag="${escapeAttr(tag)}" onclick="filterByTag('${escapeAttr(tag)}')">#${escapeHtml(tag)}</span>
                 `).join("")}
             `;
         }
 
-        // --- Markdown & Sanitization ---
-        function renderMarkdown(text) {
-            if (!text) return '<p><em>No content provided.</em></p>';
-
-            // Escape HTML characters
-            let escaped = escapeHtml(text);
-
-            // Code blocks: ```lang ... ```
-            escaped = escaped.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
-                return `<pre><code>${code.trim()}</code></pre>`;
-            });
-
-            // Inline code: `code`
-            escaped = escaped.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-            // Blockquotes: > quote
-            escaped = escaped.replace(/^>\s?(.*)$/gm, '<blockquote>$1</blockquote>');
-            escaped = escaped.replace(/<\/blockquote>\n<blockquote>/g, '<br>');
-
-            // Headers: ### h3, ## h2, # h1
-            escaped = escaped.replace(/^### (.*$)/gm, '<h4>$1</h4>');
-            escaped = escaped.replace(/^## (.*$)/gm, '<h3>$1</h3>');
-            escaped = escaped.replace(/^# (.*$)/gm, '<h3>$1</h3>');
-
-            // Bold: **text** or __text__
-            escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            escaped = escaped.replace(/__(.*?)__/g, '<strong>$1</strong>');
-
-            // Italics: *text* or _text_
-            escaped = escaped.replace(/(^|[^\*])\*([^\*]+)\*([^\*]|$)/g, '$1<em>$2</em>$3');
-            escaped = escaped.replace(/(^|[^_])_([^_]+)_([^_]|$)/g, '$1<em>$2</em>$3');
-
-            // Strikethrough: ~~text~~
-            escaped = escaped.replace(/~~(.*?)~~/g, '<del>$1</del>');
-
-            // Links: [label](url) - only allow safe protocols
-            escaped = escaped.replace(/\[([^\]]+)\]\(((?:https?:\/\/|mailto:|\/)[^\s\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-
-            // Lists: - item or * item
-            escaped = escaped.replace(/^[\*\-]\s+(.*)$/gm, '<li>$1</li>');
-            escaped = escaped.replace(/(<li>.*<\/li>(\n|$))+/g, '<ul>$&</ul>');
-
-            // Convert paragraphs (double newline) and single linebreaks
-            const sections = escaped.split(/\n\n+/);
-            const html = sections.map(sec => {
-                sec = sec.trim();
-                if (!sec) return '';
-                if (sec.startsWith('<pre>') || sec.startsWith('<ul>') || sec.startsWith('<h3>') || sec.startsWith('<h4>') || sec.startsWith('<blockquote>')) {
-                    return sec;
-                }
-                return `<p>${sec.replace(/\n/g, '<br>')}</p>`;
-            }).join('\n');
-
-            return html;
-        }
-
+        // --- Robust Markdown & Sanitization Parser ---
         function escapeHtml(str) {
             if (!str) return "";
             return String(str)
@@ -1165,7 +1203,285 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
 
         function escapeAttr(str) {
             if (!str) return "";
-            return String(str).replace(/"/g, "&quot;").replace(/'/g, "\\'");
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
+
+        function sanitizeUrl(url) {
+            if (!url) return null;
+            const decoded = url.replace(/&amp;/g, '&').trim();
+            // Strictly allow only http, https, mailto, or relative / URLs
+            if (/^(https?:\/\/|mailto:|\/)/i.test(decoded)) {
+                return url.trim();
+            }
+            return null;
+        }
+
+        function parseInline(text) {
+            if (!text) return "";
+
+            const tokens = [];
+            function saveToken(html) {
+                tokens.push(html);
+                return `\uFFF0${tokens.length - 1}\uFFF1`;
+            }
+
+            // 1. Inline code: `code`
+            text = text.replace(/`([^`]+)`/g, (match, code) => {
+                return saveToken(`<code>${code}</code>`);
+            });
+
+            // 2. Markdown links: [label](url)
+            text = text.replace(/\[([^\]]+)\]\(([^()\s]+(?:\([^()\s]*\)[^()\s]*)?)\)/g, (match, label, rawUrl) => {
+                const safeUrl = sanitizeUrl(rawUrl.trim());
+                if (!safeUrl) {
+                    return label;
+                }
+                return saveToken(`<a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${label}</a>`);
+            });
+
+            // 3. Autolink bare URLs (http:// or https://)
+            text = text.replace(/(https?:\/\/[^\s<"']+)/g, (match, rawUrl) => {
+                let cleanUrl = rawUrl;
+                let suffix = "";
+                const trailingMatch = cleanUrl.match(/[.,!?:;)]+$/);
+                if (trailingMatch) {
+                    suffix = trailingMatch[0];
+                    cleanUrl = cleanUrl.slice(0, -suffix.length);
+                }
+                const safeUrl = sanitizeUrl(cleanUrl);
+                if (!safeUrl) {
+                    return cleanUrl + suffix;
+                }
+                const linkHtml = `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${cleanUrl}</a>`;
+                return `${saveToken(linkHtml)}${suffix}`;
+            });
+
+            // 4. Autolink email addresses
+            text = text.replace(/\b([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\b/g, (match, email) => {
+                const mailto = `mailto:${email}`;
+                const linkHtml = `<a href="${mailto}">${email}</a>`;
+                return saveToken(linkHtml);
+            });
+
+            // 5. Bold: **text** or __text__
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            text = text.replace(/__(.*?)__/g, '<strong>$1</strong>');
+
+            // 6. Italics: *text* or _text_
+            text = text.replace(/(^|[^\*])\*([^\*]+)\*([^\*]|$)/g, '$1<em>$2</em>$3');
+            text = text.replace(/(^|[^_])_([^_]+)_([^_]|$)/g, '$1<em>$2</em>$3');
+
+            // 7. Strikethrough: ~~text~~
+            text = text.replace(/~~(.*?)~~/g, '<del>$1</del>');
+
+            // Restore all Tokens
+            text = text.replace(/\uFFF0(\d+)\uFFF1/g, (m, idx) => tokens[Number(idx)] || "");
+
+            return text;
+        }
+
+        function renderMarkdown(rawText) {
+            if (!rawText) return '<p><em>No content provided.</em></p>';
+
+            // Escape all HTML characters first for absolute XSS security
+            const escaped = escapeHtml(rawText);
+            const lines = escaped.split(/\r?\n/);
+            const output = [];
+
+            let inCodeBlock = false;
+            let codeBlockContent = [];
+
+            let listStack = [];
+
+            function closeListsToDepth(depth) {
+                while (listStack.length > depth) {
+                    const popped = listStack.pop();
+                    output.push(`</li></${popped.type}>`);
+                }
+                if (listStack.length > 0 && depth === listStack.length) {
+                    output.push('</li>');
+                }
+            }
+
+            function closeAllLists() {
+                closeListsToDepth(0);
+            }
+
+            let inBlockquote = false;
+            let blockquoteLines = [];
+
+            function flushBlockquote() {
+                if (inBlockquote) {
+                    output.push(`<blockquote>${blockquoteLines.join('<br>')}</blockquote>`);
+                    blockquoteLines = [];
+                    inBlockquote = false;
+                }
+            }
+
+            let paragraphLines = [];
+
+            function flushParagraph() {
+                if (paragraphLines.length > 0) {
+                    output.push(`<p>${paragraphLines.join('<br>')}</p>`);
+                    paragraphLines = [];
+                }
+            }
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+
+                // 1. Code blocks: ```
+                const codeBlockMatch = line.match(/^```([a-zA-Z0-9_-]*)/);
+                if (codeBlockMatch) {
+                    if (!inCodeBlock) {
+                        flushParagraph();
+                        flushBlockquote();
+                        closeAllLists();
+                        inCodeBlock = true;
+                        codeBlockContent = [];
+                    } else {
+                        inCodeBlock = false;
+                        output.push(`<pre><code>${codeBlockContent.join('\n')}</code></pre>`);
+                        codeBlockContent = [];
+                    }
+                    continue;
+                }
+
+                if (inCodeBlock) {
+                    codeBlockContent.push(line);
+                    continue;
+                }
+
+                // 2. Horizontal rules: ---, ***, ___
+                if (/^\s*([-*_]\s*){3,}\s*$/.test(line)) {
+                    flushParagraph();
+                    flushBlockquote();
+                    closeAllLists();
+                    output.push('<hr>');
+                    continue;
+                }
+
+                // 3. Headers: # h1 .. ###### h6
+                const headerMatch = line.match(/^(#{1,6})\s+(.*)$/);
+                if (headerMatch) {
+                    flushParagraph();
+                    flushBlockquote();
+                    closeAllLists();
+                    const level = Math.min(headerMatch[1].length + 1, 6);
+                    const headerContent = parseInline(headerMatch[2]);
+                    output.push(`<h${level}>${headerContent}</h${level}>`);
+                    continue;
+                }
+
+                // 4. Blockquotes: > quote
+                const bqMatch = line.match(/^>\s?(.*)$/);
+                if (bqMatch) {
+                    flushParagraph();
+                    closeAllLists();
+                    inBlockquote = true;
+                    blockquoteLines.push(parseInline(bqMatch[1]));
+                    continue;
+                } else if (inBlockquote) {
+                    flushBlockquote();
+                }
+
+                // 5. Lists (unordered & ordered, supporting -, *, +, •, ⁃, ‣, –, — and 1.)
+                const ulMatch = line.match(/^(\s*)([-*+•⁃‣]|–|—)\s+(.*)$/);
+                const olMatch = line.match(/^(\s*)(\d+)\.\s+(.*)$/);
+
+                if (ulMatch || olMatch) {
+                    flushParagraph();
+                    flushBlockquote();
+
+                    const isOl = !!olMatch;
+                    const indentSpaces = (ulMatch || olMatch)[1].length;
+                    const itemText = parseInline((ulMatch || olMatch)[3]);
+                    const listType = isOl ? 'ol' : 'ul';
+
+                    if (listStack.length === 0) {
+                        listStack.push({ type: listType, indent: indentSpaces });
+                        output.push(`<${listType}><li>${itemText}`);
+                    } else {
+                        const top = listStack[listStack.length - 1];
+                        if (indentSpaces > top.indent) {
+                            listStack.push({ type: listType, indent: indentSpaces });
+                            output.push(`<${listType}><li>${itemText}`);
+                        } else if (indentSpaces < top.indent) {
+                            while (listStack.length > 0 && listStack[listStack.length - 1].indent > indentSpaces) {
+                                const popped = listStack.pop();
+                                output.push(`</li></${popped.type}>`);
+                            }
+                            if (listStack.length > 0 && listStack[listStack.length - 1].type !== listType && listStack[listStack.length - 1].indent === indentSpaces) {
+                                const popped = listStack.pop();
+                                output.push(`</li></${popped.type}>`);
+                                listStack.push({ type: listType, indent: indentSpaces });
+                                output.push(`<${listType}><li>${itemText}`);
+                            } else if (listStack.length > 0) {
+                                output.push(`</li><li>${itemText}`);
+                            } else {
+                                listStack.push({ type: listType, indent: indentSpaces });
+                                output.push(`<${listType}><li>${itemText}`);
+                            }
+                        } else {
+                            if (top.type !== listType) {
+                                const popped = listStack.pop();
+                                output.push(`</li></${popped.type}>`);
+                                listStack.push({ type: listType, indent: indentSpaces });
+                                output.push(`<${listType}><li>${itemText}`);
+                            } else {
+                                output.push(`</li><li>${itemText}`);
+                            }
+                        }
+                    }
+                    continue;
+                }
+
+                // 6. Check if empty line
+                if (line.trim() === '') {
+                    if (listStack.length > 0) {
+                        let nextNonEmptyLine = null;
+                        for (let j = i + 1; j < lines.length; j++) {
+                            if (lines[j].trim() !== '') {
+                                nextNonEmptyLine = lines[j];
+                                break;
+                            }
+                        }
+                        if (nextNonEmptyLine && (nextNonEmptyLine.match(/^(\s*)([-*+•⁃‣]|–|—|\d+\.)\s+/) || nextNonEmptyLine.match(/^\s{2,}\S/))) {
+                            continue;
+                        } else {
+                            closeAllLists();
+                        }
+                    }
+                    flushParagraph();
+                    flushBlockquote();
+                    continue;
+                }
+
+                // 7. Continuation line inside active list item
+                if (listStack.length > 0) {
+                    const indentMatch = line.match(/^(\s*)(.*)$/);
+                    const spaces = indentMatch[1].length;
+                    if (spaces >= 2) {
+                        output.push(`<div class="list-item-extra">${parseInline(indentMatch[2])}</div>`);
+                        continue;
+                    }
+                }
+
+                // 8. Regular paragraph line
+                closeAllLists();
+                paragraphLines.push(parseInline(line));
+            }
+
+            flushParagraph();
+            flushBlockquote();
+            closeAllLists();
+
+            return output.join('\n');
         }
 
         function getNormalizedTags(item) {
@@ -1261,7 +1577,7 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
             url.searchParams.delete("q");
 
             navigator.clipboard.writeText(url.toString()).then(() => {
-                showToast("Story permalink copied to clipboard!");
+                showToast("Story link copied to clipboard!");
             }).catch(() => {
                 showToast(`Link: ${url.toString()}`);
             });
