@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aneesh Raghavan - The Mandate for National Unity</title>
+    <link href="/styles/dark-style.css" rel="stylesheet">
+    <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
+    <link href="../favicon/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="../favicon/favicon.ico" rel="shortcut icon" />
+
+    <style>
+        :root {
+            --statist-red: #8b0000;
+            --statist-gold: #d4af37;
+            --statist-dark: #121212;
+            --statist-panel: #1c1c1c;
+            --statist-border: #383838;
+            --swim-blue: #0284c7;
+            --cheese-gold: #f59e0b;
+            --sleep-purple: #4338ca;
+            --text-light: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            background-color: #0d0d0d;
+            color: var(--text-light);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.65;
+        }
+
+        /* Hero Campaign Header */
+        .campaign-banner {
+            background: linear-gradient(180deg, #500 0%, #1a0000 100%);
+            border-bottom: 4px solid var(--statist-gold);
+            padding: 40px 20px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .back-nav {
+            position: absolute;
+            top: 16px;
+            left: 20px;
+        }
+
+        .back-nav a {
+            color: var(--statist-gold);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            background: rgba(0,0,0,0.5);
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: 1px solid var(--statist-gold);
+            transition: all 0.2s ease;
+        }
+
+        .back-nav a:hover {
+            background: var(--statist-gold);
+            color: #000;
+        }
+
+        .slogan-top {
+            color: var(--statist-gold);
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .candidate-title {
+            font-size: 3.2rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin: 0;
+            text-transform: uppercase;
+            color: #ffffff;
+            text-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .candidate-subtitle {
+            font-size: 1.25rem;
+            color: #e5e7eb;
+            max-width: 780px;
+            margin: 12px auto 0;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        .mandate-ticker {
+            background: #000000;
+            color: var(--statist-gold);
+            padding: 10px;
+            font-size: 0.88rem;
+            font-family: monospace;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            letter-spacing: 1px;
+        }
+
+        /* Container */
+        .manifesto-container {
+            max-width: 900px;
+            margin: 35px auto 60px;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* General Section Card */
+        .manifesto-card {
+            background: var(--statist-panel);
+            border-radius: 12px;
+            border: 1px solid var(--statist-border);
+            padding: 28px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s ease;
+        }
+
+        .card-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        /* Whiplash Themes */
+        .theme-campaign {
+            border-left: 6px solid var(--statist-red);
+        }
+        .theme-campaign .card-tag {
+            background: rgba(139, 0, 0, 0.35);
+            color: #ff6b6b;
+            border: 1px solid var(--statist-red);
+        }
+
+        .theme-swimming {
+            border-left: 6px solid var(--swim-blue);
+            background: linear-gradient(145deg, #111e29 0%, #151b22 100%);
+        }
+        .theme-swimming .card-tag {
+            background: rgba(2, 132, 199, 0.25);
+            color: #38bdf8;
+            border: 1px solid var(--swim-blue);
+        }
+
+        .theme-cheese {
+            border-left: 6px solid var(--cheese-gold);
+            background: linear-gradient(145deg, #241a0e 0%, #1c1813 100%);
+        }
+        .theme-cheese .card-tag {
+            background: rgba(245, 158, 11, 0.25);
+            color: #fbbf24;
+            border: 1px solid var(--cheese-gold);
+        }
+
+        .theme-sleep {
+            border-left: 6px solid var(--sleep-purple);
+            background: linear-gradient(145deg, #16152a 0%, #131220 100%);
+        }
+        .theme-sleep .card-tag {
+            background: rgba(67, 56, 202, 0.25);
+            color: #a5b4fc;
+            border: 1px solid var(--sleep-purple);
+        }
+
+        .manifesto-card h2 {
+            margin: 0 0 16px 0;
+            font-size: 1.8rem;
+            color: #ffffff;
+            line-height: 1.25;
+        }
+
+        .manifesto-card p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin: 0 0 16px 0;
+            color: #d1d5db;
+        }
+
+        .manifesto-card ul {
+            margin: 14px 0 20px 20px;
+            padding: 0;
+            color: #e5e7eb;
+            font-size: 1.05rem;
+        }
+
+        .manifesto-card ul li {
+            margin-bottom: 8px;
+        }
+
+        /* Image Display & Labels */
+        .image-wrapper {
+            margin: 24px 0 12px;
+            text-align: center;
+        }
+
+        .image-wrapper img {
+            max-width: 100%;
+            height: auto;
+            max-height: 460px;
+            border-radius: 8px;
+            border: 2px solid #333;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            display: inline-block;
+            object-fit: cover;
+        }
+
+        .image-label {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.92rem;
+            font-style: italic;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px dashed #444;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Whiplash Divider */
+        .whiplash-divider {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #555;
+            text-transform: uppercase;
+            padding: 4px 0;
+        }
+
+        .whiplash-divider::before,
+        .whiplash-divider::after {
+            content: " ——— ";
+            color: #444;
+        }
+
+        /* Footer */
+        .campaign-footer {
+            background: #080808;
+            border-top: 1px solid #222;
+            padding: 35px 20px;
+            text-align: center;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .campaign-footer p {
+            margin: 6px 0;
+        }
+
+        .campaign-footer a {
+            color: var(--statist-gold);
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="campaign-banner">
+        <div class="back-nav">
+            <a href="/pages/cast.html">← The Secret Cast</a>
+        </div>
+        <span class="slogan-top">Official Mandate Document #001</span>
+        <h1 class="candidate-title">Aneesh Raghavan</h1>
+        <p class="candidate-subtitle">Unifying the Nation Under Uncompromising Leadership, Unfathomable Decisiveness, and Absolute Order.</p>
+    </header>
+
+    <div class="mandate-ticker">
+        [POLICY ALERT]: STRUCTURAL QUOTAS INCREASED BY 300% // NO QUESTIONS AUTHORIZED // SLEEP CYCLES CURRENTLY COMPROMISED // WATER TEMPERATURE: 78°F
+    </div>
+
+    <main class="manifesto-container">
+
+        <!-- SECTION 1: CAMPAIGN PLATFORM -->
+        <article class="manifesto-card theme-campaign">
+            <span class="card-tag">Core Campaign Manifesto</span>
+            <h2>The Unbreakable Monolith: Uniting the Entire Situation</h2>
+            <p>
+                Citizens. Observers. Neighbors. The era of fractional dispersion has officially expired. Under my uncompromising leadership,
+                the country will be welded together into a single, cohesive, frictionless apparatus. We must consolidate the perimeter. We must
+                enforce rigorous standardization across all horizontal jurisdictions.
+            </p>
+            <p>
+                Our detractors have repeatedly asked: <em>"Aneesh, what specific position are you running for? What branch of government is this?"</em>
+                This question is proof of institutional weakness. True leadership does not concern itself with titles or ballots. I am running
+                for the <strong>Ultimate General Direction</strong>. When we win, the outcomes will be absolute, immediate, and firmly executed.
+            </p>
+
+            <div class="image-wrapper">
+                <img src="/pages/images/aneesh-patriotic.jpg" alt="Aneesh Raghavan presenting the Unbreakable Mandate">
+                <span class="image-label">Exhibit A: Candidate Aneesh Raghavan presenting the Unbreakable Mandate to the citizenry.</span>
+            </div>
+        </article>
+
+        <div class="whiplash-divider">Sudden Transition // No Context Given</div>
+
+        <!-- SECTION 2: PROFESSIONAL SWIMMING -->
+        <article class="manifesto-card theme-swimming">
+            <span class="card-tag">Athletic Distinction</span>
+            <h2>Professional Hydrodynamics & Freestyle Superiority</h2>
+            <p>
+                I am a professional competitive swimmer. When my human form enters the designated aquatic corridor, fluid displacement is
+                achieved with maximum geometric efficiency. Water offers continuous resistance, yet resistance is merely an invitation for
+                higher bilateral kicking frequencies.
+            </p>
+            <p>
+                I swim 8,000 meters before dawn simply to establish biological dominance over the chlorine. My stroke mechanics are pristine.
+                My butterfly split times have caused local lifeguards to question the nature of linear time.
+            </p>
+
+            <div class="image-wrapper">
+                <img src="/pages/images/aneesh-swimming.jpg" alt="Aneesh Raghavan performing competitive swimming">
+                <span class="image-label">Exhibit B: Aneesh maintaining elite hydrodynamic propulsion during professional training.</span>
+            </div>
+        </article>
+
+        <div class="whiplash-divider">Abrupt Subject Shift // Unexplained Pivot</div>
+
+        <!-- SECTION 3: EXTREME VAGUE CAMPAIGN PROMISES -->
+        <article class="manifesto-card theme-campaign">
+            <span class="card-tag">National Infrastructure</span>
+            <h2>Mobilizing the Instruments of Absolute Production</h2>
+            <p>
+                Under Section 4-B of the New Directive, all citizens will be issued appropriate tooling to participate in the Grand Reconstruction.
+                What are we building? <strong>Everything.</strong> Where will it be placed? <strong>Directly where it belongs.</strong>
+            </p>
+            <p>
+                Here are our foundational promises, all of which are 100% non-negotiable:
+            </p>
+            <ul>
+                <li><strong>Triple the Output:</strong> Output will be multiplied by three immediately upon ratification.</li>
+                <li><strong>Elimination of Ambient Dithering:</strong> Any citizen observed lingering with indecisive posture will face mandatory alignment.</li>
+                <li><strong>The National Resolve Quota:</strong> Each household will deliver 40 units of pure unwavering commitment per calendar month.</li>
+                <li><strong>Total Decisiveness:</strong> All future problems will be permanently declared finished.</li>
+            </ul>
+
+            <div class="image-wrapper">
+                <img src="/pages/images/aneesh-communist-tools.jpg" alt="Aneesh with communist tools">
+                <span class="image-label">Exhibit C: Aneesh brandishing the official apparatus of state-level collective resolve.</span>
+            </div>
+        </article>
+
+        <div class="whiplash-divider">Instant Whiplash // Irrelevant Food Topic</div>
+
+        <!-- SECTION 4: CHEESE ENTHUSIASM -->
+        <article class="manifesto-card theme-cheese">
+            <span class="card-tag">Nutritional Philosophy</span>
+            <h2>Affection for High-Grade Artisanal Plastic Cheese</h2>
+            <p>
+                Cheese is undeniable. When assessing food substances, I require high tensile elasticity, bright synthetic yellow pigmentation,
+                and an individually heat-sealed plastic wrapper. There is nothing superior to removing a cheese square from its transparent sheath
+                and consuming it at room temperature in under four seconds.
+            </p>
+            <p>
+                Does it melt when heated? Sometimes. Does it contain calcium? That is between the manufacturer and the FDA. The texture is sublime.
+                A single slice provides both sustenance and emotional equilibrium.
+            </p>
+
+            <div class="image-wrapper">
+                <img src="/pages/images/aneesh-eating-plastic-cheese.png" alt="Aneesh eating single-slice plastic cheese">
+                <span class="image-label">Exhibit D: Aneesh tactically ingesting single-slice individually wrapped American pasteurized cheese product.</span>
+            </div>
+        </article>
+
+        <div class="whiplash-divider">Severe Whiplash // Return to Unchecked Authority</div>
+
+        <!-- SECTION 5: SKEPTICS & CRITICISM -->
+        <article class="manifesto-card theme-campaign">
+            <span class="card-tag">Accountability Bureau</span>
+            <h2>Profound Disappointment in Those Requesting "Details"</h2>
+            <p>
+                Yesterday, a reporter dared ask: <em>"Sir, how will this be financed? Who authorized this committee?"</em>
+                I stared at him for four consecutive minutes without blinking until he apologized to the flag.
+            </p>
+            <p>
+                Those who obsess over spreadsheets are devoid of historic vision. We do not need funding; we need <strong>fervor</strong>.
+                Those who waver will be noted. Their files will be placed into the Box of Hesitant Individuals.
+            </p>
+
+            <div class="image-wrapper">
+                <img src="/pages/images/aneesh-disappointed.jpg" alt="Aneesh looking disappointed">
+                <span class="image-label">Exhibit E: Candidate Raghavan expressing grave disappointment toward citizens lacking revolutionary vigor.</span>
+            </div>
+        </article>
+
+        <div class="whiplash-divider">Immediate Medical Digression // Zero Campaign Relevance</div>
+
+        <!-- SECTION 6: CHRONIC INSOMNIA & SLEEP EXHAUSTION -->
+        <article class="manifesto-card theme-sleep">
+            <span class="card-tag">Biological Crisis</span>
+            <h2>Severe Clinical Insomnia & Flooring Inspection</h2>
+            <p>
+                I have not slept since late October. My neurological system is currently functioning purely on raw cortisol, high voltage, and stubbornness.
+                Whenever I attempt to achieve slumber, my brain conducts an exhaustive audit of every conversation I have had since the sixth grade.
+            </p>
+            <p>
+                At 3:42 AM, I frequently lay horizontally upon the floorboards. The floor does not judge. The floor provides flat, unyielding support.
+                My eyelids weigh approximately twelve pounds each, yet my heart is beating at 115 BPM while staring at the drywall seam.
+            </p>
+
+            <div class="image-wrapper">
+                <img src="/pages/images/aneesh-laying-down.jpg" alt="Aneesh laying down on the floor">
+                <span class="image-label">Exhibit F: Aneesh attempting to induce unconsciousness via direct contact with flooring materials.</span>
+            </div>
+        </article>
+
+        <div class="whiplash-divider">Surge of Adrenaline // Campaign Frenzy</div>
+
+        <!-- SECTION 7: PEAK CAMPAIGN EUPHORIA -->
+        <article class="manifesto-card theme-campaign">
+            <span class="card-tag">Mobilization Status</span>
+            <h2>UNPRECEDENTED RALLY HYSTERIA: THE RESOLVE PEAKS!</h2>
+            <p>
+                THE MOMENTUM IS IRREVERSIBLE! The stadiums are chanting! The flags are waving! No one in attendance knows what our tax policy is,
+                and quite frankly, neither do I! THAT IS THE BEAUTY OF THE NEW COALITION! WE STAND UNITED IN PURE, RAW, UNADULTERATED ENERGY!
+            </p>
+            <p>
+                WE WILL STREAMLINE THE ENTIRE CONTINENT! EVERY SECTOR WILL REPORT DIRECTLY TO HEADQUARTERS! VICTORY IS THE ONLY ACCEPTABLE CONCLUSION!
+            </p>
+
+            <div class="image-wrapper">
+                <img src="/pages/images/aneesh-excited.jpg" alt="Aneesh super excited at campaign rally">
+                <span class="image-label">Exhibit G: Aneesh reaching peak campaign euphoria while announcing zero concrete platform details.</span>
+            </div>
+        </article>
+
+        <div class="whiplash-divider">Immediate Crash // Unconscious</div>
+
+        <!-- SECTION 8: FULL ASLEEP COLLAPSE -->
+        <article class="manifesto-card theme-sleep">
+            <span class="card-tag">Sleep Deficit Victory</span>
+            <h2>Emergency Involuntary Dormancy</h2>
+            <p>
+                The adrenaline has abruptly evaporated. The biological battery has reached 0.00%. I have dropped into a state of vegetative slumber
+                without warning. The country can wait. The mandate can pause. My cerebral cortex has initiated an emergency shutdown sequence.
+            </p>
+            <p>
+                Do not poke the leader. If awakened prematurely, he will attempt to swim four laps in the carpet.
+            </p>
+
+            <div class="image-wrapper">
+                <img src="/pages/images/aneesh-sleeping.jpg" alt="Aneesh completely asleep">
+                <span class="image-label">Exhibit H: The Great Unifier completely knocked out in a deep, desperate sleep.</span>
+            </div>
+        </article>
+
+        <div class="whiplash-divider">The Final Haze // Beyond Space and Time</div>
+
+        <!-- SECTION 9: THE BLURRY HORIZON -->
+        <article class="manifesto-card theme-campaign">
+            <span class="card-tag">Final Resolution</span>
+            <h2>The Transcendent Blur of Victory</h2>
+            <p>
+                Where do we go from here? We accelerate until reality itself begins to smear at the edges. A vote for Aneesh Raghavan is a vote
+                for strong leadership, total national solidarity, Olympic-standard flip turns, processed cheese consumption, and a minimum of two hours
+                of uninterrupted REM sleep.
+            </p>
+            <p>
+                Stand firm. Eat cheese. Dive into the deep end. Sleep when the victory is finalized.
+            </p>
+
+            <div class="image-wrapper">
+                <img src="/pages/images/aneesh-blurry.png" alt="Aneesh blurry high-speed motion">
+                <span class="image-label">Exhibit I: Aneesh ascending to Mach 4 in the sleep-deprived continuum of national destiny.</span>
+            </div>
+        </article>
+
+    </main>
+
+    <footer class="campaign-footer">
+        <p>Paid for by the <strong>Raghavan Committee for Vague but Resolute National Unity</strong>.</p>
+        <p>Swimming records audited by the FINA Technical Committee. Cheese certified by the Department of Elasticity.</p>
+        <p><a href="/pages/cast.html">Return to The Secret Cast</a> | <a href="/index.html">Home</a></p>
+    </footer>
+
+</body>
+
+</html>

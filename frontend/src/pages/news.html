@@ -4,7 +4,7 @@
 <head id="header">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BSB News</title>
+    <title>MAO News</title>
 
     <link href="/styles/dark-style.css" rel="stylesheet">
     <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
@@ -38,30 +38,6 @@
         .news-header {
             margin-bottom: 2rem;
             text-align: center;
-        }
-
-        .news-logo-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0.5rem auto 1rem auto;
-        }
-
-        .bsb-logo {
-            max-height: 78px;
-            width: auto;
-            border-radius: 8px;
-            background: #000;
-            padding: 4px 10px;
-            border: 1px solid var(--border);
-            box-shadow: var(--card-shadow);
-            opacity: 1 !important;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .bsb-logo:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--card-shadow-hover);
         }
 
         .news-header h1 {
@@ -614,14 +590,11 @@
 
         <!-- Header -->
         <header class="news-header">
-            <div class="news-logo-wrapper">
-                <img src="/pages/images/bsb-logo.webp" alt="BSB Logo" class="bsb-logo">
-            </div>
-            <h1>BSB News</h1>
-            <p class="news-subtitle">Announcements, events, and bulletins from the BSB News Desk</p>
+            <h1>MAO News</h1>
+            <p class="news-subtitle">Announcements, events, and bulletins from the MAO News Desk</p>
             <div class="live-status-bar" id="live-status-bar">
                 <span class="status-dot" id="status-dot"></span>
-                <span id="status-text">Connecting to BSB News API...</span>
+                <span id="status-text">Connecting to MAO News API...</span>
             </div>
         </header>
 
@@ -683,7 +656,7 @@
             <!-- Error State -->
             <div class="error-state" id="error-state" style="display: none;">
                 <h3>Unable to Load News</h3>
-                <p id="error-message">Could not connect to the BSB News service.</p>
+                <p id="error-message">Could not connect to the MAO News service.</p>
                 <button class="button" onclick="fetchNews()">Retry Connection</button>
             </div>
 
@@ -708,32 +681,32 @@
 
         <!-- API Reference Collapsible Box -->
         <details class="api-docs-box">
-            <summary>BSB News API Reference for Agents & Developers</summary>
+            <summary>MAO News API Reference for Agents & Developers</summary>
             <div class="api-docs-content">
-                <p>The BSB News feed is backed by a REST API accessible to human developers, automated clients, and AI agents.</p>
-                <p><strong>Base URL:</strong> <code>https://api.dungewar.com/bsb-news</code> (or alias <code>/news</code>)</p>
+                <p>The MAO News feed is backed by a REST API accessible to human developers, automated clients, and AI agents.</p>
+                <p><strong>Base URL:</strong> <code>https://api.dungewar.com/news</code> (or alias <code>/news</code>)</p>
 
                 <h4>Public Endpoints (No Auth Required)</h4>
                 <ul>
-                    <li><code>GET https://api.dungewar.com/bsb-news</code> - List all news (supports <code>?sort=newest|oldest</code>, <code>?limit=N</code>, <code>?q=keyword</code>)</li>
-                    <li><code>GET https://api.dungewar.com/bsb-news/latest</code> - Fetch latest single news story</li>
-                    <li><code>GET https://api.dungewar.com/bsb-news/random</code> - Fetch random news story</li>
-                    <li><code>GET https://api.dungewar.com/bsb-news/:id</code> - Fetch story by numeric ID</li>
+                    <li><code>GET https://api.dungewar.com/news</code> - List all news (supports <code>?sort=newest|oldest</code>, <code>?limit=N</code>, <code>?q=keyword</code>)</li>
+                    <li><code>GET https://api.dungewar.com/news/latest</code> - Fetch latest single news story</li>
+                    <li><code>GET https://api.dungewar.com/news/random</code> - Fetch random news story</li>
+                    <li><code>GET https://api.dungewar.com/news/:id</code> - Fetch story by numeric ID</li>
                 </ul>
 
                 <h4>cURL Example</h4>
                 <pre><code># Fetch latest 5 news stories
-curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
+curl "https://api.dungewar.com/news?sort=newest&limit=5"</code></pre>
 
                 <h4>Publishing News (Requires Secret Key)</h4>
                 <p>Pass secret key via <code>x-api-key: &lt;key&gt;</code> header or <code>Authorization: Bearer &lt;key&gt;</code>.</p>
-                <pre><code>curl -X POST https://api.dungewar.com/bsb-news \
+                <pre><code>curl -X POST https://api.dungewar.com/news \
   -H "Content-Type: application/json" \
-  -H "x-api-key: dungewar_bsb_news_secret_key_2026" \
+  -H "x-api-key: <SECRET_KEY>" \
   -d '{
-    "title": "BSB Championship Announced",
-    "content": "The annual BSB championship will begin next month.",
-    "author": "BSB Editorial Desk",
+    "title": "Championship Announced",
+    "content": "The annual championship will begin next month.",
+    "author": "MAO Editorial Desk",
     "tags": ["announcement", "events"]
   }'</code></pre>
             </div>
@@ -746,7 +719,7 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
 
     <!-- News Viewer Script -->
     <script>
-        const API_BASE = "https://api.dungewar.com/bsb-news";
+        const API_BASE = "https://api.dungewar.com/news";
 
         let allNewsItems = [];
         let currentSort = "newest";
@@ -829,7 +802,7 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
                 applyFiltersAndRender();
             } catch (err) {
                 console.error("Error fetching news:", err);
-                showError(err.message || "Failed to connect to BSB News API.");
+                showError(err.message || "Failed to connect to MAO News API.");
                 updateStatusError();
             } finally {
                 showLoading(false);
@@ -983,14 +956,14 @@ curl "https://api.dungewar.com/bsb-news?sort=newest&limit=5"</code></pre>
                 if (headingMatch) {
                     title = headingMatch[1].trim();
                 } else {
-                    title = `BSB Bulletin #${item.id || "Update"}`;
+                    title = `MAO Bulletin #${item.id || "Update"}`;
                 }
             }
 
             return {
                 title,
                 bodyText,
-                author: item.author || "BSB News Desk",
+                author: item.author || "MAO News Desk",
                 dateStr: formatDate(item.createdAt || item.timestamp),
                 relTime: formatRelativeTime(item.createdAt || item.timestamp),
                 tags: getNormalizedTags(item),
