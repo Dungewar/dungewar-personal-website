@@ -1,12 +1,11 @@
 {
   "name": "dungewar-personal-website",
   "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
-  "dependencies": {
-    "pandoc": "^0.2.0",
-    "rm": "^0.1.8"
+  "workspaces": ["frontend"],
+  "scripts": {
+    "dev": "npm run dev --workspace frontend",
+    "build": "npm run build --workspace frontend",
+    "typecheck": "npm run typecheck --workspace frontend",
+    "preview": "npm run preview --workspace frontend"
   }
 }

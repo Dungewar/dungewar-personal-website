@@ -1,23 +1,22 @@
 {
-  "name": "frontend",
+  "name": "dungewar-frontend",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "rm -rf dist",
-    "build": "npm run clean && vite build && rsync -a --exclude='dist/' --exclude='node_modules/' --exclude='/index.html' --exclude='/pages/art-project.html' --exclude='/pages/border-viewer.html' --exclude='/pages/cal-simulator.html' --exclude='/pages/chatroom.html' --exclude='/pages/max-shi.html' --exclude='/pages/minesweeper/minesweeper.html' --exclude='/pages/olgierd-matusiewicz.html' --exclude='/pages/poleand_game.html' --exclude='/pages/qinzhao-li.html' --exclude='/pages/rohan-nadkarni.html' --exclude='*.ts' --exclude='*.tsx' ./src/ ./dist/ && bash scripts/htmlify-dist.sh",
-    "dev": "vite"
+    "dev": "vite",
+    "build": "npm run typecheck && vite build",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^1.11.0",
-    "better-sqlite3": "^12.4.1"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
   },
   "devDependencies": {
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
     "typescript": "^5.9.2",
     "vite": "^8.0.8"
   }
