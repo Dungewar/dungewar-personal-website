@@ -1,6 +1,6 @@
 # dungewar.com
 
-The personal website for dungewar.com, built with React, TypeScript, and Vite.
+The source for the dungewar.com personal website.
 
 ## Development
 

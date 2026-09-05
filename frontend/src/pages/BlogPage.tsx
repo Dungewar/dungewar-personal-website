@@ -20,7 +20,7 @@ function inlineMarkdown(value: string, assetBase: string): string {
     .replace(/&lt;br\s*\/?&gt;/gi, "<br>");
 }
 
-function markdownToHtml(markdown: string, assetBase: string): string {
+export function markdownToHtml(markdown: string, assetBase = ""): string {
   const lines = markdown.replace(/\r/g, "").split("\n");
   const html: string[] = [];
   let paragraph: string[] = [];

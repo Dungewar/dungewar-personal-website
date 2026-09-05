@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { apiUrl } from "../api";
 import { Layout } from "../components/Layout";
-import { MailSignup } from "../components/MailSignup";
 
 const projects = [
   {
     number: "01",
     title: "Minesweeper",
-    description: "The classic game, rebuilt as a native React component. Dig carefully.",
+    description: "The classic game. Dig carefully and keep an eye on the corners.",
     href: "/pages/minesweeper/minesweeper.html",
     tag: "Playable",
   },
@@ -20,17 +19,17 @@ const projects = [
   },
   {
     number: "03",
-    title: "Talk room",
-    description: "A small live chat connected directly to the dungewar API.",
-    href: "/pages/chatroom.html",
-    tag: "Live",
+    title: "MAO News",
+    description: "Announcements, events, and bulletins from the MAO News Desk.",
+    href: "/pages/news.html",
+    tag: "News desk",
   },
   {
     number: "04",
-    title: "World border",
-    description: "Watch the Minecraft server border move in real time.",
-    href: "/pages/border-viewer.html",
-    tag: "Data",
+    title: "Top XKCD",
+    description: "A highly subjective and therefore definitive ranking of great comics.",
+    href: "/pages/xkcd.html",
+    tag: "Comics",
   },
 ] as const;
 
@@ -50,7 +49,7 @@ export function HomePage() {
       <section className="hero">
         <div className="hero-copy">
           <p className="eyebrow">Personal site · experiments · questionable ideas</p>
-          <h1>Small projects with<br /><em>unnecessarily big energy.</em></h1>
+          <h1>Small projects with<br /><span>unnecessarily big energy.</span></h1>
           <p className="hero-intro">
             I’m Olgierd. This is the place where I publish games, server experiments,
             field notes, and whatever else survives long enough to get a URL.
@@ -89,12 +88,10 @@ export function HomePage() {
           <h2>A website with a pulse.</h2>
         </div>
         <div>
-          <p>This site still talks to services running at <code>api.dungewar.com</code>, including a real physical buzzer that fires when the homepage opens.</p>
-          <p>The web app itself is now just static files: easier to build, deploy, and reason about.</p>
+          <p>Opening this homepage rings a real physical buzzer somewhere in my house. A tiny machine has already announced your arrival.</p>
+          <p>The rest of the place is games, strange experiments, friends, and notes from whichever rabbit hole looked most interesting that week.</p>
         </div>
       </section>
-
-      <MailSignup />
     </Layout>
   );
 }

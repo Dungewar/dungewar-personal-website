@@ -13,7 +13,7 @@ export function Layout({ children, wide = false }: LayoutProps) {
       <main className={wide ? "page-shell page-shell-wide" : "page-shell"}>{children}</main>
       <footer className="site-footer">
         <span>Built by Olgierd Matusiewicz</span>
-        <span>React + TypeScript, no local backend required</span>
+        <span>Games, experiments, and field notes</span>
       </footer>
     </>
   );

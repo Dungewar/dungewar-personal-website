@@ -43,9 +43,9 @@ function adjacentBombs(cells: Cell[], index: number): number {
   return neighbors(index).filter((neighbor) => cells[neighbor].bomb).length;
 }
 
-function revealArea(cells: Cell[], start: number): Cell[] {
+function revealArea(cells: Cell[], starts: number | number[]): Cell[] {
   const next = cells.map((cell) => ({ ...cell }));
-  const queue = [start];
+  const queue = Array.isArray(starts) ? [...starts] : [starts];
   const visited = new Set<number>();
   while (queue.length) {
     const index = queue.shift();
@@ -71,7 +71,28 @@ export function MinesweeperPage() {
   };
 
   const reveal = (index: number) => {
-    if (state === "lost" || state === "won" || cells[index].flagged || cells[index].revealed) return;
+    if (state === "lost" || state === "won" || cells[index].flagged) return;
+
+    if (cells[index].revealed) {
+      const nearby = neighbors(index);
+      const mineCount = adjacentBombs(cells, index);
+      const flagCount = nearby.filter((neighbor) => cells[neighbor].flagged).length;
+      if (mineCount === 0 || flagCount !== mineCount) return;
+
+      const covered = nearby.filter((neighbor) => !cells[neighbor].flagged && !cells[neighbor].revealed);
+      if (covered.some((neighbor) => cells[neighbor].bomb)) {
+        setCells(cells.map((cell) => cell.bomb ? { ...cell, revealed: true } : cell));
+        setState("lost");
+        return;
+      }
+
+      const next = revealArea(cells, covered);
+      const won = next.every((cell) => cell.bomb || cell.revealed);
+      setCells(won ? next.map((cell) => cell.bomb ? { ...cell, flagged: true } : cell) : next);
+      setState(won ? "won" : "playing");
+      return;
+    }
+
     const seeded = state === "ready" ? addBombs(cells, index) : cells;
     if (seeded[index].bomb) {
       setCells(seeded.map((cell) => cell.bomb ? { ...cell, revealed: true } : cell));
@@ -93,30 +114,43 @@ export function MinesweeperPage() {
   return (
     <Layout wide>
       <section className="page-hero compact game-heading">
-        <div><p className="eyebrow">React edition</p><h1>Minesweeper</h1></div>
+        <div><p className="eyebrow">Clear the field</p><h1>Minesweeper</h1></div>
         <div className="mine-stats"><span>{BOMB_COUNT - flags} mines</span><button type="button" onClick={reset}>New board</button></div>
       </section>
       <section className="mine-wrap">
         <p className={`game-message ${state}`}>
           {state === "ready" && "Pick a square. The first click is always safe."}
-          {state === "playing" && "Left-click to dig. Right-click to flag."}
+          {state === "playing" && "Left-click to dig. Right-click to flag. Click a revealed number to clear around it when its flags match."}
           {state === "won" && "Board cleared. Suspiciously competent."}
           {state === "lost" && "That one was, unfortunately, a mine."}
         </p>
         <div className="mine-board" role="grid" aria-label="Minesweeper board">
           {cells.map((cell, index) => {
             const count = cell.revealed && !cell.bomb ? adjacentBombs(cells, index) : 0;
-            const content = cell.flagged ? "⚑" : cell.revealed && cell.bomb ? "✹" : count || "";
+            const sprite = cell.flagged
+              ? "flag"
+              : cell.revealed && cell.bomb
+                ? "bomb"
+                : cell.revealed
+                  ? `n${count}`
+                  : "covered";
+            const cellState = cell.flagged
+              ? "flagged"
+              : cell.revealed && cell.bomb
+                ? "mine"
+                : cell.revealed
+                  ? count === 0 ? "empty" : `${count} nearby mines`
+                  : "covered";
             return (
               <button
                 type="button"
                 role="gridcell"
-                className={`mine-cell ${cell.revealed ? "revealed" : ""} n${count}`}
-                aria-label={`Row ${rowOf(index) + 1}, column ${colOf(index) + 1}${cell.flagged ? ", flagged" : ""}`}
+                className={`mine-cell sprite-${sprite}`}
+                aria-label={`Row ${rowOf(index) + 1}, column ${colOf(index) + 1}, ${cellState}`}
                 key={index}
                 onClick={() => reveal(index)}
                 onContextMenu={(event) => toggleFlag(event, index)}
-              >{content}</button>
+              />
             );
           })}
         </div>

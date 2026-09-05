@@ -49,7 +49,7 @@ reliable than wifi. Ideally doesn't use up too much power, this is a budget serv
 Raspberry PI, just what I was looking for. I was waiting for one for a _long_ time, and when my robotics team was
 throwing out old PIs for being too slow, I took one and turned it into a server. It was a raspi V1.2 B, or in other
 words, total potato. Around 10 years old at this point, it gave web requests, but not much more. It was so bad that I
-had to move over compiling typescript onto my computer, because it was taking 5 minutes to do. However, it being an old
+had to move the site build onto my computer, because it was taking 5 minutes to do. However, it being an old
 PI, it broke down. Badly. It just started overheating, no matter whether anything was plugged in (suffice to say, it was
 done for). So, I decided to invest real money into this project, and bought the cheapest raspi 5, the 2GB version. In
 hindsight I should have bought the 4GB one, but more on that later. In any case, it was leaps and bounds above the
@@ -83,7 +83,7 @@ many ways, for instance in not hallucinating. After you've got that setup, it's 
 
 So the difference between frontend and backend is simple: frontend gives your browser files to run, backend just has the
 server run them (not the same ones, you get what I mean). I went for `pm2` (a server manager) along with simple boring
-JS `node` (I used to do TS `node` but the old raspi was too slow to compile the TS into JS, it would be fine now on the
+JS `node` (I used to include a build step, but the old raspi was too slow for it; it would be fine now on the
 raspi 5).
 
 ### Router

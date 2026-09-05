@@ -79,7 +79,7 @@ at least not explicitly.
 ## The mistake
 
 When initializing the backend of the website, I have a 2 script combo `update-project.sh` and `update-project-entry.sh`
-that updates from github, redownloads node packages, sends out update emails, and importantly... restarts the backend.
+that updates from github, redownloads node packages, and importantly... restarts the backend.
 The script told me that some things were not permitted, that it needs root, so I foolishly gave it.
 ![img_6.png](img_6.png)
 The likely cause of this is that when first setting it up, I ran `npm install` as root, so the `package.json` and

@@ -10,11 +10,3 @@ export const websocketUrl = (path: string): string => {
   url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
   return url.toString();
 };
-
-export async function postJson<TBody>(path: string, body: TBody): Promise<Response> {
-  return fetch(apiUrl(path), {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(body),
-  });
-}
