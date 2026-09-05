@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharvil — A Brief Record of Excellence</title>
+    <link href="../favicon/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
+    <link href="../favicon/favicon.svg" rel="icon" type="image/svg+xml">
+    <link href="../favicon/favicon.ico" rel="shortcut icon">
+    <style>
+        :root {
+            --ink: #17201a;
+            --paper: #f1eadb;
+            --paper-deep: #ded2ba;
+            --green: #1f4937;
+            --gold: #b38a3e;
+            --red: #7d3027;
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background:
+                radial-gradient(circle at 15% 5%, rgba(179, 138, 62, .16), transparent 25rem),
+                repeating-linear-gradient(90deg, rgba(23, 32, 26, .025) 0 1px, transparent 1px 7px),
+                var(--paper);
+            color: var(--ink);
+            font-family: Georgia, "Times New Roman", serif;
+            margin: 0;
+            line-height: 1.65;
+        }
+
+        .masthead {
+            border-bottom: 1px solid var(--ink);
+            margin: 0 auto;
+            max-width: 1180px;
+            padding: 4rem 1.5rem 2.5rem;
+            text-align: center;
+        }
+
+        .eyebrow {
+            color: var(--red);
+            font-family: Arial, sans-serif;
+            font-size: .75rem;
+            font-weight: 800;
+            letter-spacing: .26em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: clamp(4rem, 13vw, 9rem);
+            font-weight: 400;
+            letter-spacing: -.07em;
+            line-height: .82;
+            margin: 1.2rem 0;
+        }
+
+        .dek {
+            font-size: clamp(1.15rem, 2.5vw, 1.65rem);
+            font-style: italic;
+            margin: 0 auto;
+            max-width: 760px;
+        }
+
+        .issue-line {
+            border-bottom: 1px solid var(--ink);
+            display: flex;
+            font-family: Arial, sans-serif;
+            font-size: .72rem;
+            font-weight: 700;
+            justify-content: space-between;
+            letter-spacing: .12em;
+            margin: 0 auto;
+            max-width: 1180px;
+            padding: .65rem 1.5rem;
+            text-transform: uppercase;
+        }
+
+        main {
+            margin: 0 auto;
+            max-width: 1180px;
+            padding: 2rem 1.5rem 5rem;
+        }
+
+        .lead {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+        }
+
+        .lead-copy {
+            align-self: center;
+            border-bottom: 1px solid var(--gold);
+            border-top: 5px solid var(--green);
+            padding: 1.7rem 0;
+        }
+
+        .lead-copy p:first-of-type::first-letter {
+            color: var(--green);
+            float: left;
+            font-size: 5rem;
+            line-height: .75;
+            padding: .3rem .5rem 0 0;
+        }
+
+        h2 {
+            font-size: clamp(2.1rem, 5vw, 3.6rem);
+            font-weight: 400;
+            letter-spacing: -.04em;
+            line-height: 1;
+            margin: .5rem 0 1.2rem;
+        }
+
+        figure { margin: 0; }
+
+        img {
+            display: block;
+            filter: saturate(.88) contrast(1.04);
+            height: auto;
+            width: 100%;
+        }
+
+        .portrait img {
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+        }
+
+        figcaption {
+            border-top: 4px solid var(--gold);
+            font-family: Arial, sans-serif;
+            font-size: .75rem;
+            line-height: 1.45;
+            padding: .65rem 0;
+        }
+
+        .metric-strip {
+            background: var(--green);
+            color: #f8f2e6;
+            display: grid;
+            gap: 1px;
+            grid-template-columns: repeat(3, 1fr);
+            margin: 3rem 0;
+        }
+
+        .metric {
+            border: 1px solid rgba(255,255,255,.25);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .metric strong {
+            color: #edca82;
+            display: block;
+            font-size: clamp(2.6rem, 6vw, 4.2rem);
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .metric span {
+            font-family: Arial, sans-serif;
+            font-size: .72rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .story-grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .story {
+            border-top: 1px solid var(--ink);
+            padding-top: 1rem;
+        }
+
+        .story.wide {
+            display: grid;
+            gap: 2rem;
+            grid-column: 1 / -1;
+            grid-template-columns: minmax(260px, .8fr) minmax(0, 1.2fr);
+        }
+
+        .story h3 {
+            font-size: 1.8rem;
+            line-height: 1.15;
+            margin: .4rem 0 .7rem;
+        }
+
+        .kicker {
+            color: var(--red);
+            font-family: Arial, sans-serif;
+            font-size: .7rem;
+            font-weight: 800;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+
+        .quote {
+            border-left: 5px solid var(--gold);
+            color: var(--green);
+            font-size: clamp(1.7rem, 4vw, 2.7rem);
+            font-style: italic;
+            line-height: 1.18;
+            margin: 3rem 0;
+            padding: .5rem 0 .5rem 1.5rem;
+        }
+
+        .gallery {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(3, 1fr);
+            margin-top: 3rem;
+        }
+
+        .gallery figure:nth-child(2) { margin-top: 3rem; }
+
+        .gallery img {
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+        }
+
+        footer {
+            background: var(--ink);
+            color: var(--paper-deep);
+            font-family: Arial, sans-serif;
+            font-size: .75rem;
+            letter-spacing: .08em;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 720px) {
+            .lead, .story-grid, .story.wide { grid-template-columns: 1fr; }
+            .metric-strip { grid-template-columns: 1fr; }
+            .gallery { grid-template-columns: 1fr; }
+            .gallery figure:nth-child(2) { margin-top: 0; }
+            .issue-line span:last-child { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="masthead">
+        <div class="eyebrow">The Journal of Reluctant Greatness</div>
+        <h1>SHARVIL</h1>
+        <p class="dek">A modest young man burdened with the knowledge that everyone else is several leagues beneath him.</p>
+    </header>
+
+    <div class="issue-line">
+        <span>High School Edition</span>
+        <span>Excellence, peer-reviewed</span>
+        <span>Price: more than you can afford</span>
+    </div>
+
+    <main>
+        <section class="lead">
+            <div class="lead-copy">
+                <span class="kicker">Profile in insufficient achievement</span>
+                <h2>The Crushing Weight of Being Merely Better Than Everyone</h2>
+                <p>Sharvil does not consider himself exceptional. Exceptional is a word used by ordinary people when they briefly glimpse competence. He simply wakes up, surveys the peasants below, and wonders why he has accomplished so little.</p>
+                <p>His research paper has been cited only <strong>three times</strong>. Three. While still in high school. Some would frame this as absurdly impressive; Sharvil frames it as a humiliating reminder that the fourth citation remains unwritten.</p>
+            </div>
+            <figure class="portrait">
+                <img src="/pages/images/sharvil-dark-creepy.jpg" alt="Sharvil contemplating the distance between himself and everyone else">
+                <figcaption>Sharvil contemplating his unrealized potential—and the tiny, distant figures he has already surpassed.</figcaption>
+            </figure>
+        </section>
+
+        <section class="metric-strip" aria-label="Sharvil's performance statistics">
+            <div class="metric"><strong>3</strong><span>Citations (disappointing)</span></div>
+            <div class="metric"><strong>99.9%</strong><span>Peasants surpassed</span></div>
+            <div class="metric"><strong>0</strong><span>Reasons to relax</span></div>
+        </section>
+
+        <section class="story-grid">
+            <article class="story">
+                <figure>
+                    <img src="/pages/images/sharvil-fighting.jpg" alt="Sharvil demonstrating effortless combat superiority">
+                    <figcaption>Physical conflict, resolved before the opposition has understood the syllabus.</figcaption>
+                </figure>
+                <span class="kicker">Athletics</span>
+                <h3>A Fair Fight Would Require Several More Opponents</h3>
+                <p>Strength, speed, strategy: Sharvil excels at all three, then criticizes his footwork. His rivals call it domination. He calls it an unfocused warm-up and makes a note to train harder tomorrow.</p>
+            </article>
+
+            <article class="story">
+                <figure>
+                    <img src="/pages/images/sharvil-squeaming.png" alt="Sharvil reacting to standards beneath his expectations">
+                    <figcaption>The precise expression produced by a 99 instead of a 100.</figcaption>
+                </figure>
+                <span class="kicker">Self-assessment</span>
+                <h3>The Agony of Near-Perfection</h3>
+                <p>Every triumph is merely proof that the goal was set too low. Sharvil reserves his most dramatic anguish for achievements that would become somebody else's entire personality.</p>
+            </article>
+
+            <article class="story wide">
+                <figure>
+                    <img src="/pages/images/sharvil-eepy.jpg" alt="Sharvil excelling at sleep">
+                    <figcaption>Elite recovery technique. Even unconscious, he is outperforming the room.</figcaption>
+                </figure>
+                <div>
+                    <span class="kicker">Rest &amp; performance</span>
+                    <h3>Yes, He Is Better at Sleeping Too</h3>
+                    <p>Sleep is not inactivity. In Sharvil's hands—or eyelids—it is a disciplined program of neurological maintenance. His form is economical, his breathing peerless, and his dreams almost certainly better sourced than your bibliography.</p>
+                    <p>Upon waking, he awards the performance a six out of ten. Too much time spent resting, not enough time spent advancing human knowledge. Nearby peasants, exhausted from trying to keep pace, remain asleep.</p>
+                </div>
+            </article>
+        </section>
+
+        <blockquote class="quote">“I am nowhere near where I should be. Fortunately, everyone else is much farther away.” <small>— Sharvil, probably</small></blockquote>
+
+        <section class="story-grid">
+            <article class="story">
+                <figure>
+                    <img src="/pages/images/sharvil-eating-nonchalantly.jpg" alt="Sharvil eating with studied nonchalance">
+                    <figcaption>Caloric intake conducted with the quiet focus of a Nobel deliberation.</figcaption>
+                </figure>
+                <span class="kicker">Nutrition</span>
+                <h3>Even Lunch Has Standards</h3>
+                <p>Others eat. Sharvil refuels. Every bite is nonchalant, optimized, and taken without pausing the internal review of his next paper. The peasants mistake this serenity for relaxation.</p>
+            </article>
+
+            <article class="story">
+                <figure>
+                    <img src="/pages/images/sharvil-gleeful-pizza.jpg" alt="Sharvil permitting himself a moment of joy over pizza">
+                    <figcaption>A rare peer: the pizza briefly approaches Sharvil's standard of excellence.</figcaption>
+                </figure>
+                <span class="kicker">Culture</span>
+                <h3>Joy, Carefully Peer-Reviewed</h3>
+                <p>His delight is not easily earned. This pizza passed a ruthless evaluation of structure, originality, and impact. It still lost half a point for limited citation potential.</p>
+            </article>
+        </section>
+
+        <section class="gallery" aria-label="Further studies of Sharvil">
+            <figure>
+                <img src="/pages/images/sharvil-surprised.jpg" alt="Sharvil surprised by a rare competent result">
+                <figcaption>Surprise: someone else has produced a competent result. An inquiry is underway.</figcaption>
+            </figure>
+            <figure>
+                <img src="/pages/images/sharvil-dark-creepy.jpg" alt="Sharvil maintaining an intimidating academic presence">
+                <figcaption>The face your GPA sees before it quietly revises itself downward.</figcaption>
+            </figure>
+            <figure>
+                <img src="/pages/images/sharvil-squeaming.png" alt="Sharvil confronting mediocrity">
+                <figcaption>Mediocrity has entered the room. Sharvil has noticed.</figcaption>
+            </figure>
+        </section>
+    </main>
+
+    <footer>No links. No distractions. No page could possibly follow this one.</footer>
+</body>
+
+</html>
