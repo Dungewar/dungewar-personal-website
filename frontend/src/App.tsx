@@ -7,7 +7,6 @@ import { ChatPage } from "./pages/ChatPage";
 import { HomePage } from "./pages/HomePage";
 import { NewsPage } from "./pages/NewsPage";
 import { AneeshPage } from "./pages/AneeshPage";
-import { MaxPage, OlgierdPage, QinzhaoPage, RohanPage } from "./pages/PeoplePages";
 import { MinesweeperPage } from "./pages/MinesweeperPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { PoleandPage } from "./pages/PoleandPage";
@@ -29,12 +28,8 @@ const routes: Record<string, Route> = {
   "/pages/cal-simulator.html": { title: "CAL Simulator", element: <CalPage /> },
   "/pages/cast.html": { title: "The Cast", element: <CastPage /> },
   "/pages/chatroom.html": { title: "Talk Room", element: <ChatPage /> },
-  "/pages/max-shi.html": { title: "Max Shi", element: <MaxPage /> },
   "/pages/minesweeper/minesweeper.html": { title: "Minesweeper", element: <MinesweeperPage /> },
-  "/pages/olgierd-matusiewicz.html": { title: "Olgierd Matusiewicz", element: <OlgierdPage /> },
   "/pages/poleand_game.html": { title: "Poleand Game", element: <PoleandPage /> },
-  "/pages/qinzhao-li.html": { title: "Qinzhao Li", element: <QinzhaoPage /> },
-  "/pages/rohan-nadkarni.html": { title: "Rohan Nadkarni", element: <RohanPage /> },
   "/pages/sharvil.html": { title: "Sharvil", element: <SharvilPage /> },
   "/pages/news.html": { title: "MAO News", element: <NewsPage /> },
   "/pages/xkcd.html": { title: "Top XKCD Comics", element: <XkcdPage /> },

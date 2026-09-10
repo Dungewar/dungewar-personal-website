@@ -229,19 +229,6 @@ code { font-family: "DM Mono", monospace; }
 .mine-cell.sprite-bomb { background-position: 66.667% 100%; cursor: default; }
 .mine-cell.sprite-flag { background-position: 100% 100%; }
 
-.person-hero { border-bottom: 1px solid var(--line); padding: 3rem 0 5rem; }
-.person-hero h1 { font-size: clamp(3.5rem, 9vw, 8rem); letter-spacing: -.075em; line-height: .9; margin: 0; }
-.person-hero > p:last-child { color: var(--muted); font-size: 1.15rem; line-height: 1.7; max-width: 650px; }
-.person-feature { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: clamp(2rem, 7vw, 7rem); grid-template-columns: 1fr 1fr; padding: 5rem 0; }
-.person-feature:nth-child(even) .person-copy { order: 2; }
-.person-feature img { aspect-ratio: 4 / 3; border-radius: 12px; object-fit: cover; width: 100%; }
-.person-copy > span { color: var(--yellow); font-family: "DM Mono", monospace; font-size: .7rem; }
-.person-copy h2 { font-size: clamp(2rem, 4vw, 3.4rem); letter-spacing: -.05em; line-height: 1; margin: .8rem 0 1.5rem; }
-.person-copy p { color: #c2c4ba; line-height: 1.8; }
-.person-page.maximal .person-hero h1 { color: #72ff78; text-shadow: 3px 3px #ff5eea; }
-.person-page.qinzhao .person-hero h1 { background: linear-gradient(90deg,#ff7eb3,#b28dff,#77d6f7); background-clip: text; color: transparent; }
-.person-page.rohan .person-hero h1 { color: #e0ef68; }
-.person-page.factory .person-feature img { border: 1px solid #854f3d; filter: saturate(.8) contrast(1.1); }
 
 .blog-article { font-family: Georgia, serif; font-size: 1.08rem; line-height: 1.8; margin: auto; max-width: 760px; }
 .blog-article > h1 { font-family: "Manrope", sans-serif; font-size: clamp(3rem, 7vw, 5.5rem); letter-spacing: -.065em; line-height: .95; margin: 1rem 0 4rem; }
@@ -398,9 +385,7 @@ code { font-family: "DM Mono", monospace; }
   .nav-dropdown { left: 0; right: auto; }
   .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 2rem; }
   .hero-orbit { display: none; }
-  .section-heading, .split-feature, .prose-grid, .person-feature { gap: 2rem; grid-template-columns: 1fr; }
-  .person-feature:nth-child(even) .person-copy { order: 0; }
-  .person-feature img { max-height: 520px; }
+  .section-heading, .split-feature, .prose-grid { gap: 2rem; grid-template-columns: 1fr; }
   .page-hero.compact { align-items: flex-start; flex-direction: column; gap: 1.5rem; }
   .site-footer { gap: 1rem; margin: 0 1.5rem; }
   .cast-grid { grid-template-columns: repeat(2, 1fr); }
