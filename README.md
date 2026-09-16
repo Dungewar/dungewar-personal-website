@@ -20,5 +20,9 @@ npm run build
 npm run preview
 ```
 
-Vite writes the deployable static site to `frontend/dist`. That directory is
-generated and intentionally not committed.
+The build writes the deployable static site to `frontend/dist`, which this
+repository currently tracks for deployment. Niranjan's offline WordNet lookup
+is generated during the build and copied into `dist/assets/dictionary`; it is
+served as static files, so no dictionary request needs a backend or a
+third-party API. The generated source buckets under
+`frontend/public/assets/dictionary` are ignored.

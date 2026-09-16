@@ -1,11 +1,18 @@
 {
   "name": "dungewar-personal-website",
   "private": true,
-  "workspaces": ["frontend"],
+  "workspaces": [
+    "frontend"
+  ],
   "scripts": {
+    "dictionary": "node scripts/generate-dictionary.mjs",
     "dev": "npm run dev --workspace frontend",
     "build": "npm run build --workspace frontend",
     "typecheck": "npm run typecheck --workspace frontend",
     "preview": "npm run preview --workspace frontend"
+  },
+  "devDependencies": {
+    "wink-lemmatizer": "^3.0.4",
+    "wordnet-db": "^3.1.14"
   }
 }

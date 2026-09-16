@@ -1,4 +1,5 @@
 .niranjan-page {
+  --nir-hover-delay: 1000ms;
   --nir-bg: #091522;
   --nir-paper: #10243a;
   --nir-light: #eaf8f6;
@@ -58,17 +59,18 @@
 @keyframes nir-page-tilt-mobile { from { transform: rotate(-.1deg); } to { transform: rotate(.1deg); } }
 @keyframes nir-orbit-spin { to { transform: rotate(360deg); } }
 @keyframes nir-glow { 50% { box-shadow: 0 0 28px rgba(117, 238, 224, .28); } }
+@keyframes nir-hover-progress { to { width: 100%; } }
 
 .nir-masthead { border-bottom: 1px solid var(--nir-line); overflow: hidden; padding: clamp(1.2rem, 3vw, 2.3rem) clamp(1.2rem, 4vw, 3.4rem) 0; }
 .nir-index, .nir-kicker { color: var(--nir-cyan); font-size: .7rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
 .nir-index { border: 1px solid var(--nir-line); display: inline-block; padding: .45rem .65rem; }
 .nir-masthead-main { align-items: end; display: grid; gap: 2rem; grid-template-columns: minmax(0, 1fr) 180px; padding: 2rem 0 2.8rem; }
 .nir-masthead h1 { color: var(--nir-light); font-family: "Manrope", system-ui, sans-serif; font-size: clamp(4.4rem, 14vw, 10rem); font-weight: 800; letter-spacing: -.11em; line-height: .88; margin: .65rem 0 1.2rem; overflow-wrap: normal; }
-.nir-masthead h1 span { color: var(--nir-orange); font-size: .62em; margin-left: .02em; text-shadow: 0 0 25px rgba(255, 172, 109, .35); }
+.nir-masthead h1 .nir-infinity { color: var(--nir-orange); font-size: .62em; margin-left: .02em; text-shadow: 0 0 25px rgba(255, 172, 109, .35); }
 .nir-deck { color: #b5d5dc; font-size: clamp(.85rem, 1.5vw, 1.1rem); line-height: 1.65; max-width: 550px; }
 .nir-hero-gif { border: 1px solid var(--nir-cyan); box-shadow: 8px 8px 0 rgba(117, 238, 224, .12); transform: rotate(5deg); }
 .nir-hero-gif img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
-.nir-hero-gif span { background: var(--nir-cyan); color: var(--nir-bg); display: block; font-size: .56rem; font-weight: 800; padding: .5rem; text-align: center; }
+.nir-hero-gif > span { background: var(--nir-cyan); color: var(--nir-bg); display: block; font-size: .56rem; font-weight: 800; padding: .5rem; text-align: center; }
 .nir-ticker { border-top: 1px solid var(--nir-line); color: var(--nir-orange); display: flex; font-size: .58rem; font-weight: 800; gap: 2.6rem; letter-spacing: .16em; overflow: hidden; padding: .7rem 0; white-space: nowrap; }
 .nir-ticker span { flex: 0 0 auto; }
 
@@ -101,20 +103,28 @@
 .nir-stage-mark { color: rgba(117, 238, 224, .08); font-family: Georgia, serif; font-size: 28rem; line-height: 1; position: absolute; right: -2rem; top: -8rem; transform: rotate(-12deg); user-select: none; }
 .nir-stage-note, .nir-stage-footer { color: var(--nir-orange); font-size: .68rem; font-weight: 800; letter-spacing: .14em; position: relative; text-transform: uppercase; }
 .nir-stage-footer { border-top: 1px dashed var(--nir-line); margin-top: 3.5rem; padding-top: 1.1rem; }
+.nir-wordnet-credit { color: #8fa7b2; display: block; font-size: .58rem; letter-spacing: .04em; margin-top: .7rem; text-transform: none; }
+.nir-wordnet-credit a { color: var(--nir-cyan); }
 .nir-seed { color: var(--nir-light); font-size: clamp(1rem, 2vw, 1.35rem); line-height: 2; max-width: 830px; padding: 2.3rem 0 0; position: relative; }
 .nir-definition-words { white-space: pre-wrap; }
 .nir-word { display: inline; }
-.nir-word > button { background: none; border: 0; border-bottom: 1px dashed var(--nir-cyan); border-radius: 0; color: var(--nir-light); cursor: pointer; font: inherit; padding: 0 .02em; text-decoration: none; }
+.nir-word > button { background: none; border: 0; border-bottom: 1px dashed transparent; border-radius: 0; color: inherit; cursor: pointer; font: inherit; letter-spacing: inherit; line-height: inherit; padding: 0 .02em; position: relative; text-decoration: none; text-transform: inherit; }
+.nir-recursion-stage .nir-word > button { border-color: var(--nir-cyan); }
+.nir-word > button::after { background: var(--nir-orange); bottom: -2px; content: ""; height: 3px; left: 0; position: absolute; width: 0; }
+.nir-word:not(.nir-word-open) > button:hover::after, .nir-word:not(.nir-word-open) > button:focus-visible::after { animation: nir-hover-progress var(--nir-hover-delay) linear forwards; }
 .nir-word > button:hover, .nir-word > button:focus-visible { background: var(--nir-cyan); color: var(--nir-bg); outline: 2px solid var(--nir-cyan); outline-offset: 2px; }
 .nir-word-open > button { color: var(--nir-orange); border-color: var(--nir-orange); }
-.nir-definition { background: linear-gradient(90deg, rgba(117, 238, 224, .08), transparent 70%); border-left: 2px solid var(--nir-cyan); display: block; font-size: .86em; line-height: 1.7; margin: .75rem 0 1rem; padding: .85rem 1rem .9rem; position: relative; }
+.nir-definition { background: linear-gradient(90deg, rgba(117, 238, 224, .08), transparent 70%); border-left: 2px solid var(--nir-cyan); display: block; font-family: "DM Mono", Consolas, monospace; font-size: .95rem; font-weight: 400; letter-spacing: normal; line-height: 1.7; margin: .75rem 0 1rem; max-width: 54rem; padding: .85rem 1rem .9rem; position: relative; text-align: left; text-transform: none; white-space: normal; word-spacing: normal; }
 .nir-definition::before { background: var(--nir-cyan); content: ""; height: 5px; left: -5px; position: absolute; top: -1px; width: 5px; }
 .nir-definition-label { color: var(--nir-cyan); display: block; font-size: .62rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
 .nir-definition-label span { color: #8fa7b2; }
 .nir-definition > strong { color: var(--nir-orange); display: block; font-size: 1.15em; margin: .25rem 0; }
 .nir-definition-text { display: block; }
-.nir-definition-next { color: #8fa7b2; display: block; font-size: .6rem; letter-spacing: .06em; margin-top: .9rem; }
 .nir-definition .nir-definition { margin-left: clamp(.1rem, 1vw, .8rem); }
+
+/* Heading words need a full line for their card, while preserving their heading button. */
+.nir-masthead h1 > .nir-word-open { display: block; width: 100%; }
+.nir-masthead h1 .nir-word-open > button { display: inline-block; }
 
 .nir-dossier { display: grid; gap: clamp(2rem, 5vw, 4rem); grid-template-columns: 1fr 1fr; padding: 5rem 0; }
 .nir-dossier article { border-top: 3px solid var(--nir-orange); }
@@ -154,4 +164,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .niranjan-page .nir-page-frame, .nir-orbit, .nir-recursion-stage { animation: none; }
+  .nir-word:not(.nir-word-open) > button:hover::after, .nir-word:not(.nir-word-open) > button:focus-visible::after { animation: none; }
 }
