@@ -3,7 +3,7 @@ import { Definition, getDefinition } from "../offlineDictionary";
 import "./NiranjanPage.css";
 
 // This also drives the hover-progress animation through --nir-hover-delay below.
-const HOVER_OPEN_DELAY_MS = 1_000;
+const HOVER_OPEN_DELAY_MS = 10;
 
 function DefinitionWord({ word, depth, trailing }: { word: string; depth: number; trailing?: ReactNode }) {
   const [definition, setDefinition] = useState<Definition | null>(null);
