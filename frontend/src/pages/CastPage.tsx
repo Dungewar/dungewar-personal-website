@@ -7,6 +7,7 @@ const people = [
   ["Rohan Nadkarni", "Violin, cheese, beryllium. The full experience awaits.", "/assets/images/rohan-1.jpg", "/pages/rohan-nadkarni.html"],
   ["Aneesh Raghavan", "Uncompromising national leadership, competitive swimming, and cheese.", "/assets/images/aneesh-patriotic.jpg", "/pages/aneesh-raghavan.html"],
   ["Sharvil", "Reluctantly exceptional. Still disappointed. Considerably above the peasants.", "/assets/images/sharvil-dark-creepy.jpg", "/pages/sharvil.html"],
+  ["Niranjan", "The definition of a definition needs a proof. All the math awards are apparently incidental.", "/assets/images/niranjan-asserting-supremacy.png", "/pages/niranjan.html"],
 ] as const;
 
 export function CastPage() {

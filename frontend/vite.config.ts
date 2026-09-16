@@ -19,6 +19,7 @@ export default defineConfig({
         chat: page("./pages/chatroom.html"),
         max: page("./pages/max-shi.html"),
         minesweeper: page("./pages/minesweeper/minesweeper.html"),
+        niranjan: page("./pages/niranjan.html"),
         olgierd: page("./pages/olgierd-matusiewicz.html"),
         poleand: page("./pages/poleand_game.html"),
         qinzhao: page("./pages/qinzhao-li.html"),

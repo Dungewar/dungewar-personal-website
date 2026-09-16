@@ -8,6 +8,7 @@ import { HomePage } from "./pages/HomePage";
 import { NewsPage } from "./pages/NewsPage";
 import { AneeshPage } from "./pages/AneeshPage";
 import { MinesweeperPage } from "./pages/MinesweeperPage";
+import { NiranjanPage } from "./pages/NiranjanPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { PoleandPage } from "./pages/PoleandPage";
 import { SharvilPage } from "./pages/SharvilPage";
@@ -29,6 +30,7 @@ const routes: Record<string, Route> = {
   "/pages/cast.html": { title: "The Cast", element: <CastPage /> },
   "/pages/chatroom.html": { title: "Talk Room", element: <ChatPage /> },
   "/pages/minesweeper/minesweeper.html": { title: "Minesweeper", element: <MinesweeperPage /> },
+  "/pages/niranjan.html": { title: "Niranjan — The Infinite Proof", element: <NiranjanPage /> },
   "/pages/poleand_game.html": { title: "Poleand Game", element: <PoleandPage /> },
   "/pages/sharvil.html": { title: "Sharvil", element: <SharvilPage /> },
   "/pages/news.html": { title: "MAO News", element: <NewsPage /> },
