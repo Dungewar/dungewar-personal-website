@@ -9,15 +9,25 @@ const escapeHtml = (value: string): string => value
 
 function inlineMarkdown(value: string, assetBase: string): string {
   return escapeHtml(value)
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, alt: string, source: string) => {
-      const src = /^(https?:|\/)/.test(source) ? source : `${assetBase}${source}`;
-      return `<img src="${src}" alt="${alt}" loading="lazy">`;
+    // Format prose separately so Markdown cannot modify image attributes or code.
+    .split(/(`[^`]+`|!\[[^\]]*\]\([^)]+\))/g)
+    .map((part) => {
+      if (part.startsWith("`")) return `<code>${part.slice(1, -1)}</code>`;
+
+      const image = part.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+      if (image) {
+        const [, alt, source] = image;
+        const src = /^(https?:|\/)/.test(source) ? source : `${escapeHtml(assetBase)}${source}`;
+        return `<img src="${src}" alt="${alt}" loading="lazy">`;
+      }
+
+      return part
+        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+        .replace(/_([^_]+)_/g, "<em>$1</em>")
+        .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+        .replace(/&lt;br\s*\/?&gt;/gi, "<br>");
     })
-    .replace(/`([^`]+)`/g, "<code>$1</code>")
-    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/_([^_]+)_/g, "<em>$1</em>")
-    .replace(/\*([^*]+)\*/g, "<em>$1</em>")
-    .replace(/&lt;br\s*\/?&gt;/gi, "<br>");
+    .join("");
 }
 
 export function markdownToHtml(markdown: string, assetBase = ""): string {
